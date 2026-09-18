@@ -159,6 +159,10 @@
             0% { top: 10%; }
             100% { top: 85%; }
         }
+
+        #toast-notification {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-start p-3 md:p-6 select-none font-sans">
@@ -225,6 +229,13 @@
                 <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
             </div>
 
+            <div id="toast-notification" class="absolute top-10 left-4 right-4 z-50 bg-zinc-900/90 text-white border border-cfono-orange/50 p-2.5 rounded-2xl shadow-xl flex items-center justify-between text-xs backdrop-blur-md opacity-0 pointer-events-none transform -translate-y-2">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                    <span id="toast-text">Đã lưu cấu hình thành công!</span>
+                </div>
+            </div>
+
             <div id="phone-status-bar" class="pt-3 px-5 pb-1 flex justify-between items-center text-xs font-semibold z-40 transition-colors">
                 <span id="current-time" class="font-bold tracking-tight text-[13px]">09:41</span>
                 
@@ -241,7 +252,6 @@
 
             <div class="flex-1 relative overflow-hidden flex flex-col">
 
-                <!-- Pro Upgrade Banner in CloryAI for BASIC Tier -->
                 <div id="basic-pro-promo-box" class="hidden mx-3 mt-1 p-2 bg-gradient-to-r from-purple-950/80 via-zinc-900 to-purple-950/80 rounded-2xl border border-purple-500/40 flex items-center justify-between text-xs shadow-lg">
                     <div class="flex items-center gap-2">
                         <span class="px-1.5 py-0.5 bg-purple-500 text-white text-[8px] font-bold rounded-md">PRO</span>
@@ -250,12 +260,11 @@
                             <p class="text-[9px] text-zinc-300" data-i18n="promoProSubtitle">Tra cứu KB & Tóm tắt AI tự động</p>
                         </div>
                     </div>
-                    <button onclick="setTier('op')" class="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[9px] rounded-full shadow active:scale-95 transition" data-i18n="btnUpgradePro">
+                    <button onclick="setTier('pro')" class="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[9px] rounded-full shadow active:scale-95 transition" data-i18n="btnUpgradePro">
                         Nâng cấp Pro
                     </button>
                 </div>
 
-                <!-- ==================== SCREEN 1: LOGIN & QR CODE PROVISIONING ==================== -->
                 <div id="screen-login" class="hidden flex-1 flex flex-col justify-between p-6 text-center z-20 overflow-y-auto no-scrollbar">
                     <div class="my-auto space-y-4">
                         <div class="flex flex-col items-center gap-2">
@@ -266,17 +275,19 @@
                             <p class="text-[11px] uppercase tracking-widest text-cfono-orange font-bold">Beyond talking. It's thinking</p>
                         </div>
 
-                        <div class="space-y-3 pt-2 max-w-[260px] mx-auto">
-                            <button onclick="switchScreen('dialer')" class="w-full py-3.5 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-xs rounded-full shadow-lg shadow-cfono-orange/30 transition active:scale-95" data-i18n="btnLogin">
-                                Đăng nhập
-                            </button>
-                            <button onclick="switchScreen('dialer')" class="w-full py-3.5 bg-transparent border border-zinc-500/40 text-xs font-semibold rounded-full transition active:scale-95" data-i18n="btnRegister">
-                                Tạo tài khoản
+                        <div class="space-y-2.5 pt-2 max-w-[260px] mx-auto">
+                            <button onclick="switchScreen('dialer')" class="w-full py-3.5 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-xs rounded-full shadow-lg shadow-cfono-orange/30 transition active:scale-95 flex items-center justify-center gap-2" data-i18n="btnLogin">
+                                <i class="fa-solid fa-right-to-bracket text-sm"></i> Đăng nhập
                             </button>
 
-                            <div class="pt-1 flex justify-center">
-                                <button onclick="openQRScanner()" class="w-10 h-10 rounded-full ios-card border border-cfono-orange/40 text-cfono-orange flex items-center justify-center text-sm shadow hover:bg-cfono-orange hover:text-white transition active:scale-90" title="Quét mã QR">
-                                    <i class="fa-solid fa-qrcode"></i>
+                            <button onclick="openQRScanner()" class="w-full py-3.5 bg-zinc-800/90 hover:bg-zinc-700 text-white font-bold text-xs rounded-full border border-zinc-700 shadow transition active:scale-95 flex items-center justify-center gap-2" data-i18n="btnScanQrLogin">
+                                <i class="fa-solid fa-qrcode text-cfono-orange text-sm"></i> Quét mã QR
+                            </button>
+
+                            <div class="pt-2 flex flex-col items-center gap-1.5">
+                                <button onclick="loginWithFaceID()" class="p-3 bg-zinc-900/80 hover:bg-cfono-orange/15 border border-zinc-700 hover:border-cfono-orange/50 rounded-2xl text-zinc-300 hover:text-cfono-orange flex items-center justify-center gap-2.5 text-xs font-semibold transition active:scale-90 w-full">
+                                    <i class="fa-solid fa-face-smile text-lg text-cfono-orange animate-pulse"></i>
+                                    <span data-i18n="btnFaceId">Đăng nhập bằng Face ID</span>
                                 </button>
                             </div>
                         </div>
@@ -296,28 +307,38 @@
                     <p class="text-[9px] ios-subtext font-mono">©2026 CFONO Mobile App. Powered by CLOUDPBX®.</p>
                 </div>
 
-                <!-- ==================== SCREEN 2: DIALER (Larger Keypad & Centered) ==================== -->
-                <div id="screen-dialer" class="hidden flex-1 flex flex-col justify-between py-4 px-5 z-20">
+                <div id="screen-dialer" class="hidden flex-1 flex flex-col justify-between py-3 px-5 z-20">
                     <div class="flex items-center justify-between pb-2 border-b border-zinc-500/20">
                         <div class="flex items-center gap-2.5">
                             <div class="relative">
                                 <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" class="w-9 h-9 rounded-full object-cover border-2 border-cfono-orange" alt="Avatar">
-                                <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5"></span>
+                                <span id="status-avatar-dot" class="w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5"></span>
                             </div>
                             <div class="text-left">
                                 <div class="text-xs font-bold">Nguyễn Thị Lan</div>
                                 <div class="text-[10px] ios-subtext font-mono">SIP Ext: <span id="active-sip-ext" class="text-cfono-orange font-bold">1001</span></div>
                             </div>
                         </div>
-                        <span class="text-[10px] text-emerald-500 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-semibold" data-i18n="statusConnected">Đã kết nối</span>
+                        <span id="dialer-status-badge" class="text-[10px] text-emerald-500 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-semibold" data-i18n="statusActive">Active</span>
                     </div>
 
-                    <div class="text-center my-auto py-3">
+                    <div class="my-2 p-1 ios-segmented-bar rounded-xl flex items-center justify-around text-[10px] font-bold">
+                        <button onclick="setDialerStatus('active')" id="btn-status-active" class="flex-1 py-1 rounded-lg bg-cfono-orange text-white shadow transition flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-circle text-[6px] text-emerald-300"></i> <span data-i18n="statusActive">Active</span>
+                        </button>
+                        <button onclick="setDialerStatus('dnd')" id="btn-status-dnd" class="flex-1 py-1 rounded-lg ios-subtext hover:text-white transition flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-minus-circle text-[8px] text-rose-400"></i> <span data-i18n="statusDnd">DND</span>
+                        </button>
+                        <button onclick="setDialerStatus('auto_answer')" id="btn-status-auto" class="flex-1 py-1 rounded-lg ios-subtext hover:text-white transition flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-robot text-[9px] text-purple-400"></i> <span data-i18n="statusAutoAnswer">Auto-Answer</span>
+                        </button>
+                    </div>
+
+                    <div class="text-center my-auto py-2">
                         <input type="text" id="dial-display" readonly value="" placeholder="Nhập số điện thoại..." class="w-full text-center bg-transparent text-4xl font-semibold tracking-wider outline-none font-mono placeholder:text-zinc-500 placeholder:text-xl">
                         <p class="text-[10px] ios-subtext mt-1" data-i18n="dialerInstruction">Bấm phím để bắt đầu cuộc gọi</p>
                     </div>
 
-                    <!-- Larger Keypad Grid Centered Perfectly -->
                     <div class="grid grid-cols-3 gap-y-3 gap-x-5 max-w-[280px] mx-auto w-full my-auto justify-items-center">
                         <button onclick="pressKey('1')" class="keypad-circle ios-keypad-btn shadow"><span class="text-2xl font-normal">1</span><span class="text-[8px] tracking-widest text-zinc-400 font-semibold">&nbsp;</span></button>
                         <button onclick="pressKey('2')" class="keypad-circle ios-keypad-btn shadow"><span class="text-2xl font-normal">2</span><span class="text-[8px] tracking-widest text-zinc-400 font-semibold">ABC</span></button>
@@ -347,7 +368,6 @@
                     </div>
                 </div>
 
-                <!-- ==================== SCREEN 3: IN-CALL ==================== -->
                 <div id="screen-incall" class="hidden flex-1 flex flex-col justify-between p-5 text-center z-20">
                     <div class="pt-2">
                         <p class="text-xs font-mono text-cfono-orange font-bold flex items-center justify-center gap-1.5" id="incall-timer">
@@ -372,7 +392,6 @@
                         <p class="italic text-[10px] line-clamp-2" data-i18n="transcriptSample">"Dạ em chào anh, dịch vụ CFONO bên em hỗ trợ kết nối mượt mà..."</p>
                     </div>
 
-                    <!-- Synchronized Larger In-Call Grid Buttons -->
                     <div class="space-y-4 my-auto w-full max-w-[280px] mx-auto">
                         <div class="grid grid-cols-3 gap-y-4 gap-x-4 justify-items-center">
                             <button onclick="toggleMute()" id="btn-mute" class="flex flex-col items-center gap-1.5">
@@ -409,7 +428,6 @@
                     </div>
                 </div>
 
-                <!-- ==================== SCREEN 4: CONTACTS ==================== -->
                 <div id="screen-contacts" class="hidden flex-1 p-3 flex flex-col overflow-y-auto no-scrollbar space-y-2">
                     <div class="flex items-center justify-between pb-2 border-b border-zinc-500/20">
                         <h2 class="text-sm font-bold flex items-center gap-2">
@@ -420,7 +438,6 @@
                         </button>
                     </div>
 
-                    <!-- Native Banner in Contacts -->
                     <div id="contacts-native-ad" class="p-2.5 bg-gradient-to-r from-orange-950/40 via-zinc-900 to-orange-950/40 rounded-2xl border border-cfono-orange/40 flex items-center justify-between text-xs shadow-sm">
                         <div class="flex items-center gap-2">
                             <span class="px-1.5 py-0.5 bg-cfono-orange text-white text-[8px] font-bold rounded-md">ADS</span>
@@ -487,7 +504,6 @@
                     </div>
                 </div>
 
-                <!-- ==================== SCREEN 5: CALL HISTORY ==================== -->
                 <div id="screen-history" class="hidden flex-1 p-3 overflow-y-auto no-scrollbar space-y-2">
                     <div class="flex items-center justify-between pb-2 border-b border-zinc-500/20">
                         <h2 class="text-sm font-bold flex items-center gap-2">
@@ -495,7 +511,6 @@
                         </h2>
                     </div>
 
-                    <!-- Native Banner Ad for Free & Basic Tier inside History -->
                     <div id="history-native-ad" class="p-2.5 bg-gradient-to-r from-orange-950/40 via-zinc-900 to-orange-950/40 rounded-2xl border border-cfono-orange/40 flex items-center justify-between text-xs shadow-sm">
                         <div class="flex items-center gap-2">
                             <span class="px-1.5 py-0.5 bg-cfono-orange text-white text-[8px] font-bold rounded-md">ADS</span>
@@ -506,7 +521,6 @@
                         </button>
                     </div>
 
-                    <!-- Interactive Filtering Tabs -->
                     <div class="flex p-0.5 ios-segmented-bar rounded-xl text-[10px] font-semibold overflow-x-auto no-scrollbar">
                         <button onclick="filterHistory('all')" id="hist-tab-all" class="px-3 py-1 bg-cfono-orange text-white rounded-lg shrink-0 shadow transition" data-i18n="filterAll">Tất cả</button>
                         <button onclick="filterHistory('missed')" id="hist-tab-missed" class="px-3 py-1 ios-subtext hover:text-cfono-orange rounded-lg shrink-0 transition" data-i18n="filterMissed">Gọi nhỡ</button>
@@ -514,9 +528,7 @@
                         <button onclick="filterHistory('incoming')" id="hist-tab-incoming" class="px-3 py-1 ios-subtext hover:text-cfono-orange rounded-lg shrink-0 transition" data-i18n="filterIncoming">Đến</button>
                     </div>
 
-                    <!-- 10 Full Detailed Call History Items -->
                     <div class="space-y-2 pt-1" id="history-items-container">
-                        <!-- Item 1: Incoming / AI Summary -->
                         <div data-type="incoming" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
                             <div class="flex items-center gap-2.5">
                                 <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" class="w-9 h-9 rounded-full object-cover" alt="User">
@@ -536,7 +548,6 @@
                             </div>
                         </div>
 
-                        <!-- Item 2: Missed -->
                         <div data-type="missed" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
                             <div class="flex items-center gap-2.5">
                                 <div class="w-9 h-9 rounded-full bg-rose-500/20 text-rose-500 flex items-center justify-center text-xs font-bold shrink-0">
@@ -553,7 +564,6 @@
                             </div>
                         </div>
 
-                        <!-- Item 3: Outgoing -->
                         <div data-type="outgoing" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
                             <div class="flex items-center gap-2.5">
                                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-9 h-9 rounded-full object-cover" alt="User">
@@ -567,124 +577,9 @@
                                 <i class="fa-solid fa-chevron-right text-[10px] ios-subtext"></i>
                             </div>
                         </div>
-
-                        <!-- Item 4: Incoming -->
-                        <div data-type="incoming" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
-                            <div class="flex items-center gap-2.5">
-                                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" class="w-9 h-9 rounded-full object-cover" alt="User">
-                                <div>
-                                    <div class="text-xs font-bold">An Nhiên</div>
-                                    <div class="text-[10px] ios-subtext"><i class="fa-solid fa-arrow-down-left text-emerald-500 mr-1"></i>Mobi: 0988776655 • Hôm qua</div>
-                                </div>
-                            </div>
-                            <div class="text-right flex items-center gap-1">
-                                <span class="text-xs font-mono ios-subtext">04:12</span>
-                                <i class="fa-solid fa-chevron-right text-[10px] ios-subtext"></i>
-                            </div>
-                        </div>
-
-                        <!-- Item 5: Missed -->
-                        <div data-type="missed" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-full bg-rose-500/20 text-rose-500 flex items-center justify-center text-xs font-bold shrink-0">
-                                    <i class="fa-solid fa-phone-slash"></i>
-                                </div>
-                                <div>
-                                    <div class="text-xs font-bold text-rose-500">Phòng Khách Hàng VIP</div>
-                                    <div class="text-[10px] ios-subtext"><i class="fa-solid fa-arrow-down-left text-rose-500 mr-1"></i>SIP: 1010 • Hôm qua</div>
-                                </div>
-                            </div>
-                            <div class="text-right flex items-center gap-1">
-                                <span class="text-xs font-bold text-rose-500" data-i18n="statusMissed">Nhỡ</span>
-                                <i class="fa-solid fa-chevron-right text-[10px] ios-subtext"></i>
-                            </div>
-                        </div>
-
-                        <!-- Item 6: Outgoing -->
-                        <div data-type="outgoing" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-full bg-cfono-orange/20 text-cfono-orange flex items-center justify-center font-bold text-xs shrink-0">H</div>
-                                <div>
-                                    <div class="text-xs font-bold">Hoàng Nam (Tech Spec)</div>
-                                    <div class="text-[10px] ios-subtext"><i class="fa-solid fa-arrow-up-right text-blue-400 mr-1"></i>Mobi: 0918273645 • 15/09</div>
-                                </div>
-                            </div>
-                            <div class="text-right flex items-center gap-1">
-                                <span class="text-xs font-mono ios-subtext">00:45</span>
-                                <i class="fa-solid fa-chevron-right text-[10px] ios-subtext"></i>
-                            </div>
-                        </div>
-
-                        <!-- Item 7: Incoming / AI Summary -->
-                        <div data-type="incoming" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xs shrink-0">M</div>
-                                <div>
-                                    <div class="text-xs font-bold flex items-center gap-1">
-                                        Minh Châu (Sales Director)
-                                        <span class="text-[8px] px-1.5 py-0.2 bg-purple-500/20 text-purple-400 rounded-full border border-purple-500/30">
-                                            <i class="fa-solid fa-wand-magic-sparkles"></i> AI
-                                        </span>
-                                    </div>
-                                    <div class="text-[10px] ios-subtext"><i class="fa-solid fa-arrow-down-left text-emerald-500 mr-1"></i>SIP: 1008 • 14/09</div>
-                                </div>
-                            </div>
-                            <div class="text-right flex items-center gap-1">
-                                <span class="text-xs font-mono ios-subtext">05:18</span>
-                                <i class="fa-solid fa-chevron-right text-[10px] ios-subtext"></i>
-                            </div>
-                        </div>
-
-                        <!-- Item 8: Outgoing -->
-                        <div data-type="outgoing" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-full bg-zinc-700 text-white flex items-center justify-center font-bold text-xs shrink-0">D</div>
-                                <div>
-                                    <div class="text-xs font-bold">Đức Anh (Kế toán)</div>
-                                    <div class="text-[10px] ios-subtext"><i class="fa-solid fa-arrow-up-right text-blue-400 mr-1"></i>SIP: 1015 • 14/09</div>
-                                </div>
-                            </div>
-                            <div class="text-right flex items-center gap-1">
-                                <span class="text-xs font-mono ios-subtext">01:02</span>
-                                <i class="fa-solid fa-chevron-right text-[10px] ios-subtext"></i>
-                            </div>
-                        </div>
-
-                        <!-- Item 9: Missed -->
-                        <div data-type="missed" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-full bg-rose-500/20 text-rose-500 flex items-center justify-center text-xs font-bold shrink-0">
-                                    <i class="fa-solid fa-phone-slash"></i>
-                                </div>
-                                <div>
-                                    <div class="text-xs font-bold text-rose-500">Khách Hàng Chưa Lưu</div>
-                                    <div class="text-[10px] ios-subtext"><i class="fa-solid fa-arrow-down-left text-rose-500 mr-1"></i>0933445566 • 13/09</div>
-                                </div>
-                            </div>
-                            <div class="text-right flex items-center gap-1">
-                                <span class="text-xs font-bold text-rose-500" data-i18n="statusMissed">Nhỡ</span>
-                                <i class="fa-solid fa-chevron-right text-[10px] ios-subtext"></i>
-                            </div>
-                        </div>
-
-                        <!-- Item 10: Incoming -->
-                        <div data-type="incoming" onclick="switchScreen('call-detail')" class="history-item p-2.5 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between cursor-pointer transition shadow-sm hover:border-cfono-orange/50">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">L</div>
-                                <div>
-                                    <div class="text-xs font-bold">Lê Thu Hà</div>
-                                    <div class="text-[10px] ios-subtext"><i class="fa-solid fa-arrow-down-left text-emerald-500 mr-1"></i>Mobi: 0977112233 • 12/09</div>
-                                </div>
-                            </div>
-                            <div class="text-right flex items-center gap-1">
-                                <span class="text-xs font-mono ios-subtext">03:18</span>
-                                <i class="fa-solid fa-chevron-right text-[10px] ios-subtext"></i>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                <!-- ==================== SCREEN 6 & 7: CALL DETAILS ==================== -->
                 <div id="screen-call-detail" class="hidden flex-1 p-3 overflow-y-auto no-scrollbar space-y-3">
                     <div class="flex items-center justify-between pb-2 border-b border-zinc-500/20">
                         <button onclick="switchScreen('history')" class="text-cfono-orange text-xs flex items-center gap-1 font-semibold">
@@ -754,13 +649,12 @@
                                 <p class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-500 text-[9px]"></i> <span data-i18n="action2">Hỗ trợ tư vấn triển khai AI Agent.</span></p>
                             </div>
                         </div>
-                        <button class="w-full py-3 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-xs rounded-full shadow-lg active:scale-95 transition" data-i18n="btnCopySummary">
+                        <button onclick="copySummaryText()" class="w-full py-3 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-xs rounded-full shadow-lg active:scale-95 transition" data-i18n="btnCopySummary">
                             Sao chép tóm tắt
                         </button>
                     </div>
                 </div>
 
-                <!-- ==================== SCREEN 8: AUDIO PLAYER ==================== -->
                 <div id="screen-audio-player" class="hidden flex-1 p-4 flex flex-col justify-between text-center z-20">
                     <div class="pb-2 border-b border-zinc-500/20 flex items-center justify-between">
                         <button onclick="switchScreen('history')" class="text-cfono-orange text-xs font-semibold">
@@ -770,7 +664,6 @@
                         <div class="w-8"></div>
                     </div>
 
-                    <!-- Native Banner in Audio Player -->
                     <div id="audio-native-ad" class="p-2.5 bg-gradient-to-r from-orange-950/40 via-zinc-900 to-orange-950/40 rounded-2xl border border-cfono-orange/40 flex items-center justify-between text-xs shadow-sm my-1">
                         <div class="flex items-center gap-2">
                             <span class="px-1.5 py-0.5 bg-cfono-orange text-white text-[8px] font-bold rounded-md">ADS</span>
@@ -822,7 +715,6 @@
                     </div>
                 </div>
 
-                <!-- ==================== SCREEN 9: CLORYAI CHAT ==================== -->
                 <div id="screen-cloryai" class="hidden flex-1 flex flex-col p-3 overflow-hidden">
                     <div id="copilot-lock-screen" class="hidden flex-1 flex-col items-center justify-center text-center p-6 ios-card rounded-3xl border border-zinc-500/20 my-auto shadow-sm">
                         <div class="w-16 h-16 rounded-full bg-cfono-orange/15 text-cfono-orange flex items-center justify-center text-2xl mb-3 border border-cfono-orange/30">
@@ -876,7 +768,6 @@
                     </div>
                 </div>
 
-                <!-- ==================== SCREEN 10: SETTINGS ==================== -->
                 <div id="screen-settings" class="hidden flex-1 p-3 overflow-y-auto no-scrollbar space-y-3">
                     <div class="pb-2 border-b border-zinc-500/20">
                         <h2 class="text-sm font-bold" data-i18n="titleSettings">Cài đặt</h2>
@@ -902,9 +793,17 @@
                         <div id="setting-company-dir-item" onclick="openCompanyDirectoryModal()" class="p-3 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between shadow-sm cursor-pointer">
                             <div class="flex items-center gap-3">
                                 <div class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-address-book"></i></div>
-                                <span class="font-semibold" data-i18n="settingCompanyDir">Danh bạ công ty</span>
+                                <span class="font-semibold" data-i18n="settingCompanyDir">Danh bạ công ty (XML)</span>
                             </div>
-                            <span class="text-[10px] ios-subtext font-semibold">Đã đồng bộ (48) <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></span>
+                            <span class="text-[10px] ios-subtext font-semibold">Remote Sync <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></span>
+                        </div>
+
+                        <div onclick="openAutoAnswerModal()" class="p-3 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between shadow-sm cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-robot"></i></div>
+                                <span class="font-semibold" data-i18n="settingAutoAnswer">Cài đặt Auto-Answer</span>
+                            </div>
+                            <span class="text-[10px] ios-subtext font-mono" id="auto-answer-status-label">Tắt <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></span>
                         </div>
 
                         <div class="p-3 ios-card rounded-2xl border border-zinc-500/20 flex items-center justify-between shadow-sm">
@@ -941,7 +840,6 @@
 
             </div>
 
-            <!-- iOS Bottom Tab Navigation Bar -->
             <div id="phone-tab-bar" class="border-t border-zinc-500/20 px-2 py-2 flex items-center justify-around z-30 transition-colors">
                 <button onclick="switchScreen('dialer')" id="tab-dialer" class="flex flex-col items-center gap-0.5 text-cfono-orange transition">
                     <i class="fa-solid fa-phone text-base"></i>
@@ -965,7 +863,7 @@
                 </button>
             </div>
 
-            <!-- OVERLAY: QR SCANNER MODAL -->
+            <!-- QR Provisioning Modal -->
             <div id="qr-modal" class="hidden absolute inset-0 bg-black/95 z-50 p-6 flex flex-col justify-between backdrop-blur-2xl text-white">
                 <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                     <button onclick="closeQRScanner()" class="text-zinc-400 text-xs"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -985,7 +883,7 @@
                 <p class="text-[10px] text-zinc-500 font-mono text-center" data-i18n="qrModalSub">Tự động lấy thông tin SIP Server & Extension</p>
             </div>
 
-            <!-- OVERLAY: ADD CONTACT MODAL -->
+            <!-- Add Contact Modal Overlay -->
             <div id="add-contact-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white overflow-y-auto no-scrollbar">
                 <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                     <span class="text-xs font-bold text-cfono-orange" data-i18n="titleAddContact">Thêm liên hệ mới</span>
@@ -1026,39 +924,38 @@
                 </button>
             </div>
 
-            <!-- OVERLAY: COMPANY DIRECTORY MODAL -->
+            <!-- Remote Phonebook XML Modal -->
             <div id="company-dir-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white">
                 <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
-                    <span class="text-xs font-bold text-blue-400"><i class="fa-solid fa-address-book mr-1"></i> Danh bạ công ty (Enterprise Sync)</span>
+                    <span class="text-xs font-bold text-blue-400"><i class="fa-solid fa-address-book mr-1"></i> Remote Phonebook (XML)</span>
                     <button onclick="closeCompanyDirectoryModal()" class="text-zinc-400 hover:text-white text-xs"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
 
                 <div class="flex-1 my-2 overflow-y-auto no-scrollbar space-y-3 text-xs">
-                    <!-- XML Server Configuration Box -->
                     <div class="p-3 ios-card rounded-2xl border border-blue-500/30 space-y-2.5 shadow-sm bg-blue-950/20">
                         <div class="flex items-center justify-between text-blue-400 font-bold text-[11px]">
-                            <span><i class="fa-solid fa-network-wired mr-1"></i> Cấu hình kết nối XML Directory</span>
+                            <span><i class="fa-solid fa-network-wired mr-1"></i> Remote Phonebook Server (XML)</span>
                             <span class="text-[9px] px-1.5 py-0.5 bg-blue-500/20 rounded font-mono">Active</span>
                         </div>
                         <div>
-                            <label class="text-[10px] text-zinc-400 font-bold">XML Directory Server URL</label>
+                            <label class="text-[10px] text-zinc-400 font-bold">XML Phonebook Server URL *</label>
                             <input type="text" id="xml-server-url" value="https://pbx.cfono.vn/directory.xml" class="w-full mt-1 ios-card border border-zinc-700 rounded-xl p-2 text-[11px] font-mono outline-none">
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="text-[10px] text-zinc-400 font-bold">Giao thức XML</label>
                                 <select class="w-full mt-1 ios-card border border-zinc-700 rounded-xl p-1.5 text-[10px] outline-none bg-zinc-900 text-zinc-200">
-                                    <option>Yealink XML</option>
-                                    <option>Cisco XML</option>
-                                    <option>Polycom XML</option>
+                                    <option>Yealink XML Format</option>
+                                    <option>Cisco XML Format</option>
+                                    <option>Polycom XML Format</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="text-[10px] text-zinc-400 font-bold">Tần suất đồng bộ</label>
-                                <select class="w-full mt-1 ios-card border border-zinc-700 rounded-xl p-1.5 text-[10px] outline-none bg-zinc-900 text-zinc-200">
-                                    <option>15 Phút</option>
-                                    <option>1 Giờ</option>
-                                    <option>Hàng ngày</option>
+                                <label class="text-[10px] text-zinc-400 font-bold">Thời gian tự động đồng bộ</label>
+                                <select id="xml-sync-interval" class="w-full mt-1 ios-card border border-zinc-700 rounded-xl p-1.5 text-[10px] outline-none bg-zinc-900 text-zinc-200">
+                                    <option value="15">15 Phút</option>
+                                    <option value="60" selected>1 Giờ</option>
+                                    <option value="1440">Hàng ngày (24h)</option>
                                 </select>
                             </div>
                         </div>
@@ -1067,13 +964,12 @@
                         </button>
                     </div>
 
-                    <!-- Directory Groups Preview -->
                     <div class="space-y-2">
                         <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Các nhóm danh bạ đã đồng bộ:</p>
                         <div class="p-2.5 ios-card rounded-xl border border-zinc-700 flex justify-between items-center">
                             <div>
                                 <p class="font-bold">Ban Giám Đốc</p>
-                                <p class="text-[10px] ios-subtext">Đồng bộ tự động từ XML Server</p>
+                                <p class="text-[10px] ios-subtext">Đồng bộ tự động từ Remote XML Server</p>
                             </div>
                             <span class="text-emerald-400 text-[10px] font-bold">12 nhân sự</span>
                         </div>
@@ -1096,31 +992,53 @@
                 <button onclick="closeCompanyDirectoryModal()" class="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs rounded-full transition">Đóng</button>
             </div>
 
-            <!-- OVERLAY: ABOUT MODAL -->
-            <div id="about-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-6 flex flex-col justify-between backdrop-blur-xl text-white text-center">
+            <!-- Auto-Answer Audio Setting Modal -->
+            <div id="auto-answer-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white">
                 <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
-                    <span class="text-xs font-bold text-cfono-orange">About CFONO</span>
-                    <button onclick="closeAboutModal()" class="text-zinc-400 hover:text-white text-xs"><i class="fa-solid fa-xmark text-xl"></i></button>
+                    <span class="text-xs font-bold text-purple-400"><i class="fa-solid fa-robot mr-1"></i> Cài đặt Auto-Answer (Tự động trả lời)</span>
+                    <button onclick="closeAutoAnswerModal()" class="text-zinc-400 hover:text-white text-xs"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
-                <div class="my-auto space-y-3">
-                    <div class="w-16 h-16 bg-cfono-orange rounded-2xl flex items-center justify-center text-white p-3 mx-auto shadow-lg">
-                        <svg viewBox="0 0 512 512" class="w-full h-full fill-white" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M448 192.36V320c0 53.02-42.98 96-96 96H160c-53.02 0-96-42.98-96-96V192.36C24.47 179.64 0 142.47 0 96 0 42.98 42.98 0 96 0h320c53.02 0 96 42.98 96 96 0 46.47-24.47 83.64-64 96.36zM352 64H160c-17.67 0-32 14.33-32 32s14.33 32 32 32h192c17.67 0 32-14.33 32-32s-14.33-32-32-32zm0 160H160c-17.67 0-32 14.33-32 32s14.33 32 32 32h192c17.67 0 32-14.33 32-32s-14.33-32-32-32z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-sm font-bold">CFONO Mobile App v1.4</h3>
-                    <div class="text-[11px] ios-subtext space-y-1 font-mono">
-                        <p>©2026 CFONO Mobile App.</p>
-                        <p>Powered by CloudPBX. All rights reserved.</p>
-                        <p class="pt-2">Website: <span class="text-cfono-orange">www.cloudpbx.vn</span></p>
-                        <p>Email: <span class="text-cfono-orange">hello@cloudpbx.vn</span></p>
-                        <p>Contact us: <span class="text-emerald-400 font-bold">1900 6020</span></p>
+
+                <div class="flex-1 my-2 overflow-y-auto no-scrollbar space-y-3 text-xs">
+                    <div class="p-3.5 ios-card rounded-2xl border border-purple-500/30 space-y-3 bg-purple-950/20">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-white">Bật Tự động trả lời cuộc gọi</span>
+                            <input type="checkbox" id="auto-answer-toggle" onchange="toggleAutoAnswerState()" class="w-4 h-4 accent-purple-500 cursor-pointer">
+                        </div>
+
+                        <p class="text-[10px] ios-subtext">Khi có cuộc gọi đến, ứng dụng sẽ tự động kết nối và phát file ghi âm sẵn bên dưới.</p>
+
+                        <div class="pt-2 border-t border-purple-500/20 space-y-2">
+                            <label class="text-[10px] font-bold text-zinc-300">File âm thanh thông báo (.mp3, .wav)</label>
+                            
+                            <div class="flex items-center gap-2">
+                                <label for="auto-answer-file-input" class="flex-1 px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl border border-zinc-600 text-[10px] text-zinc-300 flex items-center justify-between cursor-pointer transition">
+                                    <span id="auto-answer-filename" class="truncate font-mono">auto_greeting_vi.mp3</span>
+                                    <i class="fa-solid fa-upload text-purple-400"></i>
+                                </label>
+                                <input type="file" id="auto-answer-file-input" accept="audio/*" onchange="handleAutoAnswerFileUpload(event)" class="hidden">
+
+                                <button onclick="playAutoAnswerPreview()" id="btn-preview-audio" class="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-[10px] font-bold shrink-0 shadow flex items-center gap-1">
+                                    <i class="fa-solid fa-play"></i> Nghe thử
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] text-zinc-400 font-bold">Trễ trả lời (Giây)</label>
+                            <select id="auto-answer-delay" class="w-full mt-1 ios-card border border-zinc-700 rounded-xl p-2 text-[10px] outline-none bg-zinc-900 text-zinc-200">
+                                <option value="0">Trả lời ngay tức thì (0s)</option>
+                                <option value="3" selected>Sau 3 giây reng</option>
+                                <option value="5">Sau 5 giây reng</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <button onclick="closeAboutModal()" class="w-full py-2.5 bg-cfono-orange text-white font-bold text-xs rounded-full shadow transition">Đóng</button>
+
+                <button onclick="saveAutoAnswerSettings()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-full shadow transition">Lưu cấu hình</button>
             </div>
 
-            <!-- OVERLAY: SIP ACCOUNT MODAL -->
+            <!-- SIP Accounts Modal Overlay -->
             <div id="sip-account-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white">
                 <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                     <span class="text-xs font-bold text-cfono-orange"><i class="fa-solid fa-phone mr-1"></i> Chi tiết Tài khoản SIP</span>
@@ -1133,6 +1051,7 @@
                             <span class="text-[9px] px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-mono font-bold">Đã kết nối</span>
                         </div>
                         <div class="text-[10px] space-y-1 font-mono ios-subtext">
+                            <p>Tên công ty (Company): <span class="text-cfono-orange font-bold">CloudPBX Corporation</span></p>
                             <p>Extension: <span class="text-white font-bold">1001</span></p>
                             <p>Domain: <span class="text-white">pbx.cfono.vn</span></p>
                             <p>Transport: <span class="text-white">TLS / WebSocket</span></p>
@@ -1146,6 +1065,7 @@
                             <span id="sip-acc-2-status" class="text-[9px] px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full font-mono font-bold">Sẵn sàng</span>
                         </div>
                         <div class="text-[10px] space-y-1 font-mono ios-subtext">
+                            <p>Tên công ty (Company): <span class="text-purple-300 font-bold">CloudPBX Corporation</span></p>
                             <p>Extension: <span class="text-white font-bold">1002</span></p>
                             <p>Domain: <span class="text-white">pbx.cfono.vn</span></p>
                             <p>Status: <span id="sip-acc-2-desc" class="text-purple-300">Đã kích hoạt</span></p>
@@ -1155,7 +1075,7 @@
                 <button onclick="closeSipAccountModal()" class="w-full py-2.5 bg-cfono-orange text-white font-bold text-xs rounded-full shadow transition">Đóng</button>
             </div>
 
-            <!-- OVERLAY: APP OPEN POPUP ADS FOR FREE TIER -->
+            <!-- AdMob Freemium Interstitial Popup -->
             <div id="freemium-popup-modal" class="hidden absolute inset-0 bg-black/85 z-50 p-6 flex flex-col items-center justify-center backdrop-blur-md text-white">
                 <div class="ios-card w-full max-w-[290px] p-5 rounded-3xl border border-cfono-orange/40 text-center space-y-4 shadow-2xl relative">
                     <button onclick="closeFreemiumPopup()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center text-xs">
@@ -1179,7 +1099,7 @@
                 </div>
             </div>
 
-            <!-- OVERLAY: UPGRADE & COMPARISON SELECTION MODAL -->
+            <!-- In-App Upgrade Modal -->
             <div id="upgrade-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white overflow-y-auto no-scrollbar">
                 <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                     <span class="text-xs font-bold text-cfono-orange" data-i18n="upgradeModalHeader">Nâng cấp Gói CFONO</span>
@@ -1213,10 +1133,56 @@
                 <p class="text-[9px] text-zinc-500 text-center font-mono" data-i18n="upgradeModalFooter">Thanh toán linh hoạt theo tháng hoặc năm</p>
             </div>
 
+            <!-- About Modal Overlay -->
+            <div id="about-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white">
+                <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+                    <span class="text-xs font-bold text-cfono-orange"><i class="fa-solid fa-circle-info mr-1"></i> About CFONO</span>
+                    <button onclick="closeAboutModal()" class="text-zinc-400 hover:text-white text-xs"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+
+                <div class="my-auto text-center space-y-3.5 py-2">
+                    <div class="w-16 h-16 bg-cfono-orange rounded-2xl flex items-center justify-center text-white p-3 shadow-xl shadow-cfono-orange/30 mx-auto">
+                        <i class="fa-solid fa-phone text-2xl"></i>
+                    </div>
+
+                    <div>
+                        <h3 class="text-base font-bold text-white">CFONO Mobile App</h3>
+                        <p class="text-[10px] text-cfono-orange font-mono font-semibold mt-0.5">v1.4 Enterprise Edition</p>
+                    </div>
+
+                    <div class="p-3.5 ios-card rounded-2xl border border-zinc-700/80 space-y-2.5 text-xs text-left shadow-sm bg-zinc-900/60">
+                        <div class="border-b border-zinc-700/60 pb-2">
+                            <p class="font-bold text-white text-[11px]">©2026 CFONO Mobile App</p>
+                            <p class="text-zinc-400 text-[10px]">Powered by CloudPBX. All rights reserved.</p>
+                        </div>
+                        
+                        <div class="space-y-2 text-[11px]">
+                            <div class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-globe text-cfono-orange w-3.5 text-center"></i>
+                                <span class="text-zinc-400">Website:</span>
+                                <a href="https://www.cloudpbx.vn" target="_blank" class="text-blue-400 font-medium hover:underline">www.cloudpbx.vn</a>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-envelope text-cfono-orange w-3.5 text-center"></i>
+                                <span class="text-zinc-400">Email:</span>
+                                <a href="mailto:hello@cloudpbx.vn" class="text-blue-400 font-medium hover:underline">hello@cloudpbx.vn</a>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-headset text-cfono-orange w-3.5 text-center"></i>
+                                <span class="text-zinc-400">Call us:</span>
+                                <a href="tel:19006020" class="text-emerald-400 font-bold hover:underline">1900 6020</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="closeAboutModal()" class="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs rounded-full transition">Đóng</button>
+            </div>
+
         </div>
 
-        <!-- Right Side Panel: Comparison Matrix -->
         <div class="flex-1 w-full flex flex-col gap-5">
+
             <div class="p-5 bg-cfono-cardBg rounded-2xl border border-zinc-800 shadow-xl space-y-3">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xs font-bold text-white flex items-center gap-2">
@@ -1269,6 +1235,18 @@
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold" data-i18n="valNoAds">Không (No Ads)</td>
                             </tr>
                             <tr>
+                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowPersonalDir">Danh bạ cá nhân</td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowCompanyDir">Danh bạ công ty (XML)</td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-purple-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                            </tr>
+                            <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowRecording">Ghi âm</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
@@ -1278,7 +1256,7 @@
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowTranscript">Bản ghi</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
-                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> Full Transcription</td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowSummary">Tóm tắt cuộc gọi</td>
@@ -1315,31 +1293,27 @@
         let isAudioPlaying = false;
         let isMuted = false;
         let isSpeakerOn = false;
+        let dialerStatus = 'active';
+        let autoAnswerEnabled = false;
         let callTimerInterval = null;
         let callSeconds = 0;
 
-        // Ads Rules Tracking
         let dailyAdsCount = 0;
         let lastAdTime = 0;
         const MAX_DAILY_ADS = 5;
-        const AD_COOLDOWN_MS = 15000; // 15 seconds cooldown
+        const AD_COOLDOWN_MS = 15000;
 
-        function setTheme(theme) {
-            currentTheme = theme;
-            const phone = document.getElementById('phone-container');
-            const btnDark = document.getElementById('btn-theme-dark');
-            const btnLight = document.getElementById('btn-theme-light');
-
-            if (theme === 'dark') {
-                phone.classList.remove('light-mode');
-                phone.classList.add('dark-mode');
-                btnDark.className = "px-2.5 py-1 rounded-lg transition flex items-center gap-1 bg-cfono-orange text-white shadow";
-                btnLight.className = "px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition flex items-center gap-1";
-            } else {
-                phone.classList.remove('dark-mode');
-                phone.classList.add('light-mode');
-                btnLight.className = "px-2.5 py-1 rounded-lg transition flex items-center gap-1 bg-cfono-orange text-white shadow";
-                btnDark.className = "px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition flex items-center gap-1";
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notification');
+            const toastText = document.getElementById('toast-text');
+            if (toast && toastText) {
+                toastText.innerText = msg;
+                toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
+                toast.classList.add('opacity-100', 'translate-y-0');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                    toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
+                }, 2500);
             }
         }
 
@@ -1362,8 +1336,11 @@
                 promoProSubtitle: "Tra cứu KB & Tóm tắt AI tự động",
                 btnUpgradePro: "Nâng cấp Pro",
                 btnLogin: "Đăng nhập",
-                btnRegister: "Tạo tài khoản",
-                statusConnected: "Đã kết nối",
+                btnScanQrLogin: "Quét mã QR",
+                btnFaceId: "Đăng nhập bằng Face ID",
+                statusActive: "Active",
+                statusDnd: "DND",
+                statusAutoAnswer: "Auto-Answer",
                 dialerInstruction: "Bấm phím để bắt đầu cuộc gọi",
                 btnMute: "Tắt tiếng",
                 btnKeypad: "Bàn phím",
@@ -1413,7 +1390,8 @@
                 phChatInput: "Nhập tin nhắn...",
                 titleSettings: "Cài đặt",
                 settingSipAccount: "Tài khoản SIP",
-                settingCompanyDir: "Danh bạ công ty",
+                settingCompanyDir: "Danh bạ công ty (XML)",
+                settingAutoAnswer: "Cài đặt Auto-Answer",
                 settingNotifications: "Thông báo",
                 settingOn: "Bật",
                 settingSound: "Âm thanh & Rung",
@@ -1456,6 +1434,8 @@
                 rowAds: "Quảng cáo (Ads)",
                 valHasAds: "AdMob/In-App",
                 valNoAds: "Không (No Ads)",
+                rowPersonalDir: "Danh bạ cá nhân",
+                rowCompanyDir: "Danh bạ công ty (XML)",
                 rowRecording: "Ghi âm",
                 rowTranscript: "Bản ghi",
                 rowSummary: "Tóm tắt cuộc gọi",
@@ -1482,8 +1462,11 @@
                 promoProSubtitle: "Auto KB Search & AI Summarization",
                 btnUpgradePro: "Upgrade Pro",
                 btnLogin: "Login",
-                btnRegister: "Register",
-                statusConnected: "Connected",
+                btnScanQrLogin: "Scan QR Code",
+                btnFaceId: "Login with Face ID",
+                statusActive: "Active",
+                statusDnd: "DND",
+                statusAutoAnswer: "Auto-Answer",
                 dialerInstruction: "Press keys to start a call",
                 btnMute: "Mute",
                 btnKeypad: "Keypad",
@@ -1533,7 +1516,8 @@
                 phChatInput: "Type a message...",
                 titleSettings: "Settings",
                 settingSipAccount: "SIP Account",
-                settingCompanyDir: "Company Directory",
+                settingCompanyDir: "Company Directory (XML)",
+                settingAutoAnswer: "Auto-Answer Settings",
                 settingNotifications: "Notifications",
                 settingOn: "On",
                 settingSound: "Sound & Haptics",
@@ -1567,24 +1551,49 @@
                 guideTierTitle: "Viewing Tier:",
                 matrixSubtitle: "Select plan above to sync",
                 matrixTitle: "Detailed Package Comparison",
-                thCriteria: "Criteria / Features",
+                thCriteria: "Criteria / Feature",
                 thFree: "FREE",
                 thBasic: "BASIC",
                 thPro: "PRO",
-                rowPrice: "Pricing / License",
+                rowPrice: "Fee / License",
                 rowSipAccounts: "SIP Accounts",
                 rowAds: "Ads",
                 valHasAds: "AdMob/In-App",
                 valNoAds: "No Ads",
+                rowPersonalDir: "Personal Directory",
+                rowCompanyDir: "Company Directory",
                 rowRecording: "Recording",
                 rowTranscript: "Transcript",
-                rowSummary: "Call Summarization",
-                rowCloryAi: "CloryAI Copilot",
+                rowSummary: "Call Summary",
+                rowCloryAi: "CloryAI Assistant",
                 valYes: "Yes",
                 valAiSummary: "AI Summary",
-                valCloryAiPro: "CloryAI Copilot"
+                valCloryAiPro: "CloryAI Assistant"
             }
         };
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            const phone = document.getElementById('phone-container');
+            const btnDark = document.getElementById('btn-theme-dark');
+            const btnLight = document.getElementById('btn-theme-light');
+
+            if (theme === 'dark') {
+                if (phone) {
+                    phone.classList.remove('light-mode');
+                    phone.classList.add('dark-mode');
+                }
+                if (btnDark) btnDark.className = "px-2.5 py-1 rounded-lg transition flex items-center gap-1 bg-cfono-orange text-white shadow";
+                if (btnLight) btnLight.className = "px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition flex items-center gap-1";
+            } else {
+                if (phone) {
+                    phone.classList.remove('dark-mode');
+                    phone.classList.add('light-mode');
+                }
+                if (btnLight) btnLight.className = "px-2.5 py-1 rounded-lg transition flex items-center gap-1 bg-cfono-orange text-white shadow";
+                if (btnDark) btnDark.className = "px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition flex items-center gap-1";
+            }
+        }
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -1632,15 +1641,14 @@
                 const el = document.getElementById(`screen-${s}`);
                 const navBtn = document.getElementById(`nav-screen-${s}`);
                 if (s === screenId) {
-                    el.classList.remove('hidden');
+                    if (el) el.classList.remove('hidden');
                     if (navBtn) navBtn.className = "px-3 py-1.5 rounded-xl font-medium bg-cfono-orange text-white shadow";
                 } else {
-                    el.classList.add('hidden');
+                    if (el) el.classList.add('hidden');
                     if (navBtn) navBtn.className = "px-3 py-1.5 rounded-xl font-medium text-cfono-mutedGray hover:text-white hover:bg-cfono-darkBg";
                 }
             });
 
-            // Ads Rule Implementation
             const allowedAdScreens = ['dialer', 'contacts', 'history', 'audio-player'];
             if (currentTier === 'free' && allowedAdScreens.includes(screenId)) {
                 const now = Date.now();
@@ -1667,6 +1675,43 @@
             });
         }
 
+        function loginWithFaceID() {
+            showToast(currentLang === 'vi' ? "Đang xác thực Face ID..." : "Authenticating Face ID...");
+            setTimeout(() => {
+                showToast(currentLang === 'vi' ? "Xác thực thành công!" : "Authentication successful!");
+                switchScreen('dialer');
+            }, 1000);
+        }
+
+        function setDialerStatus(status) {
+            dialerStatus = status;
+            const btnActive = document.getElementById('btn-status-active');
+            const btnDnd = document.getElementById('btn-status-dnd');
+            const btnAuto = document.getElementById('btn-status-auto');
+            const statusBadge = document.getElementById('dialer-status-badge');
+            const avatarDot = document.getElementById('status-avatar-dot');
+
+            if (btnActive) btnActive.className = status === 'active' ? "flex-1 py-1 rounded-lg bg-cfono-orange text-white shadow transition flex items-center justify-center gap-1" : "flex-1 py-1 rounded-lg ios-subtext hover:text-white transition flex items-center justify-center gap-1";
+            if (btnDnd) btnDnd.className = status === 'dnd' ? "flex-1 py-1 rounded-lg bg-rose-600 text-white shadow transition flex items-center justify-center gap-1" : "flex-1 py-1 rounded-lg ios-subtext hover:text-white transition flex items-center justify-center gap-1";
+            if (btnAuto) btnAuto.className = status === 'auto_answer' ? "flex-1 py-1 rounded-lg bg-purple-600 text-white shadow transition flex items-center justify-center gap-1" : "flex-1 py-1 rounded-lg ios-subtext hover:text-white transition flex items-center justify-center gap-1";
+
+            if (statusBadge) {
+                if (status === 'active') {
+                    statusBadge.innerText = 'Active';
+                    statusBadge.className = 'text-[10px] text-emerald-500 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-semibold';
+                    if (avatarDot) avatarDot.className = 'w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5';
+                } else if (status === 'dnd') {
+                    statusBadge.innerText = 'DND';
+                    statusBadge.className = 'text-[10px] text-rose-400 bg-rose-500/10 px-2.5 py-0.5 rounded-full border border-rose-500/20 font-semibold';
+                    if (avatarDot) avatarDot.className = 'w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5';
+                } else if (status === 'auto_answer') {
+                    statusBadge.innerText = 'Auto-Answer';
+                    statusBadge.className = 'text-[10px] text-purple-400 bg-purple-500/10 px-2.5 py-0.5 rounded-full border border-purple-500/20 font-semibold';
+                    if (avatarDot) avatarDot.className = 'w-2.5 h-2.5 bg-purple-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5';
+                }
+            }
+        }
+
         function pressKey(val) {
             const display = document.getElementById('dial-display');
             if (display) {
@@ -1683,10 +1728,10 @@
 
         function startCall(num) {
             const targetNum = num || document.getElementById('dial-display').value || '1002';
-            document.getElementById('incall-number').innerText = `${targetNum} - SIP`;
+            const incallNum = document.getElementById('incall-number');
+            if (incallNum) incallNum.innerText = `${targetNum} - SIP`;
             switchScreen('incall');
 
-            // Reset call timer
             clearInterval(callTimerInterval);
             callSeconds = 0;
             const timerEl = document.getElementById('incall-timer');
@@ -1852,6 +1897,7 @@
             switchScreen('dialer');
             const sipLabel = document.getElementById('active-sip-ext');
             if (sipLabel) sipLabel.innerText = "1001 (Provisioned)";
+            showToast(currentLang === 'vi' ? "Giả lập quét QR thành công! Đã cấu hình SIP Extension." : "QR scan simulated! SIP Extension provisioned.");
         }
 
         function openAddContactModal() { document.getElementById('add-contact-modal').classList.remove('hidden'); }
@@ -1885,14 +1931,61 @@
                 container.prepend(card);
             }
             closeAddContactModal();
+            showToast(currentLang === 'vi' ? "Lưu liên hệ mới thành công!" : "New contact saved successfully!");
         }
 
         function openCompanyDirectoryModal() { document.getElementById('company-dir-modal').classList.remove('hidden'); }
         function closeCompanyDirectoryModal() { document.getElementById('company-dir-modal').classList.add('hidden'); }
         function openSipAccountModal() { document.getElementById('sip-account-modal').classList.remove('hidden'); }
         function closeSipAccountModal() { document.getElementById('sip-account-modal').classList.add('hidden'); }
-        function openAboutModal() { document.getElementById('about-modal').classList.remove('hidden'); }
-        function closeAboutModal() { document.getElementById('about-modal').classList.add('hidden'); }
+
+        function openAutoAnswerModal() { document.getElementById('auto-answer-modal').classList.remove('hidden'); }
+        function closeAutoAnswerModal() { document.getElementById('auto-answer-modal').classList.add('hidden'); }
+
+        function toggleAutoAnswerState() {
+            const toggle = document.getElementById('auto-answer-toggle');
+            autoAnswerEnabled = toggle ? toggle.checked : false;
+        }
+
+        function handleAutoAnswerFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const label = document.getElementById('auto-answer-filename');
+                if (label) label.innerText = file.name;
+                showToast(currentLang === 'vi' ? `Đã chọn file: ${file.name}` : `Selected file: ${file.name}`);
+            }
+        }
+
+        function playAutoAnswerPreview() {
+            showToast(currentLang === 'vi' ? "Đang phát thử âm thanh Auto-Answer..." : "Playing Auto-Answer preview...");
+        }
+
+        function saveAutoAnswerSettings() {
+            const statusLabel = document.getElementById('auto-answer-status-label');
+            const toggle = document.getElementById('auto-answer-toggle');
+            const delaySelect = document.getElementById('auto-answer-delay');
+            const delay = delaySelect ? delaySelect.value : '3';
+            const isEnabled = toggle ? toggle.checked : false;
+
+            if (statusLabel) {
+                statusLabel.innerHTML = isEnabled 
+                    ? `<span class="text-purple-400 font-bold">Bật (${delay}s)</span> <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>`
+                    : `Tắt <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>`;
+            }
+            closeAutoAnswerModal();
+            showToast(currentLang === 'vi' ? "Đã lưu cài đặt Auto-Answer!" : "Saved Auto-Answer settings!");
+        }
+
+        function openAboutModal() {
+            const modal = document.getElementById('about-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeAboutModal() {
+            const modal = document.getElementById('about-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
         function closeFreemiumPopup() { document.getElementById('freemium-popup-modal').classList.add('hidden'); }
         function openUpgradeModal() { document.getElementById('upgrade-modal').classList.remove('hidden'); }
         function closeUpgradeModal() { document.getElementById('upgrade-modal').classList.add('hidden'); }
@@ -1904,15 +1997,15 @@
             const boxS = document.getElementById('detail-summary-box');
 
             if (subtab === 'transcript') {
-                btnT.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
-                btnS.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
-                boxT.classList.remove('hidden');
-                boxS.classList.add('hidden');
+                if (btnT) btnT.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
+                if (btnS) btnS.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+                if (boxT) boxT.classList.remove('hidden');
+                if (boxS) boxS.classList.add('hidden');
             } else {
-                btnS.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
-                btnT.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
-                boxS.classList.remove('hidden');
-                boxT.classList.add('hidden');
+                if (btnS) btnS.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
+                if (btnT) btnT.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+                if (boxS) boxS.classList.remove('hidden');
+                if (boxT) boxT.classList.add('hidden');
             }
         }
 
@@ -1922,6 +2015,10 @@
             if (btn) {
                 btn.innerHTML = isAudioPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play ml-0.5"></i>';
             }
+        }
+
+        function copySummaryText() {
+            showToast(currentLang === 'vi' ? "Đã sao chép tóm tắt cuộc gọi!" : "Call summary copied to clipboard!");
         }
 
         function sendQuickPrompt(promptText) {
@@ -1940,7 +2037,6 @@
             const userText = input.value.trim();
             input.value = '';
 
-            // User Bubble
             const userBubble = document.createElement('div');
             userBubble.className = "flex gap-2 items-start justify-end";
             userBubble.innerHTML = `
@@ -1951,7 +2047,6 @@
             chatBox.appendChild(userBubble);
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // AI Response Delay
             setTimeout(() => {
                 const aiBubble = document.createElement('div');
                 aiBubble.className = "flex gap-2 items-start";
@@ -1994,7 +2089,7 @@
 
         function saveXmlConfig() {
             const url = document.getElementById('xml-server-url').value;
-            alert(currentLang === 'vi' ? `Đã lưu cấu hình XML Directory Server: ${url}` : `Saved XML Directory Server Config: ${url}`);
+            showToast(currentLang === 'vi' ? `Đã lưu cấu hình XML Directory: ${url}` : `Saved XML Directory: ${url}`);
         }
 
         window.onload = function() {
