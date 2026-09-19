@@ -93,7 +93,7 @@
             scrollbar-width: none;
         }
 
-        /* Reactive Light & Dark mode components */
+        /* Dynamic Light & Dark mode components */
         .phone-container.dark-mode #phone-status-bar { color: #FFFFFF; }
         .phone-container.light-mode #phone-status-bar { color: #000000; }
 
@@ -273,7 +273,7 @@
                         </div>
                     </div>
                     <button onclick="setTier('pro')" class="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[9px] rounded-full shadow active:scale-95 transition" data-i18n="btnUpgradePro">
-                        Nâng cấp Pro
+                        Nâng Pro
                     </button>
                 </div>
 
@@ -332,7 +332,7 @@
                             </div>
                         </div>
                         
-                        <!-- Compact Status Selector Pill Beside Avatar -->
+                        <!-- Compact Status Selector Dropdown Beside Avatar -->
                         <div class="relative">
                             <button onclick="toggleDialerStatusDropdown()" id="dialer-status-badge" class="text-[10px] text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 px-2.5 py-1 rounded-full border border-emerald-500/30 font-semibold flex items-center gap-1 transition">
                                 <span>● Active</span> <i class="fa-solid fa-chevron-down text-[8px]"></i>
@@ -475,8 +475,8 @@
                             <span id="contacts-ad-badge" class="px-1.5 py-0.5 bg-cfono-orange text-white text-[8px] font-bold rounded-md">ADS</span>
                             <p class="text-[10px] text-zinc-300" id="contacts-ad-text">Nâng cấp Basic - Trải nghiệm ứng dụng mượt mà</p>
                         </div>
-                        <button onclick="openUpgradeModal()" id="contacts-ad-btn" class="px-2.5 py-1 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-[9px] rounded-full shadow transition shrink-0">
-                            Nâng cấp
+                        <button onclick="openUpgradeModal()" id="contacts-ad-btn" class="px-2.5 py-1 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-[9px] rounded-full shadow transition shrink-0" data-i18n="btnUpgradeBasic">
+                            Nâng Basic
                         </button>
                     </div>
 
@@ -548,8 +548,8 @@
                             <span id="history-ad-badge" class="px-1.5 py-0.5 bg-cfono-orange text-white text-[8px] font-bold rounded-md">ADS</span>
                             <p class="text-[10px] text-zinc-300" id="history-ad-text">Nâng cấp Basic - Trải nghiệm ứng dụng mượt mà</p>
                         </div>
-                        <button onclick="openUpgradeModal()" id="history-ad-btn" class="px-2.5 py-1 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-[9px] rounded-full shadow transition shrink-0" data-i18n="btnUpgradePro">
-                            Nâng cấp
+                        <button onclick="openUpgradeModal()" id="history-ad-btn" class="px-2.5 py-1 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-[9px] rounded-full shadow transition shrink-0" data-i18n="btnUpgradeBasic">
+                            Nâng Basic
                         </button>
                     </div>
 
@@ -744,7 +744,30 @@
                 </div>
 
                 <div id="screen-cloryai" class="hidden flex-1 flex flex-col p-3 overflow-hidden">
-                    <div class="flex-1 flex flex-col h-full">
+                    <!-- Locked Pro Upgrade View (Matches Reference UI for Free & Basic Tiers) -->
+                    <div id="cloryai-locked-view" class="flex-1 flex flex-col items-center justify-center p-6 text-center my-auto">
+                        <div class="ios-card w-full max-w-[310px] p-8 rounded-3xl border flex flex-col items-center justify-center space-y-5 shadow-xl transition-all">
+                            <!-- Soft Orange Circle with Lock Icon -->
+                            <div class="w-20 h-20 rounded-full bg-cfono-orange/15 border border-cfono-orange/30 flex items-center justify-center text-cfono-orange text-3xl shadow-sm">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+
+                            <div class="space-y-2">
+                                <h3 class="text-base font-bold tracking-tight" data-i18n="cloryAiLockedTitle">CloryAI Copilot Agent</h3>
+                                <p class="text-xs ios-subtext leading-relaxed max-w-[250px] mx-auto" data-i18n="cloryAiLockedDesc">
+                                    Tính năng dành riêng cho Gói PRO. Hỗ trợ tra cứu Knowledge Base doanh nghiệp, tóm tắt thông tin tức thì.
+                                </p>
+                            </div>
+
+                            <button onclick="openUpgradeModal()" class="w-full max-w-[220px] py-3.5 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-xs rounded-full shadow-lg shadow-cfono-orange/30 active:scale-95 transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
+                                <span data-i18n="btnActivatePro">Kích hoạt Gói PRO</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Active Interactive View (For PRO Tier Users) -->
+                    <div id="cloryai-active-view" class="hidden flex-1 flex flex-col h-full">
                         <div class="pb-2 border-b border-zinc-500/20 flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 rounded-2xl bg-cfono-orange text-white flex items-center justify-center text-sm font-bold shadow">
@@ -759,17 +782,6 @@
                             <span id="cloryai-badge-tier" class="text-[9px] px-2.5 py-0.5 bg-cfono-orange/20 text-cfono-orange rounded-full font-mono font-bold">PRO Active</span>
                         </div>
 
-                        <!-- Freemium Teaser Counter Banner for Free/Basic users -->
-                        <div id="cloryai-trial-banner" class="hidden my-1.5 p-2 bg-gradient-to-r from-purple-900/40 via-purple-950/60 to-purple-900/40 border border-purple-500/40 rounded-xl flex items-center justify-between text-[10px] text-purple-200 shadow-sm">
-                            <div class="flex items-center gap-1.5">
-                                <i class="fa-solid fa-gift text-purple-400"></i>
-                                <span>Bản dùng thử: <strong id="ai-trial-count" class="text-amber-300 font-mono">3/3</strong> lượt AI tuần này</span>
-                            </div>
-                            <button onclick="openUpgradeModal()" class="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-white rounded-full font-bold text-[9px]">
-                                Nâng Pro
-                            </button>
-                        </div>
-
                         <div id="chat-box" class="flex-1 overflow-y-auto my-2 space-y-2.5 pr-1 no-scrollbar text-xs">
                             <div class="flex gap-2 items-start">
                                 <div class="w-6 h-6 rounded-full bg-cfono-orange text-white flex items-center justify-center text-[10px] shrink-0 mt-0.5 shadow">AI</div>
@@ -780,7 +792,7 @@
                         </div>
 
                         <div class="flex gap-1.5 overflow-x-auto pb-2 no-scrollbar">
-                            <button onclick="sendQuickPrompt('Tóm tắt cuộc gọi gần đây')" class="px-3 py-1 ios-card border border-cfono-orange/40 rounded-full text-[10px] text-cfono-orange shrink-0 shadow-sm font-semibold" data-i18n="promptSummary">
+                            <button onclick="sendQuickPrompt('Tóm tắt cuộc gọi gần đây')" class="px-3 py-1 ios-card border border-cfono-orange/40 rounded-full text-[10px] text-cfono-orange shrink-0 shadow-sm font-semibold" data-i18n="promptPromptSummary">
                                 ⚡ Tóm tắt cuộc gọi gần đây
                             </button>
                             <button onclick="sendQuickPrompt('Tư vấn gói dịch vụ phù hợp')" class="px-3 py-1 ios-card border rounded-full text-[10px] ios-subtext shrink-0 shadow-sm font-semibold" data-i18n="promptConsult">
@@ -875,6 +887,7 @@
 
             </div>
 
+            <!-- Tab Bar -->
             <div id="phone-tab-bar" class="border-t px-2 py-2 flex items-center justify-around z-30 transition-colors">
                 <button onclick="switchScreen('dialer')" id="tab-dialer" class="flex flex-col items-center gap-0.5 text-cfono-orange transition">
                     <i class="fa-solid fa-phone text-base"></i>
@@ -1027,6 +1040,7 @@
                 <button onclick="closeCompanyDirectoryModal()" class="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs rounded-full transition">Đóng</button>
             </div>
 
+            <!-- Auto-Answer Modal -->
             <div id="auto-answer-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white">
                 <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                     <span class="text-xs font-bold text-purple-400 flex items-center gap-1.5">
@@ -1112,7 +1126,7 @@
                 <button onclick="closeSipAccountModal()" class="w-full py-2.5 bg-cfono-orange text-white font-bold text-xs rounded-full shadow transition">Đóng</button>
             </div>
 
-            <!-- AdMob Freemium Interstitial Popup (Triggered non-intrusively post call) -->
+            <!-- AdMob Freemium Interstitial Popup (Triggered post call or after 15s in call detail) -->
             <div id="freemium-popup-modal" class="hidden absolute inset-0 bg-black/85 z-50 p-6 flex flex-col items-center justify-center backdrop-blur-md text-white">
                 <div class="ios-card w-full max-w-[290px] p-5 rounded-3xl border border-cfono-orange/40 text-center space-y-4 shadow-2xl relative">
                     <button onclick="closeFreemiumPopup()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center text-xs">
@@ -1170,6 +1184,7 @@
                 <p class="text-[9px] text-zinc-500 text-center font-mono" data-i18n="upgradeModalFooter">Thanh toán linh hoạt theo tháng hoặc năm</p>
             </div>
 
+            <!-- About Modal Overlay -->
             <div id="about-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white">
                 <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                     <span class="text-xs font-bold text-cfono-orange"><i class="fa-solid fa-circle-info mr-1"></i> About CFONO</span>
@@ -1303,14 +1318,14 @@
                             </tr>
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowSummary">Tóm tắt cuộc gọi</td>
-                                <td class="py-2.5 px-2 text-center text-purple-400 font-medium" data-i18n="val3Trial">3 Lượt/tuần</td>
-                                <td class="py-2.5 px-2 text-center text-purple-400 font-medium" data-i18n="val3Trial">3 Lượt/tuần</td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-purple-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valAiSummary">Tóm tắt AI</span></td>
                             </tr>
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowCloryAi">Trợ lý CloryAI</td>
-                                <td class="py-2.5 px-2 text-center text-purple-400 font-medium" data-i18n="val3Trial">3 Lượt/tuần</td>
-                                <td class="py-2.5 px-2 text-center text-purple-400 font-medium" data-i18n="val3Trial">3 Lượt/tuần</td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-purple-400 font-bold" data-i18n="valCloryAiPro"><i class="fa-solid fa-check"></i> Trợ lý CloryAI</td>
                             </tr>
                             <tr>
@@ -1348,14 +1363,7 @@
         let callSeconds = 0;
         let audioSpeed = 1.0;
         let activeLineIndex = 0; // 0: SIP Ext 1001, 1: SIP Ext 1002 (Pro), 2: SIM Di dong
-
-        // Freemium Trial AI Credits State
-        let aiTrialCredits = 3;
-
-        let dailyAdsCount = 0;
-        let lastAdTime = 0;
-        const MAX_DAILY_ADS = 5;
-        const AD_COOLDOWN_MS = 15000;
+        let callDetailAdTimer = null;
 
         function showToast(msg, iconClass = "fa-circle-check text-emerald-400") {
             const toast = document.getElementById('toast-notification');
@@ -1378,6 +1386,9 @@
                 tierFree: "Gói FREE",
                 tierBasic: "Gói BASIC",
                 tierPro: "Gói PRO (CloryAI)",
+                cloryAiLockedTitle: "CloryAI Copilot Agent",
+                cloryAiLockedDesc: "Tính năng dành riêng cho Gói PRO. Hỗ trợ tra cứu Knowledge Base doanh nghiệp, tóm tắt thông tin tức thì.",
+                btnActivatePro: "Kích hoạt Gói PRO",
                 viewScreen: "Xem Màn Hình:",
                 navLogin: "Đăng nhập",
                 navDialer: "Quay số",
@@ -1390,7 +1401,8 @@
                 navSettings: "Cài đặt",
                 promoProTitle: "Nâng cấp CloryAI Copilot",
                 promoProSubtitle: "Tra cứu KB & Tóm tắt AI tự động",
-                btnUpgradePro: "Nâng cấp Pro",
+                btnUpgradePro: "Nâng Pro",
+                btnUpgradeBasic: "Nâng Basic",
                 btnLogin: "Đăng nhập",
                 btnScanQrLogin: "Quét mã QR",
                 btnFaceId: "Đăng nhập bằng Face ID",
@@ -1499,7 +1511,6 @@
                 rowCloryAi: "Trợ lý CloryAI",
                 rowSla: "Cam kết dịch vụ (SLA)",
                 valYes: "Có",
-                val3Trial: "3 Lượt/tuần",
                 valAiSummary: "Tóm tắt AI",
                 valCloryAiPro: "Trợ lý CloryAI"
             },
@@ -1507,6 +1518,9 @@
                 tierFree: "FREE Plan",
                 tierBasic: "BASIC Plan",
                 tierPro: "PRO Plan (CloryAI)",
+                cloryAiLockedTitle: "CloryAI Copilot Agent",
+                cloryAiLockedDesc: "Exclusive PRO feature. Query enterprise Knowledge Base and get instant news summaries.",
+                btnActivatePro: "Activate PRO Plan",
                 viewScreen: "View Screen:",
                 navLogin: "Login",
                 navDialer: "Dialer",
@@ -1520,6 +1534,7 @@
                 promoProTitle: "Upgrade CloryAI Copilot",
                 promoProSubtitle: "Auto KB Search & AI Summarization",
                 btnUpgradePro: "Upgrade Pro",
+                btnUpgradeBasic: "Upgrade Basic",
                 btnLogin: "Login",
                 btnScanQrLogin: "Scan QR Code",
                 btnFaceId: "Login with Face ID",
@@ -1628,7 +1643,6 @@
                 rowCloryAi: "CloryAI Assistant",
                 rowSla: "Service Level Agreement (SLA)",
                 valYes: "Yes",
-                val3Trial: "3 Free/wk",
                 valAiSummary: "AI Summary",
                 valCloryAiPro: "CloryAI Assistant"
             }
@@ -1636,95 +1650,71 @@
 
         function setTheme(theme) {
             currentTheme = theme;
-            const phone = document.getElementById('phone-container');
-            const btnDark = document.getElementById('btn-theme-dark');
-            const btnLight = document.getElementById('btn-theme-light');
+            const container = document.getElementById('phone-container');
+            const darkBtn = document.getElementById('btn-theme-dark');
+            const lightBtn = document.getElementById('btn-theme-light');
 
             if (theme === 'dark') {
-                if (phone) {
-                    phone.classList.remove('light-mode');
-                    phone.classList.add('dark-mode');
+                if (container) {
+                    container.classList.remove('light-mode');
+                    container.classList.add('dark-mode');
                 }
-                if (btnDark) btnDark.className = "px-2.5 py-1 rounded-lg transition flex items-center gap-1 bg-cfono-orange text-white shadow";
-                if (btnLight) btnLight.className = "px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition flex items-center gap-1";
+                if (darkBtn) darkBtn.className = "px-2.5 py-1 rounded-lg transition flex items-center gap-1 bg-cfono-orange text-white shadow";
+                if (lightBtn) lightBtn.className = "px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition flex items-center gap-1";
             } else {
-                if (phone) {
-                    phone.classList.remove('dark-mode');
-                    phone.classList.add('light-mode');
+                if (container) {
+                    container.classList.remove('dark-mode');
+                    container.classList.add('light-mode');
                 }
-                if (btnLight) btnLight.className = "px-2.5 py-1 rounded-lg transition flex items-center gap-1 bg-cfono-orange text-white shadow";
-                if (btnDark) btnDark.className = "px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition flex items-center gap-1";
+                if (darkBtn) darkBtn.className = "px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white transition flex items-center gap-1";
+                if (lightBtn) lightBtn.className = "px-2.5 py-1 rounded-lg transition flex items-center gap-1 bg-cfono-orange text-white shadow";
             }
         }
 
         function setLanguage(lang) {
             currentLang = lang;
-            
-            const btnVi = document.getElementById('mobile-lang-vi');
-            const btnEn = document.getElementById('mobile-lang-en');
-            if (btnVi && btnEn) {
+            const dict = i18nDict[lang] || i18nDict.vi;
+
+            const viBtn = document.getElementById('mobile-lang-vi');
+            const enBtn = document.getElementById('mobile-lang-en');
+            if (viBtn && enBtn) {
                 if (lang === 'vi') {
-                    btnVi.className = "px-3 py-1 rounded-full transition bg-cfono-orange text-white shadow";
-                    btnEn.className = "px-3 py-1 rounded-full text-zinc-400 hover:text-white transition";
+                    viBtn.className = "px-3 py-1 rounded-full transition bg-cfono-orange text-white shadow";
+                    enBtn.className = "px-3 py-1 rounded-full text-zinc-400 hover:text-white transition";
                 } else {
-                    btnEn.className = "px-3 py-1 rounded-full transition bg-cfono-orange text-white shadow";
-                    btnVi.className = "px-3 py-1 rounded-full text-zinc-400 hover:text-white transition";
+                    enBtn.className = "px-3 py-1 rounded-full transition bg-cfono-orange text-white shadow";
+                    viBtn.className = "px-3 py-1 rounded-full text-zinc-400 hover:text-white transition";
                 }
             }
 
             const settingLangLabel = document.getElementById('setting-lang-label');
             if (settingLangLabel) {
-                settingLangLabel.innerHTML = `${lang === 'vi' ? 'Tiếng Việt' : 'English'} <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>`;
+                settingLangLabel.innerHTML = (lang === 'vi' ? 'Tiếng Việt' : 'English') + ' <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>';
             }
 
-            const dict = i18nDict[lang] || i18nDict.vi;
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (dict[key]) {
-                    el.innerText = dict[key];
-                }
+                if (dict[key]) el.innerText = dict[key];
             });
 
             document.querySelectorAll('[data-i18n-ph]').forEach(el => {
                 const key = el.getAttribute('data-i18n-ph');
-                if (dict[key]) {
-                    el.setAttribute('placeholder', dict[key]);
-                }
+                if (dict[key]) el.placeholder = dict[key];
             });
 
-            setTier(currentTier);
-        }
-
-        function cycleOutboundLine() {
-            const lineLabel = document.getElementById('current-line-label');
-            if (currentTier === 'pro') {
-                activeLineIndex = (activeLineIndex + 1) % 3;
-                if (activeLineIndex === 0) {
-                    if (lineLabel) lineLabel.innerText = "SIP Ext 1001";
-                    showToast(currentLang === 'vi' ? "Chuyển sang đường gọi: SIP Ext 1001" : "Switched to: SIP Ext 1001");
-                } else if (activeLineIndex === 1) {
-                    if (lineLabel) lineLabel.innerText = "SIP Ext 1002";
-                    showToast(currentLang === 'vi' ? "Chuyển sang đường gọi: SIP Ext 1002" : "Switched to: SIP Ext 1002");
-                } else {
-                    if (lineLabel) lineLabel.innerText = "SIM Di Động";
-                    showToast(currentLang === 'vi' ? "Chuyển sang đường gọi: SIM Di Động" : "Switched to: SIM Di Động");
-                }
-            } else {
-                activeLineIndex = activeLineIndex === 0 ? 2 : 0;
-                if (activeLineIndex === 0) {
-                    if (lineLabel) lineLabel.innerText = "SIP Ext 1001";
-                    showToast(currentLang === 'vi' ? "Chuyển sang đường gọi: SIP Ext 1001" : "Switched to: SIP Ext 1001");
-                } else {
-                    if (lineLabel) lineLabel.innerText = "SIM Di Động";
-                    showToast(currentLang === 'vi' ? "Chuyển sang đường gọi: SIM Di Động" : "Switched to: SIM Di Động");
-                }
-            }
+            showToast(lang === 'vi' ? "Đã chuyển sang Tiếng Việt" : "Switched to English", "fa-globe text-purple-400");
         }
 
         function switchScreen(screenId) {
             currentScreen = screenId;
             const screens = ['login', 'dialer', 'incall', 'contacts', 'history', 'call-detail', 'audio-player', 'cloryai', 'settings'];
             
+            // Clear Call Detail 15s Ads timer when switching screen
+            if (callDetailAdTimer) {
+                clearTimeout(callDetailAdTimer);
+                callDetailAdTimer = null;
+            }
+
             screens.forEach(s => {
                 const el = document.getElementById(`screen-${s}`);
                 const navBtn = document.getElementById(`nav-screen-${s}`);
@@ -1736,6 +1726,30 @@
                     if (navBtn) navBtn.className = "px-3 py-1.5 rounded-xl font-medium text-cfono-mutedGray hover:text-white hover:bg-cfono-darkBg";
                 }
             });
+
+            // Toggle CloryAI Locked vs Active View based on Tier
+            if (screenId === 'cloryai') {
+                const lockedView = document.getElementById('cloryai-locked-view');
+                const activeView = document.getElementById('cloryai-active-view');
+                if (currentTier === 'pro') {
+                    if (lockedView) lockedView.classList.add('hidden');
+                    if (activeView) activeView.classList.remove('hidden');
+                } else {
+                    if (lockedView) lockedView.classList.remove('hidden');
+                    if (activeView) activeView.classList.add('hidden');
+                }
+            }
+
+            // Auto trigger Ads on Call Detail screen after 15 seconds for Free tier
+            if (screenId === 'call-detail' && currentTier === 'free') {
+                callDetailAdTimer = setTimeout(() => {
+                    if (currentScreen === 'call-detail' && currentTier === 'free') {
+                        const modal = document.getElementById('freemium-popup-modal');
+                        if (modal) modal.classList.remove('hidden');
+                        showToast(currentLang === 'vi' ? "Gợi ý nâng cấp gói dịch vụ CFONO" : "Upgrade recommendation", "fa-wand-magic-sparkles text-cfono-orange");
+                    }
+                }, 15000);
+            }
 
             // Native Pro Promo Banner is strictly for Basic plan on Settings screen
             const basicPromoBox = document.getElementById('basic-pro-promo-box');
@@ -1758,122 +1772,6 @@
                     }
                 }
             });
-        }
-
-        function loginWithFaceID() {
-            showToast(currentLang === 'vi' ? "Đang xác thực Face ID..." : "Authenticating Face ID...", "fa-face-smile text-cfono-orange");
-            setTimeout(() => {
-                showToast(currentLang === 'vi' ? "Xác thực thành công!" : "Authentication successful!");
-                switchScreen('dialer');
-            }, 1000);
-        }
-
-        function toggleDialerStatusDropdown() {
-            const menu = document.getElementById('dialer-status-menu');
-            if (menu) menu.classList.toggle('hidden');
-        }
-
-        function setDialerStatus(status) {
-            const menu = document.getElementById('dialer-status-menu');
-            if (menu) menu.classList.add('hidden');
-
-            if (status === 'auto_answer' && currentTier !== 'pro') {
-                showToast(currentLang === 'vi' ? "Auto-Answer chỉ có ở Gói PRO!" : "Auto-Answer requires PRO tier!", "fa-lock text-purple-400");
-                openUpgradeModal();
-                return;
-            }
-
-            dialerStatus = status;
-            const statusBadge = document.getElementById('dialer-status-badge');
-            const avatarDot = document.getElementById('status-avatar-dot');
-
-            if (statusBadge) {
-                if (status === 'active') {
-                    statusBadge.innerHTML = `<span>● Active</span> <i class="fa-solid fa-chevron-down text-[8px]"></i>`;
-                    statusBadge.className = 'text-[10px] text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 px-2.5 py-1 rounded-full border border-emerald-500/30 font-semibold flex items-center gap-1 transition';
-                    if (avatarDot) avatarDot.className = 'w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5';
-                    showToast(currentLang === 'vi' ? "Trạng thái: Active (Sẵn sàng)" : "Status: Active");
-                } else if (status === 'dnd') {
-                    statusBadge.innerHTML = `<span>● DND</span> <i class="fa-solid fa-chevron-down text-[8px]"></i>`;
-                    statusBadge.className = 'text-[10px] text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 px-2.5 py-1 rounded-full border border-rose-500/30 font-semibold flex items-center gap-1 transition';
-                    if (avatarDot) avatarDot.className = 'w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5';
-                    showToast(currentLang === 'vi' ? "Trạng thái: DND (Không làm phiền)" : "Status: DND");
-                } else if (status === 'auto_answer') {
-                    statusBadge.innerHTML = `<span>● Auto-Answer</span> <i class="fa-solid fa-chevron-down text-[8px]"></i>`;
-                    statusBadge.className = 'text-[10px] text-purple-400 bg-purple-500/10 hover:bg-purple-500/20 px-2.5 py-1 rounded-full border border-purple-500/30 font-semibold flex items-center gap-1 transition';
-                    if (avatarDot) avatarDot.className = 'w-2.5 h-2.5 bg-purple-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5';
-                    showToast(currentLang === 'vi' ? "Trạng thái: Tự động trả lời (Auto-Answer)" : "Status: Auto-Answer");
-                }
-            }
-        }
-
-        function pressKey(val) {
-            const display = document.getElementById('dial-display');
-            if (display) display.value += val;
-        }
-
-        function deleteKey() {
-            const display = document.getElementById('dial-display');
-            if (display && display.value.length > 0) {
-                display.value = display.value.slice(0, -1);
-            }
-        }
-
-        function startCall(num) {
-            const targetNum = num || document.getElementById('dial-display').value || '1002';
-            const incallNum = document.getElementById('incall-number');
-            if (incallNum) incallNum.innerText = `${targetNum} - SIP`;
-            switchScreen('incall');
-
-            clearInterval(callTimerInterval);
-            callSeconds = 0;
-            const timerEl = document.getElementById('incall-timer');
-            callTimerInterval = setInterval(() => {
-                callSeconds++;
-                const mins = String(Math.floor(callSeconds / 60)).padStart(2, '0');
-                const secs = String(callSeconds % 60).padStart(2, '0');
-                if (timerEl) {
-                    timerEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> 00:${mins}:${secs}`;
-                }
-            }, 1000);
-        }
-
-        function endCall() {
-            clearInterval(callTimerInterval);
-            switchScreen('dialer');
-
-            // Post-call ad trigger logic for Free tier
-            if (currentTier === 'free') {
-                const now = Date.now();
-                if (dailyAdsCount < MAX_DAILY_ADS && (now - lastAdTime > AD_COOLDOWN_MS)) {
-                    dailyAdsCount++;
-                    lastAdTime = now;
-                    setTimeout(() => {
-                        const modal = document.getElementById('freemium-popup-modal');
-                        if (modal) modal.classList.remove('hidden');
-                    }, 400);
-                }
-            }
-        }
-
-        function toggleMute() {
-            isMuted = !isMuted;
-            const btn = document.getElementById('btn-mute');
-            if (btn) {
-                btn.querySelector('div').className = isMuted 
-                    ? "w-14 h-14 rounded-full bg-rose-600 text-white flex items-center justify-center text-xl shadow transition active:scale-95" 
-                    : "w-14 h-14 rounded-full ios-keypad-btn flex items-center justify-center text-xl shadow transition active:scale-95";
-            }
-        }
-
-        function toggleSpeaker() {
-            isSpeakerOn = !isSpeakerOn;
-            const btn = document.getElementById('btn-speaker');
-            if (btn) {
-                btn.querySelector('div').className = isSpeakerOn 
-                    ? "w-14 h-14 rounded-full bg-cfono-orange text-white flex items-center justify-center text-xl shadow transition active:scale-95" 
-                    : "w-14 h-14 rounded-full ios-keypad-btn flex items-center justify-center text-xl shadow transition active:scale-95";
-            }
         }
 
         function setTier(tier) {
@@ -1918,8 +1816,8 @@
                 if (lineLabel) lineLabel.innerText = "SIP Ext 1001";
 
                 if (cloryaiBadge) {
-                    cloryaiBadge.innerText = "3 Trial/wk";
-                    cloryaiBadge.className = "text-[9px] px-2.5 py-0.5 bg-purple-500/20 text-purple-300 rounded-full font-mono font-bold";
+                    cloryaiBadge.innerText = "PRO Only";
+                    cloryaiBadge.className = "text-[9px] px-2.5 py-0.5 bg-rose-500/20 text-rose-400 rounded-full font-mono font-bold";
                 }
                 if (cloryaiTrialBanner) cloryaiTrialBanner.classList.remove('hidden');
 
@@ -1927,12 +1825,12 @@
                 if (guideContent) {
                     guideContent.innerHTML = currentLang === 'vi' ? `
                         <p>● <strong>Miễn phí 100%:</strong> Trải nghiệm nghe/gọi chất lượng cao (1 SIP Account).</p>
-                        <p>● <strong>Smart Popup Ads:</strong> Xuất hiện tự nhiên sau khi kết thúc cuộc gọi (tối đa 5 lần/ngày).</p>
-                        <p>● <strong>Freemium AI Trial:</strong> Trải nghiệm thử 3 lượt CloryAI Copilot & Tóm tắt AI mỗi tuần.</p>
+                        <p>● <strong>Smart Popup Ads:</strong> Bật tự động sau mọi cuộc gọi và sau 15s ở màn Chi tiết cuộc gọi.</p>
+                        <p>● <strong>CloryAI Copilot:</strong> Khóa tính năng (Yêu cầu nâng cấp PRO).</p>
                     ` : `
                         <p>● <strong>100% Free:</strong> High quality calling (1 SIP Account).</p>
-                        <p>● <strong>Smart Popup Ads:</strong> Appears non-intrusively after call end (max 5/day).</p>
-                        <p>● <strong>Freemium AI Trial:</strong> 3 free weekly credits for CloryAI & AI Summaries.</p>
+                        <p>● <strong>Smart Popup Ads:</strong> Triggered on call end and after 15s on Call Details screen.</p>
+                        <p>● <strong>CloryAI Copilot:</strong> Locked (Requires PRO Upgrade).</p>
                     `;
                 }
             } else if (tier === 'basic') {
@@ -1946,8 +1844,8 @@
                 if (lineLabel) lineLabel.innerText = "SIP Ext 1001";
 
                 if (cloryaiBadge) {
-                    cloryaiBadge.innerText = "3 Trial/wk";
-                    cloryaiBadge.className = "text-[9px] px-2.5 py-0.5 bg-purple-500/20 text-purple-300 rounded-full font-mono font-bold";
+                    cloryaiBadge.innerText = "PRO Only";
+                    cloryaiBadge.className = "text-[9px] px-2.5 py-0.5 bg-rose-500/20 text-rose-400 rounded-full font-mono font-bold";
                 }
                 if (cloryaiTrialBanner) cloryaiTrialBanner.classList.remove('hidden');
 
@@ -1955,14 +1853,14 @@
                 if (guideContent) {
                     guideContent.innerHTML = currentLang === 'vi' ? `
                         <p>● <strong>No Ads:</strong> Hoàn toàn sạch quảng cáo, 1 SIP Account.</p>
-                        <p>● <strong>Giao diện chuẩn doanh nghiệp:</strong> Không banner quảng cáo ở màn hình Đăng nhập, Quay số, Danh bạ, Lịch sử.</p>
+                        <p>● <strong>Giao diện chuẩn doanh nghiệp:</strong> Không banner quảng cáo ở màn hình Quay số, Danh bạ, Lịch sử.</p>
                         <p>● <strong>Danh bạ công ty:</strong> Đồng bộ kết nối qua máy chủ Remote XML Directory Server.</p>
-                        <p>● <strong>Freemium AI Trial:</strong> Trải nghiệm 3 lượt CloryAI Copilot miễn phí mỗi tuần.</p>
+                        <p>● <strong>CloryAI Copilot:</strong> Khóa tính năng (Yêu cầu nâng cấp PRO).</p>
                     ` : `
                         <p>● <strong>No Ads:</strong> Completely ad-free, 1 SIP Account.</p>
-                        <p>● <strong>Enterprise Clean UI:</strong> No banners on Login, Dialer, Contacts, or History.</p>
+                        <p>● <strong>Enterprise Clean UI:</strong> No banners on Dialer, Contacts, or History screens.</p>
                         <p>● <strong>Company Directory:</strong> Sync via Remote XML Directory Server.</p>
-                        <p>● <strong>Freemium AI Trial:</strong> 3 free weekly credits for CloryAI Copilot.</p>
+                        <p>● <strong>CloryAI Copilot:</strong> Locked (Requires PRO Upgrade).</p>
                     `;
                 }
             } else if (tier === 'pro') {
@@ -1987,12 +1885,12 @@
                         <p>● <strong>Full Features:</strong> Không quảng cáo, 2 Accounts SIP (1001 & 1002).</p>
                         <p>● <strong>Auto-Answer (Tự động trả lời):</strong> Tự động phát file ghi âm cài đặt sẵn khi có cuộc gọi.</p>
                         <p>● <strong>Ghi âm & Bản ghi (Transcript):</strong> Tự động ghi âm và chuyển văn bản HD.</p>
-                        <p>● <strong>CloryAI Copilot:</strong> Tra cứu KB doanh nghiệp & tóm tắt cuộc gọi **Không giới hạn**.</p>
+                        <p>● <strong>CloryAI Copilot:</strong> Tra cứu KB doanh nghiệp & tóm tắt cuộc gọi **Khả dụng độc quyền**.</p>
                     ` : `
                         <p>● <strong>Full Features:</strong> No ads, 2 SIP Accounts (1001 & 1002).</p>
                         <p>● <strong>Auto-Answer:</strong> Play custom announcement audio files automatically on call.</p>
                         <p>● <strong>Recording & Transcript:</strong> Auto recording and speech-to-text.</p>
-                        <p>● <strong>CloryAI Copilot:</strong> Unlimited KB lookup & auto summaries.</p>
+                        <p>● <strong>CloryAI Copilot:</strong> Exclusive access to KB lookup & auto summaries.</p>
                     `;
                 }
             }
@@ -2000,146 +1898,169 @@
             switchScreen(currentScreen);
         }
 
-        function openQRScanner() {
-            const modal = document.getElementById('qr-modal');
-            if (modal) modal.classList.remove('hidden');
+        function pressKey(key) {
+            const display = document.getElementById('dial-display');
+            if (display) {
+                if (display.value.length < 15) {
+                    display.value += key;
+                }
+            }
         }
 
-        function closeQRScanner() {
-            const modal = document.getElementById('qr-modal');
-            if (modal) modal.classList.add('hidden');
+        function deleteKey() {
+            const display = document.getElementById('dial-display');
+            if (display && display.value) {
+                display.value = display.value.slice(0, -1);
+            }
         }
 
-        function simulateQRSuccess() {
-            closeQRScanner();
-            showToast(currentLang === 'vi' ? "Đã cấu hình tự động từ mã QR thành công!" : "Successfully configured via QR Code!");
+        function startCall(num) {
+            const display = document.getElementById('dial-display');
+            const targetNum = num || (display ? display.value : '1002') || '1002';
+
+            const incallName = document.getElementById('incall-name');
+            const incallNumber = document.getElementById('incall-number');
+
+            if (targetNum === '0912345678' || targetNum === '1003') {
+                if (incallName) incallName.innerText = "Anh Tuấn";
+                if (incallNumber) incallNumber.innerText = targetNum + " - " + (targetNum.length > 4 ? "Mobi" : "SIP");
+            } else if (targetNum === '0988776655' || targetNum === '1005') {
+                if (incallName) incallName.innerText = "An Nhiên";
+                if (incallNumber) incallNumber.innerText = targetNum + " - " + (targetNum.length > 4 ? "Mobi" : "SIP");
+            } else {
+                if (incallName) incallName.innerText = "Nguyễn Thị Lan";
+                if (incallNumber) incallNumber.innerText = targetNum + " - " + (targetNum.length > 4 ? "Cellular" : "SIP");
+            }
+
+            callSeconds = 0;
+            updateCallTimer();
+            clearInterval(callTimerInterval);
+            callTimerInterval = setInterval(() => {
+                callSeconds++;
+                updateCallTimer();
+            }, 1000);
+
+            switchScreen('incall');
+        }
+
+        function updateCallTimer() {
+            const timerEl = document.getElementById('incall-timer');
+            if (timerEl) {
+                const hrs = String(Math.floor(callSeconds / 3600)).padStart(2, '0');
+                const mins = String(Math.floor((callSeconds % 3600) / 60)).padStart(2, '0');
+                const secs = String(callSeconds % 60).padStart(2, '0');
+                timerEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> ${hrs}:${mins}:${secs}`;
+            }
+        }
+
+        function endCall() {
+            clearInterval(callTimerInterval);
             switchScreen('dialer');
-        }
 
-        function openAddContactModal() {
-            const modal = document.getElementById('add-contact-modal');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function closeAddContactModal() {
-            const modal = document.getElementById('add-contact-modal');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function saveNewContact() {
-            const name = document.getElementById('new-contact-name').value;
-            if (!name) {
-                showToast(currentLang === 'vi' ? "Vui lòng nhập họ và tên!" : "Please enter a name!", "fa-circle-exclamation text-rose-500");
-                return;
-            }
-            closeAddContactModal();
-            showToast(currentLang === 'vi' ? "Đã thêm liên hệ mới!" : "Contact saved!");
-        }
-
-        function openCompanyDirectoryModal() {
-            const modal = document.getElementById('company-dir-modal');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function closeCompanyDirectoryModal() {
-            const modal = document.getElementById('company-dir-modal');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function saveXmlConfig() {
-            closeCompanyDirectoryModal();
-            showToast(currentLang === 'vi' ? "Đã đồng bộ danh bạ XML thành công!" : "XML Directory synced!");
-        }
-
-        function openAutoAnswerModal() {
-            if (currentTier !== 'pro') {
-                showToast(currentLang === 'vi' ? "Cài đặt Auto-Answer chỉ có ở Gói PRO!" : "Auto-Answer settings require PRO tier!", "fa-lock text-purple-400");
-                openUpgradeModal();
-                return;
-            }
-            const modal = document.getElementById('auto-answer-modal');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function closeAutoAnswerModal() {
-            const modal = document.getElementById('auto-answer-modal');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function toggleAutoAnswerState() {
-            const toggle = document.getElementById('auto-answer-toggle');
-            autoAnswerEnabled = toggle ? toggle.checked : false;
-            const label = document.getElementById('auto-answer-status-label');
-            if (label) {
-                label.innerHTML = `${autoAnswerEnabled ? 'Bật (Auto)' : 'Tắt'} <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>`;
+            // Trigger Ads immediately on ALL call ends for Free tier
+            if (currentTier === 'free') {
+                setTimeout(() => {
+                    const modal = document.getElementById('freemium-popup-modal');
+                    if (modal) modal.classList.remove('hidden');
+                }, 400);
             }
         }
 
-        function handleAutoAnswerFileUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const filenameLabel = document.getElementById('auto-answer-filename');
-                if (filenameLabel) filenameLabel.innerText = file.name;
-                showToast(currentLang === 'vi' ? `Đã tải lên: ${file.name}` : `Uploaded: ${file.name}`);
+        function toggleMute() {
+            isMuted = !isMuted;
+            const btn = document.getElementById('btn-mute');
+            if (btn) {
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.className = isMuted ? "fa-solid fa-microphone text-rose-500" : "fa-solid fa-microphone-slash";
+                }
+            }
+            showToast(isMuted ? (currentLang === 'vi' ? "Đã tắt micro" : "Muted") : (currentLang === 'vi' ? "Đã bật micro" : "Unmuted"));
+        }
+
+        function toggleSpeaker() {
+            isSpeakerOn = !isSpeakerOn;
+            const btn = document.getElementById('btn-speaker');
+            if (btn) {
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.className = isSpeakerOn ? "fa-solid fa-volume-high text-emerald-400" : "fa-solid fa-volume-high";
+                }
+            }
+            showToast(isSpeakerOn ? (currentLang === 'vi' ? "Bật loa ngoài" : "Speaker ON") : (currentLang === 'vi' ? "Tắt loa ngoài" : "Speaker OFF"));
+        }
+
+        function toggleDialerStatusDropdown() {
+            const menu = document.getElementById('dialer-status-menu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
+        function setDialerStatus(status) {
+            dialerStatus = status;
+            const badge = document.getElementById('dialer-status-badge');
+            const menu = document.getElementById('dialer-status-menu');
+            const dot = document.getElementById('status-avatar-dot');
+
+            if (menu) menu.classList.add('hidden');
+
+            if (status === 'active') {
+                if (badge) {
+                    badge.innerHTML = `<span>● Active</span> <i class="fa-solid fa-chevron-down text-[8px]"></i>`;
+                    badge.className = "text-[10px] text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 px-2.5 py-1 rounded-full border border-emerald-500/30 font-semibold flex items-center gap-1 transition";
+                }
+                if (dot) dot.className = "w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5";
+            } else if (status === 'dnd') {
+                if (badge) {
+                    badge.innerHTML = `<span>● DND</span> <i class="fa-solid fa-chevron-down text-[8px]"></i>`;
+                    badge.className = "text-[10px] text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 px-2.5 py-1 rounded-full border border-rose-500/30 font-semibold flex items-center gap-1 transition";
+                }
+                if (dot) dot.className = "w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5";
+            } else if (status === 'auto_answer') {
+                if (currentTier !== 'pro') {
+                    showToast(currentLang === 'vi' ? "Auto-Answer chỉ hỗ trợ ở Gói PRO!" : "Auto-Answer requires PRO Plan!", "fa-lock text-purple-400");
+                    openUpgradeModal();
+                    return;
+                }
+                if (badge) {
+                    badge.innerHTML = `<span>● Auto-Ans</span> <i class="fa-solid fa-chevron-down text-[8px]"></i>`;
+                    badge.className = "text-[10px] text-purple-400 bg-purple-500/10 hover:bg-purple-500/20 px-2.5 py-1 rounded-full border border-purple-500/30 font-semibold flex items-center gap-1 transition";
+                }
+                if (dot) dot.className = "w-2.5 h-2.5 bg-purple-500 rounded-full border-2 border-black absolute -bottom-0.5 -right-0.5";
             }
         }
 
-        function playAutoAnswerPreview() {
-            showToast(currentLang === 'vi' ? "Đang phát thử file âm thanh Auto-Answer..." : "Playing auto-answer audio preview...", "fa-volume-high text-purple-400");
-        }
+        function cycleOutboundLine() {
+            const lineLabel = document.getElementById('current-line-label');
+            if (currentTier === 'pro') {
+                activeLineIndex = (activeLineIndex + 1) % 3;
+            } else {
+                activeLineIndex = activeLineIndex === 0 ? 2 : 0;
+            }
 
-        function saveAutoAnswerSettings() {
-            closeAutoAnswerModal();
-            showToast(currentLang === 'vi' ? "Đã lưu cấu hình Auto-Answer!" : "Auto-Answer settings saved!");
-        }
-
-        function openSipAccountModal() {
-            const modal = document.getElementById('sip-account-modal');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function closeSipAccountModal() {
-            const modal = document.getElementById('sip-account-modal');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function openUpgradeModal() {
-            const modal = document.getElementById('upgrade-modal');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function closeUpgradeModal() {
-            const modal = document.getElementById('upgrade-modal');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function closeFreemiumPopup() {
-            const modal = document.getElementById('freemium-popup-modal');
-            if (modal) modal.classList.add('hidden');
-        }
-
-        function openAboutModal() {
-            const modal = document.getElementById('about-modal');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function closeAboutModal() {
-            const modal = document.getElementById('about-modal');
-            if (modal) modal.classList.add('hidden');
+            if (lineLabel) {
+                if (activeLineIndex === 0) lineLabel.innerText = "SIP Ext 1001";
+                else if (activeLineIndex === 1) lineLabel.innerText = "SIP Ext 1002 (PRO)";
+                else lineLabel.innerText = "SIM Di động";
+            }
+            showToast(currentLang === 'vi' ? `Chuyển kênh gọi: ${lineLabel.innerText}` : `Outbound line: ${lineLabel.innerText}`);
         }
 
         function filterHistory(type) {
-            ['all', 'missed', 'outgoing', 'incoming'].forEach(t => {
-                const btn = document.getElementById(`hist-tab-${t}`);
-                if (btn) {
-                    btn.className = t === type 
-                        ? "px-3 py-1 bg-cfono-orange text-white rounded-lg shrink-0 shadow transition" 
-                        : "px-3 py-1 ios-subtext hover:text-cfono-orange rounded-lg shrink-0 transition";
+            const tabs = ['all', 'missed', 'outgoing', 'incoming'];
+            tabs.forEach(t => {
+                const tabBtn = document.getElementById(`hist-tab-${t}`);
+                if (tabBtn) {
+                    if (t === type) {
+                        tabBtn.className = "px-3 py-1 bg-cfono-orange text-white rounded-lg shrink-0 shadow transition";
+                    } else {
+                        tabBtn.className = "px-3 py-1 ios-subtext hover:text-cfono-orange rounded-lg shrink-0 transition";
+                    }
                 }
             });
 
             document.querySelectorAll('.history-item').forEach(item => {
-                if (type === 'all' || item.getAttribute('data-type') === type) {
+                const itemType = item.getAttribute('data-type');
+                if (type === 'all' || itemType === type) {
                     item.style.display = 'flex';
                 } else {
                     item.style.display = 'none';
@@ -2148,44 +2069,56 @@
         }
 
         function toggleDetailSubtab(subtab) {
-            const btnTranscript = document.getElementById('subtab-transcript');
-            const btnSummary = document.getElementById('subtab-summary');
-            const boxTranscript = document.getElementById('detail-transcript-box');
-            const boxSummary = document.getElementById('detail-summary-box');
+            const transBtn = document.getElementById('subtab-transcript');
+            const sumBtn = document.getElementById('subtab-summary');
+            const transBox = document.getElementById('detail-transcript-box');
+            const sumBox = document.getElementById('detail-summary-box');
 
             if (subtab === 'transcript') {
-                if (btnTranscript) btnTranscript.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
-                if (btnSummary) btnSummary.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
-                if (boxTranscript) boxTranscript.classList.remove('hidden');
-                if (boxSummary) boxSummary.classList.add('hidden');
+                if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
+                if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+                if (transBox) transBox.classList.remove('hidden');
+                if (sumBox) sumBox.classList.add('hidden');
             } else {
-                if (btnSummary) btnSummary.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
-                if (btnTranscript) btnTranscript.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
-                if (boxSummary) boxSummary.classList.remove('hidden');
-                if (boxTranscript) boxTranscript.classList.add('hidden');
+                if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
+                if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+                if (sumBox) sumBox.classList.remove('hidden');
+                if (transBox) transBox.classList.add('hidden');
             }
         }
 
         function copySummaryText() {
-            showToast(currentLang === 'vi' ? "Đã sao chép tóm tắt cuộc gọi!" : "Summary copied to clipboard!");
-        }
+            const text = "Khách hàng quan tâm đến giải pháp tổng đài ảo CFONO. Cần hỗ trợ gửi báo giá chi tiết và hỗ trợ tư vấn triển khai AI Agent.";
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
 
-        function toggleAudioSpeed() {
-            const speeds = [0.8, 1.0, 1.25, 1.5];
-            const currentIndex = speeds.indexOf(audioSpeed);
-            audioSpeed = speeds[(currentIndex + 1) % speeds.length];
-            
-            const btnSpeed = document.getElementById('btn-audio-speed');
-            if (btnSpeed) btnSpeed.innerText = `${audioSpeed}x`;
-            showToast(currentLang === 'vi' ? `Tốc độ phát: ${audioSpeed}x` : `Speed: ${audioSpeed}x`, "fa-gauge-high text-cfono-orange");
+            showToast(currentLang === 'vi' ? "Đã sao chép nội dung tóm tắt!" : "Copied call summary!", "fa-copy text-purple-400");
         }
 
         function toggleAudioPlay() {
             isAudioPlaying = !isAudioPlaying;
             const btn = document.getElementById('btn-audio-play');
             if (btn) {
-                btn.innerHTML = isAudioPlaying ? `<i class="fa-solid fa-pause"></i>` : `<i class="fa-solid fa-play ml-0.5"></i>`;
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.className = isAudioPlaying ? "fa-solid fa-pause" : "fa-solid fa-play ml-0.5";
+                }
             }
+        }
+
+        function toggleAudioSpeed() {
+            const speeds = [0.8, 1.0, 1.25, 1.5];
+            const currentIndex = speeds.indexOf(audioSpeed);
+            audioSpeed = speeds[(currentIndex + 1) % speeds.length];
+
+            const btn = document.getElementById('btn-audio-speed');
+            if (btn) btn.innerText = `${audioSpeed.toFixed(1)}x`;
+
+            showToast(currentLang === 'vi' ? `Tốc độ phát: ${audioSpeed}x` : `Playback Speed: ${audioSpeed}x`);
         }
 
         function sendQuickPrompt(txt) {
@@ -2198,16 +2131,11 @@
             const input = document.getElementById('chat-input');
             if (!input || !input.value.trim()) return;
 
-            // Freemium trial check for non-Pro users
+            // Strict PRO Tier requirement for CloryAI
             if (currentTier !== 'pro') {
-                if (aiTrialCredits <= 0) {
-                    showToast(currentLang === 'vi' ? "Bạn đã hết 3 lượt dùng thử tuần này!" : "Out of weekly trial credits!", "fa-lock text-purple-400");
-                    openUpgradeModal();
-                    return;
-                }
-                aiTrialCredits--;
-                const trialCountEl = document.getElementById('ai-trial-count');
-                if (trialCountEl) trialCountEl.innerText = `${aiTrialCredits}/3`;
+                showToast(currentLang === 'vi' ? "Tính năng CloryAI chỉ khả dụng ở Gói PRO!" : "CloryAI is exclusive to PRO Plan!", "fa-lock text-purple-400");
+                openUpgradeModal();
+                return;
             }
 
             const text = input.value.trim();
@@ -2242,11 +2170,161 @@
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
+        function openQRScanner() {
+            const modal = document.getElementById('qr-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeQRScanner() {
+            const modal = document.getElementById('qr-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function simulateQRSuccess() {
+            closeQRScanner();
+            showToast(currentLang === 'vi' ? "Quét QR thành công! Đã nạp cấu hình Ext 1001" : "QR Scan Success! Ext 1001 loaded");
+            switchScreen('dialer');
+        }
+
+        function loginWithFaceID() {
+            showToast(currentLang === 'vi' ? "Đang xác thực Face ID..." : "Authenticating Face ID...", "fa-face-smile text-cfono-orange");
+            setTimeout(() => {
+                showToast(currentLang === 'vi' ? "Xác thực Face ID thành công!" : "Face ID Verified!", "fa-circle-check text-emerald-400");
+                switchScreen('dialer');
+            }, 1200);
+        }
+
+        function openAddContactModal() {
+            const modal = document.getElementById('add-contact-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeAddContactModal() {
+            const modal = document.getElementById('add-contact-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function saveNewContact() {
+            const name = document.getElementById('new-contact-name').value;
+            if (!name) {
+                showToast(currentLang === 'vi' ? "Vui lòng nhập họ tên liên hệ" : "Please enter contact name", "fa-triangle-exclamation text-amber-400");
+                return;
+            }
+            closeAddContactModal();
+            showToast(currentLang === 'vi' ? `Đã thêm liên hệ: ${name}` : `Added contact: ${name}`);
+        }
+
+        function openCompanyDirectoryModal() {
+            if (currentTier === 'free') {
+                showToast(currentLang === 'vi' ? "Danh bạ công ty chỉ dành cho Gói Basic & Pro!" : "Company Directory requires Basic or Pro Plan!", "fa-lock text-purple-400");
+                openUpgradeModal();
+                return;
+            }
+            const modal = document.getElementById('company-dir-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeCompanyDirectoryModal() {
+            const modal = document.getElementById('company-dir-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function saveXmlConfig() {
+            closeCompanyDirectoryModal();
+            showToast(currentLang === 'vi' ? "Đã đồng bộ thành công Remote Phonebook (XML)!" : "Synced Remote Phonebook (XML) successfully!");
+        }
+
+        function openAutoAnswerModal() {
+            if (currentTier !== 'pro') {
+                showToast(currentLang === 'vi' ? "Tính năng Auto-Answer chỉ khả dụng ở Gói PRO!" : "Auto-Answer requires PRO Plan!", "fa-lock text-purple-400");
+                openUpgradeModal();
+                return;
+            }
+            const modal = document.getElementById('auto-answer-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeAutoAnswerModal() {
+            const modal = document.getElementById('auto-answer-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function toggleAutoAnswerState() {
+            const toggle = document.getElementById('auto-answer-toggle');
+            autoAnswerEnabled = toggle ? toggle.checked : false;
+        }
+
+        function handleAutoAnswerFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const filenameLabel = document.getElementById('auto-answer-filename');
+                if (filenameLabel) filenameLabel.innerText = file.name;
+                showToast(currentLang === 'vi' ? `Đã tải lên: ${file.name}` : `Uploaded: ${file.name}`);
+            }
+        }
+
+        function playAutoAnswerPreview() {
+            showToast(currentLang === 'vi' ? "Đang phát thử file thông báo Auto-Answer..." : "Playing Auto-Answer announcement preview...", "fa-play text-purple-400");
+        }
+
+        function saveAutoAnswerSettings() {
+            closeAutoAnswerModal();
+            const statusLabel = document.getElementById('auto-answer-status-label');
+            if (statusLabel) {
+                statusLabel.innerHTML = autoAnswerEnabled ? 
+                    `<span class="text-purple-400 font-bold">Bật</span> <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>` : 
+                    `Tắt <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>`;
+            }
+            showToast(currentLang === 'vi' ? "Đã lưu cấu hình Auto-Answer!" : "Saved Auto-Answer Settings!");
+        }
+
+        function openSipAccountModal() {
+            const modal = document.getElementById('sip-account-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeSipAccountModal() {
+            const modal = document.getElementById('sip-account-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function closeFreemiumPopup() {
+            const modal = document.getElementById('freemium-popup-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function openUpgradeModal() {
+            const modal = document.getElementById('upgrade-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeUpgradeModal() {
+            const modal = document.getElementById('upgrade-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function openAboutModal() {
+            const modal = document.getElementById('about-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeAboutModal() {
+            const modal = document.getElementById('about-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        // Initialize clock & initial screen load
         window.onload = function() {
-            switchScreen('login');
-            setTheme('dark');
-            setLanguage('vi');
+            setInterval(() => {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const timeEl = document.getElementById('current-time');
+                if (timeEl) timeEl.innerText = `${hours}:${minutes}`;
+            }, 1000);
+
             setTier('free');
+            switchScreen('login');
         };
     </script>
 </body>
