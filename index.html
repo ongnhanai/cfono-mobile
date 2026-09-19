@@ -170,6 +170,46 @@
         #toast-notification {
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
+
+        /* AI Summary Card High-Contrast Theme Adapters */
+        .phone-container.dark-mode .ai-summary-card {
+            background-color: rgba(58, 28, 86, 0.4);
+            border-color: rgba(168, 85, 247, 0.3);
+            color: #FFFFFF;
+        }
+        .phone-container.light-mode .ai-summary-card {
+            background-color: #FFFFFF;
+            border-color: #E5E5EA;
+            color: #1C1C1E;
+        }
+
+        .phone-container.dark-mode .ai-summary-title { color: #C084FC; }
+        .phone-container.light-mode .ai-summary-title { color: #6B21A8; }
+
+        .phone-container.dark-mode .ai-summary-badge {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #FBBF24;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+        .phone-container.light-mode .ai-summary-badge {
+            background-color: #FEF3C7;
+            color: #92400E;
+            border-color: #FDE68A;
+        }
+
+        .phone-container.dark-mode .ai-summary-badge-pro {
+            background-color: rgba(168, 85, 247, 0.2);
+            color: #C084FC;
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+        .phone-container.light-mode .ai-summary-badge-pro {
+            background-color: #F3E8FF;
+            color: #6B21A8;
+            border-color: #E9D5FF;
+        }
+
+        .phone-container.dark-mode .ai-summary-action-title { color: #10B981; }
+        .phone-container.light-mode .ai-summary-action-title { color: #047857; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-start p-3 md:p-6 select-none font-sans">
@@ -649,7 +689,19 @@
 
                     <div class="flex p-0.5 ios-segmented-bar rounded-xl text-xs font-semibold">
                         <button onclick="toggleDetailSubtab('transcript')" id="subtab-transcript" class="flex-1 py-1.5 rounded-lg ios-subtext transition" data-i18n="subtabTranscript">Bản ghi</button>
-                        <button onclick="toggleDetailSubtab('summary')" id="subtab-summary" class="flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition" data-i18n="subtabSummaryAi">Tóm tắt AI</button>
+                        <button onclick="toggleDetailSubtab('summary')" id="subtab-summary" class="flex-1 py-1.5 rounded-lg ios-subtext transition" data-i18n="subtabSummaryAi">Tóm tắt AI</button>
+                    </div>
+
+                    <!-- Locked Promo View for Free & Basic (shown before clicking/unlocking) -->
+                    <div id="detail-locked-box" class="hidden p-4 ios-card rounded-2xl border border-zinc-700/80 text-center space-y-2.5 shadow-sm">
+                        <div class="w-10 h-10 rounded-full bg-cfono-orange/15 border border-cfono-orange/30 flex items-center justify-center text-cfono-orange text-lg mx-auto">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <p class="text-xs font-bold text-white" id="detail-locked-title">Bản ghi & Tóm tắt AI</p>
+                        <p class="text-[10px] ios-subtext" id="detail-locked-desc">Nội dung cuộc gọi đã được ghi nhận. Vui lòng bấm chọn tab Bản ghi hoặc Tóm tắt AI để xem.</p>
+                        <button onclick="openUpgradeModal()" id="detail-locked-btn" class="hidden px-4 py-2 bg-cfono-orange text-white text-[10px] font-bold rounded-full shadow hover:bg-cfono-orangeHover transition mx-auto">
+                            Nâng cấp gói dịch vụ
+                        </button>
                     </div>
 
                     <div id="detail-transcript-box" class="hidden space-y-2 text-[10px]">
@@ -663,11 +715,14 @@
                         </div>
                     </div>
 
-                    <div id="detail-summary-box" class="space-y-2 text-[10px]">
-                        <div class="bg-purple-950/30 p-3.5 rounded-2xl border border-purple-500/30 space-y-2 shadow-sm">
-                            <div class="flex items-center justify-between text-purple-400 font-bold">
-                                <span><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> <span data-i18n="summaryTitle">Tóm tắt cuộc gọi (AI)</span></span>
-                                <span class="text-[8px] px-2 py-0.5 bg-purple-500/20 rounded-full font-mono">CloryAI</span>
+                    <div id="detail-summary-box" class="hidden space-y-2 text-[10px]">
+                        <div class="ai-summary-card p-3.5 rounded-2xl border space-y-2 shadow-sm">
+                            <div class="flex items-center justify-between font-bold">
+                                <span class="ai-summary-title flex items-center gap-1 text-[11px]">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    <span data-i18n="summaryTitle">Tóm tắt cuộc gọi (AI)</span>
+                                </span>
+                                <span id="summary-badge-usage" class="ai-summary-badge text-[8px] px-2 py-0.5 rounded-full font-mono font-bold border">Đã dùng 1/3 lượt</span>
                             </div>
                             <div class="space-y-1">
                                 <p class="font-bold" data-i18n="summaryKeyPoints">Nội dung chính:</p>
@@ -676,7 +731,7 @@
                                 <p data-i18n="summaryPt3">• Đề xuất triển khai trong quý tới.</p>
                             </div>
                             <div class="pt-2 border-t border-purple-500/20 space-y-1">
-                                <p class="font-bold text-emerald-500" data-i18n="summaryActionItems">Hành động tiếp theo (Action Items):</p>
+                                <p class="font-bold ai-summary-action-title" data-i18n="summaryActionItems">Hành động tiếp theo (Action Items):</p>
                                 <p class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-500 text-[9px]"></i> <span data-i18n="action1">Gửi demo và báo giá chi tiết.</span></p>
                                 <p class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-500 text-[9px]"></i> <span data-i18n="action2">Hỗ trợ tư vấn triển khai AI Agent.</span></p>
                             </div>
@@ -1126,7 +1181,7 @@
                 <button onclick="closeSipAccountModal()" class="w-full py-2.5 bg-cfono-orange text-white font-bold text-xs rounded-full shadow transition">Đóng</button>
             </div>
 
-            <!-- AdMob Freemium Interstitial Popup (Triggered post call or after 15s in call detail) -->
+            <!-- AdMob Freemium Interstitial Popup -->
             <div id="freemium-popup-modal" class="hidden absolute inset-0 bg-black/85 z-50 p-6 flex flex-col items-center justify-center backdrop-blur-md text-white">
                 <div class="ios-card w-full max-w-[290px] p-5 rounded-3xl border border-cfono-orange/40 text-center space-y-4 shadow-2xl relative">
                     <button onclick="closeFreemiumPopup()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center text-xs">
@@ -1319,7 +1374,7 @@
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowSummary">Tóm tắt cuộc gọi</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
-                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-amber-400 font-bold" data-i18n="val3PerWeek">3 lượt/tuần</td>
                                 <td class="py-2.5 px-2 text-center text-purple-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valAiSummary">Tóm tắt AI</span></td>
                             </tr>
                             <tr>
@@ -1364,6 +1419,8 @@
         let audioSpeed = 1.0;
         let activeLineIndex = 0; // 0: SIP Ext 1001, 1: SIP Ext 1002 (Pro), 2: SIM Di dong
         let callDetailAdTimer = null;
+        let basicSummaryUsageCount = 1;
+        let basicTranscriptUsageCount = 1;
 
         function showToast(msg, iconClass = "fa-circle-check text-emerald-400") {
             const toast = document.getElementById('toast-notification');
@@ -1381,11 +1438,118 @@
             }
         }
 
+        function pressKey(key) {
+            const display = document.getElementById('dial-display');
+            if (display) {
+                display.value += key;
+            }
+        }
+
+        function setTier(tier) {
+            currentTier = tier;
+
+            // 1. Update Header Tier Buttons
+            const btnFree = document.getElementById('btn-tier-free');
+            const btnBasic = document.getElementById('btn-tier-basic');
+            const btnPro = document.getElementById('btn-tier-pro');
+
+            const activeClass = "px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-cfono-orange text-white shadow";
+            const inactiveClass = "px-3 py-1.5 rounded-lg text-xs font-semibold text-cfono-mutedGray hover:text-white transition flex items-center gap-1.5";
+
+            if (btnFree) btnFree.className = tier === 'free' ? activeClass : inactiveClass;
+            if (btnBasic) btnBasic.className = tier === 'basic' ? activeClass : inactiveClass;
+            if (btnPro) btnPro.className = tier === 'pro' ? activeClass : inactiveClass;
+
+            // 2. Update Mobile Status Bar Badge
+            const activeBadge = document.getElementById('active-tier-badge');
+            if (activeBadge) {
+                activeBadge.innerText = tier.toUpperCase();
+                if (tier === 'free') {
+                    activeBadge.className = "px-2 py-0.5 text-[9px] bg-cfono-orange/20 text-cfono-orange rounded font-bold uppercase tracking-wider border border-cfono-orange/30";
+                } else if (tier === 'basic') {
+                    activeBadge.className = "px-2 py-0.5 text-[9px] bg-emerald-500/20 text-emerald-400 rounded font-bold uppercase tracking-wider border border-emerald-500/30";
+                } else {
+                    activeBadge.className = "px-2 py-0.5 text-[9px] bg-purple-500/20 text-purple-400 rounded font-bold uppercase tracking-wider border border-purple-500/30";
+                }
+            }
+
+            // 3. Update Guide Panel
+            const guideTierName = document.getElementById('guide-tier-name');
+            const guideContent = document.getElementById('guide-content');
+            
+            if (guideTierName) {
+                guideTierName.innerText = tier === 'free' ? 'Gói FREE' : (tier === 'basic' ? 'Gói BASIC' : 'Gói PRO (CloryAI)');
+            }
+
+            if (guideContent) {
+                if (tier === 'free') {
+                    guideContent.innerHTML = `
+                        <p>● <strong>Miễn phí 100%:</strong> Trải nghiệm nghe/gọi chất lượng cao, 1 SIP Account.</p>
+                        <p>● <strong>Quảng cáo:</strong> Hiển thị Banner Ads và Popup gợi ý nâng cấp sau khi kết thúc cuộc gọi & sau 15s ở màn chi tiết.</p>
+                        <p>● <strong>Nâng cấp:</strong> Khóa tính năng Bản ghi, Tóm tắt AI & Trợ lý CloryAI.</p>
+                    `;
+                } else if (tier === 'basic') {
+                    guideContent.innerHTML = `
+                        <p>● <strong>Không quảng cáo tác nghiệp:</strong> Ẩn toàn bộ Banner Ads ở màn hình Quay số, Trong cuộc gọi, Danh bạ, Lịch sử.</p>
+                        <p>● <strong>Gợi ý nâng Pro:</strong> Hiển thị Native Banner nâng Pro nhẹ nhàng ở màn hình Cài đặt.</p>
+                        <p>● <strong>Bản ghi & Tóm tắt AI:</strong> Giới hạn 3 lượt/tuần (Bấm chọn tab mới tải nội dung và hiển thị số lượt đã dùng).</p>
+                    `;
+                } else {
+                    guideContent.innerHTML = `
+                        <p>● <strong>Gói Cao Cấp Nhất:</strong> Tận hưởng trọn bộ tính năng CFONO không giới hạn.</p>
+                        <p>● <strong>Đa tài khoản:</strong> Hỗ trợ 2 SIP Accounts + Auto-Answer tự động trả lời bằng âm thanh riêng.</p>
+                        <p>● <strong>CloryAI Copilot:</strong> Trợ lý AI hỏi đáp KB doanh nghiệp, Tóm tắt AI & Chuyển đổi văn bản tự động không giới hạn.</p>
+                    `;
+                }
+            }
+
+            // 4. Update Ad Banners across screen states
+            const contactsAd = document.getElementById('contacts-native-ad');
+            const historyAd = document.getElementById('history-native-ad');
+            const basicProPromoBox = document.getElementById('basic-pro-promo-box');
+
+            if (contactsAd) contactsAd.style.display = (tier === 'free') ? 'flex' : 'none';
+            if (historyAd) historyAd.style.display = (tier === 'free') ? 'flex' : 'none';
+
+            if (basicProPromoBox) {
+                if (tier === 'basic' && currentScreen === 'settings') {
+                    basicProPromoBox.classList.remove('hidden');
+                } else {
+                    basicProPromoBox.classList.add('hidden');
+                }
+            }
+
+            // 5. Update CloryAI Screen if active
+            if (currentScreen === 'cloryai') {
+                const lockedView = document.getElementById('cloryai-locked-view');
+                const activeView = document.getElementById('cloryai-active-view');
+                if (tier === 'pro') {
+                    if (lockedView) lockedView.classList.add('hidden');
+                    if (activeView) activeView.classList.remove('hidden');
+                } else {
+                    if (lockedView) lockedView.classList.remove('hidden');
+                    if (activeView) activeView.classList.add('hidden');
+                }
+            }
+
+            // 6. Update Call Detail Screen if active
+            if (currentScreen === 'call-detail') {
+                initCallDetailScreenView();
+            }
+
+            showToast(
+                currentLang === 'vi' ? `Đã chuyển sang ${tier === 'free' ? 'Gói FREE' : (tier === 'basic' ? 'Gói BASIC' : 'Gói PRO')}` : `Switched to ${tier.toUpperCase()} Plan`,
+                tier === 'pro' ? "fa-wand-magic-sparkles text-purple-400" : "fa-shield-halved text-emerald-400"
+            );
+        }
+
         const i18nDict = {
             vi: {
                 tierFree: "Gói FREE",
                 tierBasic: "Gói BASIC",
                 tierPro: "Gói PRO (CloryAI)",
+                val3PerWeek: "3 lượt/tuần",
+                valBasicSummaryBadge: "Đã dùng 1/3 lượt",
                 cloryAiLockedTitle: "CloryAI Copilot Agent",
                 cloryAiLockedDesc: "Tính năng dành riêng cho Gói PRO. Hỗ trợ tra cứu Knowledge Base doanh nghiệp, tóm tắt thông tin tức thì.",
                 btnActivatePro: "Kích hoạt Gói PRO",
@@ -1450,7 +1614,6 @@
                 btnDownload: "Tải về",
                 btnDelete: "Xóa",
                 proLockDesc: "Exclusive PRO feature. Query enterprise Knowledge Base with instant AI summaries.",
-                btnActivatePro: "Kích hoạt Gói PRO",
                 aiSubtitle: "Trợ lý AI của bạn",
                 aiWelcomeMsg: "Xin chào! Tôi là CloryAI. Tôi có thể giúp gì cho bạn hôm nay?",
                 promptSummary: "⚡ Tóm tắt cuộc gọi gần đây",
@@ -1518,6 +1681,8 @@
                 tierFree: "FREE Plan",
                 tierBasic: "BASIC Plan",
                 tierPro: "PRO Plan (CloryAI)",
+                val3PerWeek: "3 uses/week",
+                valBasicSummaryBadge: "Used 1/3 times",
                 cloryAiLockedTitle: "CloryAI Copilot Agent",
                 cloryAiLockedDesc: "Exclusive PRO feature. Query enterprise Knowledge Base and get instant news summaries.",
                 btnActivatePro: "Activate PRO Plan",
@@ -1582,7 +1747,6 @@
                 btnDownload: "Download",
                 btnDelete: "Delete",
                 proLockDesc: "Exclusive PRO feature. Query enterprise Knowledge Base with instant AI summaries.",
-                btnActivatePro: "Activate PRO Plan",
                 aiSubtitle: "Your AI Assistant",
                 aiWelcomeMsg: "Hello! I am CloryAI. How can I assist you today?",
                 promptSummary: "⚡ Summarize recent calls",
@@ -1727,6 +1891,11 @@
                 }
             });
 
+            // Initialize Call Detail screen initial view state according to Tier
+            if (screenId === 'call-detail') {
+                initCallDetailScreenView();
+            }
+
             // Toggle CloryAI Locked vs Active View based on Tier
             if (screenId === 'cloryai') {
                 const lockedView = document.getElementById('cloryai-locked-view');
@@ -1738,17 +1907,6 @@
                     if (lockedView) lockedView.classList.remove('hidden');
                     if (activeView) activeView.classList.add('hidden');
                 }
-            }
-
-            // Auto trigger Ads on Call Detail screen after 15 seconds for Free tier
-            if (screenId === 'call-detail' && currentTier === 'free') {
-                callDetailAdTimer = setTimeout(() => {
-                    if (currentScreen === 'call-detail' && currentTier === 'free') {
-                        const modal = document.getElementById('freemium-popup-modal');
-                        if (modal) modal.classList.remove('hidden');
-                        showToast(currentLang === 'vi' ? "Gợi ý nâng cấp gói dịch vụ CFONO" : "Upgrade recommendation", "fa-wand-magic-sparkles text-cfono-orange");
-                    }
-                }, 15000);
             }
 
             // Native Pro Promo Banner is strictly for Basic plan on Settings screen
@@ -1774,135 +1932,115 @@
             });
         }
 
-        function setTier(tier) {
-            currentTier = tier;
-            
-            ['free', 'basic', 'pro'].forEach(t => {
-                const btn = document.getElementById(`btn-tier-${t}`);
-                if (btn) {
-                    if (t === tier) {
-                        btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-cfono-orange text-white shadow";
-                    } else {
-                        btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-cfono-mutedGray hover:text-white transition flex items-center gap-1.5";
-                    }
+        function initCallDetailScreenView() {
+            const transBtn = document.getElementById('subtab-transcript');
+            const sumBtn = document.getElementById('subtab-summary');
+            const transBox = document.getElementById('detail-transcript-box');
+            const sumBox = document.getElementById('detail-summary-box');
+            const lockedBox = document.getElementById('detail-locked-box');
+            const lockedTitle = document.getElementById('detail-locked-title');
+            const lockedDesc = document.getElementById('detail-locked-desc');
+            const lockedBtn = document.getElementById('detail-locked-btn');
+
+            if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+            if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+
+            if (currentTier === 'free' || currentTier === 'basic') {
+                // Free & Basic: Hoàn toàn không hiển thị nội dung bản ghi & tóm tắt khi mới truy cập
+                if (transBox) transBox.classList.add('hidden');
+                if (sumBox) sumBox.classList.add('hidden');
+                if (lockedBox) lockedBox.classList.remove('hidden');
+
+                if (currentTier === 'free') {
+                    if (lockedTitle) lockedTitle.innerText = currentLang === 'vi' ? "Bản ghi & Tóm tắt AI (Gói FREE)" : "Transcript & AI Summary (FREE)";
+                    if (lockedDesc) lockedDesc.innerText = currentLang === 'vi' ? "Yêu cầu nâng cấp gói để xem nội dung Bản ghi & Tóm tắt AI. Chọn tính năng để xem chi tiết." : "Upgrade required to view Transcript & AI Summary.";
+                    if (lockedBtn) lockedBtn.classList.remove('hidden');
+                } else {
+                    if (lockedTitle) lockedTitle.innerText = currentLang === 'vi' ? "Xem Bản ghi hoặc Tóm tắt AI" : "Select Transcript or AI Summary";
+                    if (lockedDesc) lockedDesc.innerText = currentLang === 'vi' ? "Nội dung bản ghi và tóm tắt khả dụng. Nhấp chọn tab 'Bản ghi' hoặc 'Tóm tắt AI' ở trên để tải nội dung." : "Content ready. Click 'Transcript' or 'AI Summary' tab above.";
+                    if (lockedBtn) lockedBtn.classList.add('hidden');
                 }
-            });
-
-            const activeBadge = document.getElementById('active-tier-badge');
-            if (activeBadge) activeBadge.innerText = tier.toUpperCase();
-
-            const companyDirItem = document.getElementById('setting-company-dir-item');
-            const sipExtLabel = document.getElementById('active-sip-ext');
-            const settingsSipVal = document.getElementById('settings-sip-val');
-            const lineLabel = document.getElementById('current-line-label');
-
-            const contactsAd = document.getElementById('contacts-native-ad');
-            const historyAd = document.getElementById('history-native-ad');
-
-            const guideTitle = document.getElementById('guide-tier-name');
-            const guideContent = document.getElementById('guide-content');
-
-            const cloryaiBadge = document.getElementById('cloryai-badge-tier');
-            const cloryaiTrialBanner = document.getElementById('cloryai-trial-banner');
-
-            if (tier === 'free') {
-                if (companyDirItem) companyDirItem.style.display = 'none';
-
-                if (contactsAd) contactsAd.classList.remove('hidden');
-                if (historyAd) historyAd.classList.remove('hidden');
-
-                if (sipExtLabel) sipExtLabel.innerText = "1001";
-                if (settingsSipVal) settingsSipVal.innerText = "1 (1001)";
-                if (lineLabel) lineLabel.innerText = "SIP Ext 1001";
-
-                if (cloryaiBadge) {
-                    cloryaiBadge.innerText = "PRO Only";
-                    cloryaiBadge.className = "text-[9px] px-2.5 py-0.5 bg-rose-500/20 text-rose-400 rounded-full font-mono font-bold";
-                }
-                if (cloryaiTrialBanner) cloryaiTrialBanner.classList.remove('hidden');
-
-                if (guideTitle) guideTitle.innerText = currentLang === 'vi' ? "Gói FREE" : "FREE Tier";
-                if (guideContent) {
-                    guideContent.innerHTML = currentLang === 'vi' ? `
-                        <p>● <strong>Miễn phí 100%:</strong> Trải nghiệm nghe/gọi chất lượng cao (1 SIP Account).</p>
-                        <p>● <strong>Smart Popup Ads:</strong> Bật tự động sau mọi cuộc gọi và sau 15s ở màn Chi tiết cuộc gọi.</p>
-                        <p>● <strong>CloryAI Copilot:</strong> Khóa tính năng (Yêu cầu nâng cấp PRO).</p>
-                    ` : `
-                        <p>● <strong>100% Free:</strong> High quality calling (1 SIP Account).</p>
-                        <p>● <strong>Smart Popup Ads:</strong> Triggered on call end and after 15s on Call Details screen.</p>
-                        <p>● <strong>CloryAI Copilot:</strong> Locked (Requires PRO Upgrade).</p>
-                    `;
-                }
-            } else if (tier === 'basic') {
-                if (companyDirItem) companyDirItem.style.display = 'flex';
-
-                if (contactsAd) contactsAd.classList.add('hidden');
-                if (historyAd) historyAd.classList.add('hidden');
-
-                if (sipExtLabel) sipExtLabel.innerText = "1001";
-                if (settingsSipVal) settingsSipVal.innerText = "1 (1001)";
-                if (lineLabel) lineLabel.innerText = "SIP Ext 1001";
-
-                if (cloryaiBadge) {
-                    cloryaiBadge.innerText = "PRO Only";
-                    cloryaiBadge.className = "text-[9px] px-2.5 py-0.5 bg-rose-500/20 text-rose-400 rounded-full font-mono font-bold";
-                }
-                if (cloryaiTrialBanner) cloryaiTrialBanner.classList.remove('hidden');
-
-                if (guideTitle) guideTitle.innerText = currentLang === 'vi' ? "Gói BASIC" : "BASIC Tier";
-                if (guideContent) {
-                    guideContent.innerHTML = currentLang === 'vi' ? `
-                        <p>● <strong>No Ads:</strong> Hoàn toàn sạch quảng cáo, 1 SIP Account.</p>
-                        <p>● <strong>Giao diện chuẩn doanh nghiệp:</strong> Không banner quảng cáo ở màn hình Quay số, Danh bạ, Lịch sử.</p>
-                        <p>● <strong>Danh bạ công ty:</strong> Đồng bộ kết nối qua máy chủ Remote XML Directory Server.</p>
-                        <p>● <strong>CloryAI Copilot:</strong> Khóa tính năng (Yêu cầu nâng cấp PRO).</p>
-                    ` : `
-                        <p>● <strong>No Ads:</strong> Completely ad-free, 1 SIP Account.</p>
-                        <p>● <strong>Enterprise Clean UI:</strong> No banners on Dialer, Contacts, or History screens.</p>
-                        <p>● <strong>Company Directory:</strong> Sync via Remote XML Directory Server.</p>
-                        <p>● <strong>CloryAI Copilot:</strong> Locked (Requires PRO Upgrade).</p>
-                    `;
-                }
-            } else if (tier === 'pro') {
-                if (companyDirItem) companyDirItem.style.display = 'flex';
-
-                if (contactsAd) contactsAd.classList.add('hidden');
-                if (historyAd) historyAd.classList.add('hidden');
-
-                if (sipExtLabel) sipExtLabel.innerText = "1001 & 1002";
-                if (settingsSipVal) settingsSipVal.innerText = "2 Accounts (1001, 1002)";
-                if (lineLabel) lineLabel.innerText = "SIP Ext 1001";
-
-                if (cloryaiBadge) {
-                    cloryaiBadge.innerText = "PRO Active";
-                    cloryaiBadge.className = "text-[9px] px-2.5 py-0.5 bg-cfono-orange/20 text-cfono-orange rounded-full font-mono font-bold";
-                }
-                if (cloryaiTrialBanner) cloryaiTrialBanner.classList.add('hidden');
-
-                if (guideTitle) guideTitle.innerText = currentLang === 'vi' ? "Gói PRO (CloryAI)" : "PRO Tier (CloryAI)";
-                if (guideContent) {
-                    guideContent.innerHTML = currentLang === 'vi' ? `
-                        <p>● <strong>Full Features:</strong> Không quảng cáo, 2 Accounts SIP (1001 & 1002).</p>
-                        <p>● <strong>Auto-Answer (Tự động trả lời):</strong> Tự động phát file ghi âm cài đặt sẵn khi có cuộc gọi.</p>
-                        <p>● <strong>Ghi âm & Bản ghi (Transcript):</strong> Tự động ghi âm và chuyển văn bản HD.</p>
-                        <p>● <strong>CloryAI Copilot:</strong> Tra cứu KB doanh nghiệp & tóm tắt cuộc gọi **Khả dụng độc quyền**.</p>
-                    ` : `
-                        <p>● <strong>Full Features:</strong> No ads, 2 SIP Accounts (1001 & 1002).</p>
-                        <p>● <strong>Auto-Answer:</strong> Play custom announcement audio files automatically on call.</p>
-                        <p>● <strong>Recording & Transcript:</strong> Auto recording and speech-to-text.</p>
-                        <p>● <strong>CloryAI Copilot:</strong> Exclusive access to KB lookup & auto summaries.</p>
-                    `;
-                }
+            } else {
+                // PRO Tier: Tự động hiển thị
+                if (lockedBox) lockedBox.classList.add('hidden');
+                if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
+                if (transBox) transBox.classList.remove('hidden');
+                if (sumBox) sumBox.classList.add('hidden');
             }
-
-            switchScreen(currentScreen);
         }
 
-        function pressKey(key) {
-            const display = document.getElementById('dial-display');
-            if (display) {
-                if (display.value.length < 15) {
-                    display.value += key;
+        function toggleDetailSubtab(subtab) {
+            const transBtn = document.getElementById('subtab-transcript');
+            const sumBtn = document.getElementById('subtab-summary');
+            const transBox = document.getElementById('detail-transcript-box');
+            const sumBox = document.getElementById('detail-summary-box');
+            const lockedBox = document.getElementById('detail-locked-box');
+
+            // 1. Gói Free: Bật Ads khi người dùng chọn Bản ghi hoặc Tóm tắt AI
+            if (currentTier === 'free') {
+                const freemiumModal = document.getElementById('freemium-popup-modal');
+                if (freemiumModal) freemiumModal.classList.remove('hidden');
+                showToast(
+                    currentLang === 'vi' ? "Gói FREE: Vui lòng nâng cấp gói để xem Bản ghi & Tóm tắt AI!" : "FREE Tier: Please upgrade to view Transcript & Summary!",
+                    "fa-lock text-purple-400"
+                );
+                return;
+            }
+
+            // 2. Gói Basic: Bấm chọn mới hiển thị nội dung & hiển thị số lượt đã dùng
+            if (currentTier === 'basic') {
+                if (lockedBox) lockedBox.classList.add('hidden');
+
+                if (subtab === 'transcript') {
+                    if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
+                    if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+                    if (transBox) transBox.classList.remove('hidden');
+                    if (sumBox) sumBox.classList.add('hidden');
+
+                    showToast(
+                        currentLang === 'vi' ? `Gói BASIC: Xem bản ghi (Đã dùng ${basicTranscriptUsageCount}/3 lượt)` : `BASIC Plan: Viewing transcript (${basicTranscriptUsageCount}/3 used)`,
+                        "fa-file-lines text-blue-400"
+                    );
+                } else if (subtab === 'summary') {
+                    if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
+                    if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+                    if (sumBox) sumBox.classList.remove('hidden');
+                    if (transBox) transBox.classList.add('hidden');
+
+                    const badge = document.getElementById('summary-badge-usage');
+                    if (badge) {
+                        badge.innerText = currentLang === 'vi' ? `Đã dùng ${basicSummaryUsageCount}/3 lượt` : `Used ${basicSummaryUsageCount}/3`;
+                        badge.className = "ai-summary-badge text-[8px] px-2 py-0.5 rounded-full font-mono font-bold border";
+                    }
+
+                    showToast(
+                        currentLang === 'vi' ? `Gói BASIC: Tóm tắt AI (Đã dùng ${basicSummaryUsageCount}/3 lượt)` : `BASIC Plan: AI Summary (${basicSummaryUsageCount}/3 used)`,
+                        "fa-wand-magic-sparkles text-purple-400"
+                    );
+                }
+                return;
+            }
+
+            // 3. Gói PRO: Hiển thị đầy đủ không giới hạn
+            if (currentTier === 'pro') {
+                if (lockedBox) lockedBox.classList.add('hidden');
+
+                if (subtab === 'transcript') {
+                    if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
+                    if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+                    if (transBox) transBox.classList.remove('hidden');
+                    if (sumBox) sumBox.classList.add('hidden');
+                } else if (subtab === 'summary') {
+                    if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
+                    if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
+                    if (sumBox) sumBox.classList.remove('hidden');
+                    if (transBox) transBox.classList.add('hidden');
+
+                    const badge = document.getElementById('summary-badge-usage');
+                    if (badge) {
+                        badge.innerText = "PRO (Không giới hạn)";
+                        badge.className = "ai-summary-badge-pro text-[8px] px-2 py-0.5 rounded-full font-mono font-bold border";
+                    }
                 }
             }
         }
@@ -2066,25 +2204,6 @@
                     item.style.display = 'none';
                 }
             });
-        }
-
-        function toggleDetailSubtab(subtab) {
-            const transBtn = document.getElementById('subtab-transcript');
-            const sumBtn = document.getElementById('subtab-summary');
-            const transBox = document.getElementById('detail-transcript-box');
-            const sumBox = document.getElementById('detail-summary-box');
-
-            if (subtab === 'transcript') {
-                if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
-                if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
-                if (transBox) transBox.classList.remove('hidden');
-                if (sumBox) sumBox.classList.add('hidden');
-            } else {
-                if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
-                if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
-                if (sumBox) sumBox.classList.remove('hidden');
-                if (transBox) transBox.classList.add('hidden');
-            }
         }
 
         function copySummaryText() {
@@ -2313,7 +2432,6 @@
             if (modal) modal.classList.add('hidden');
         }
 
-        // Initialize clock & initial screen load
         window.onload = function() {
             setInterval(() => {
                 const now = new Date();
