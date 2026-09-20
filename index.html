@@ -889,7 +889,10 @@
                         <div id="setting-company-dir-item" onclick="openCompanyDirectoryModal()" class="p-3 ios-card rounded-2xl border flex items-center justify-between shadow-sm cursor-pointer">
                             <div class="flex items-center gap-3">
                                 <div class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-address-book"></i></div>
-                                <span class="font-semibold" data-i18n="settingCompanyDir">Danh bạ công ty (XML)</span>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="font-semibold" data-i18n="settingCompanyDir">Danh bạ công ty (XML)</span>
+                                    <span class="px-1.5 py-0.2 bg-purple-500/20 text-purple-400 text-[8px] font-bold rounded">PRO</span>
+                                </div>
                             </div>
                             <span class="text-[10px] ios-subtext font-semibold">Remote Sync <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></span>
                         </div>
@@ -2334,8 +2337,8 @@
         }
 
         function openCompanyDirectoryModal() {
-            if (currentTier === 'free') {
-                showToast(currentLang === 'vi' ? "Danh bạ công ty chỉ dành cho Gói Basic & Pro!" : "Company Directory requires Basic or Pro Plan!", "fa-lock text-purple-400");
+            if (currentTier !== 'pro') {
+                showToast(currentLang === 'vi' ? "Danh bạ công ty (XML) chỉ dành cho Gói PRO!" : "Company Directory (XML) requires PRO Plan!", "fa-lock text-purple-400");
                 openUpgradeModal();
                 return;
             }
