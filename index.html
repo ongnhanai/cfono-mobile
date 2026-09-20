@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CFONO Mobile App - Brand UI & Interactive Prototype</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script>
@@ -269,7 +266,7 @@
 
     <main class="flex flex-col xl:flex-row gap-6 items-start justify-center w-full max-w-7xl">
 
-        <!-- Smartphone Container -->
+        <!-- Smartphone Frame Container -->
         <div id="phone-container" class="phone-container dark-mode flex flex-col justify-between relative mx-auto">
 
             <div class="phone-notch">
@@ -317,6 +314,7 @@
                     </button>
                 </div>
 
+                <!-- 1. LOGIN SCREEN -->
                 <div id="screen-login" class="hidden flex-1 flex flex-col justify-between p-6 text-center z-20 overflow-y-auto no-scrollbar">
                     <div class="my-auto space-y-4">
                         <div class="flex flex-col items-center gap-2">
@@ -359,6 +357,7 @@
                     <p class="text-[9px] ios-subtext font-mono">©2026 CFONO Mobile App. Powered by CLOUDPBX®.</p>
                 </div>
 
+                <!-- 2. DIALER SCREEN -->
                 <div id="screen-dialer" class="hidden flex-1 flex flex-col justify-between py-3 px-5 z-20">
                     <div class="flex items-center justify-between pb-2 border-b border-zinc-500/20">
                         <div class="flex items-center gap-2.5">
@@ -372,7 +371,7 @@
                             </div>
                         </div>
                         
-                        <!-- Compact Status Selector Dropdown Beside Avatar -->
+                        <!-- Status Selector Dropdown Beside Avatar -->
                         <div class="relative">
                             <button onclick="toggleDialerStatusDropdown()" id="dialer-status-badge" class="text-[10px] text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 px-2.5 py-1 rounded-full border border-emerald-500/30 font-semibold flex items-center gap-1 transition">
                                 <span>● Active</span> <i class="fa-solid fa-chevron-down text-[8px]"></i>
@@ -395,7 +394,7 @@
                     <div class="text-center my-auto py-2">
                         <input type="text" id="dial-display" readonly value="" placeholder="Nhập số điện thoại..." class="w-full text-center bg-transparent text-4xl font-semibold tracking-wider outline-none font-mono placeholder:text-zinc-500 placeholder:text-xl">
                         
-                        <!-- Outbound Calling Channel Selector Badge (SIM vs SIP Extension) -->
+                        <!-- Outbound Calling Line Switcher -->
                         <div class="mt-2 flex items-center justify-center">
                             <button onclick="cycleOutboundLine()" id="outbound-line-selector" class="px-3 py-1 bg-cfono-orange/15 hover:bg-cfono-orange/25 text-cfono-orange border border-cfono-orange/40 rounded-full text-[10px] font-bold flex items-center gap-1.5 transition shadow-sm active:scale-95">
                                 <i class="fa-solid fa-phone text-[9px]"></i>
@@ -434,6 +433,7 @@
                     </div>
                 </div>
 
+                <!-- 3. IN-CALL SCREEN -->
                 <div id="screen-incall" class="hidden flex-1 flex flex-col justify-between p-5 text-center z-20">
                     <div class="pt-2">
                         <div class="flex items-center justify-center gap-2">
@@ -499,6 +499,7 @@
                     </div>
                 </div>
 
+                <!-- 4. CONTACTS SCREEN -->
                 <div id="screen-contacts" class="hidden flex-1 p-3 flex flex-col overflow-y-auto no-scrollbar space-y-2">
                     <div class="flex items-center justify-between pb-2 border-b border-zinc-500/20">
                         <h2 class="text-sm font-bold flex items-center gap-2">
@@ -576,6 +577,7 @@
                     </div>
                 </div>
 
+                <!-- 5. HISTORY SCREEN -->
                 <div id="screen-history" class="hidden flex-1 p-3 overflow-y-auto no-scrollbar space-y-2">
                     <div class="flex items-center justify-between pb-2 border-b border-zinc-500/20">
                         <h2 class="text-sm font-bold flex items-center gap-2">
@@ -652,6 +654,7 @@
                     </div>
                 </div>
 
+                <!-- 6 & 7. CALL DETAIL SCREEN -->
                 <div id="screen-call-detail" class="hidden flex-1 p-3 overflow-y-auto no-scrollbar space-y-3">
                     <div class="flex items-center justify-between pb-2 border-b border-zinc-500/20">
                         <button onclick="switchScreen('history')" class="text-cfono-orange text-xs flex items-center gap-1 font-semibold">
@@ -718,88 +721,124 @@
                     <div id="detail-summary-box" class="hidden space-y-2 text-[10px]">
                         <div class="ai-summary-card p-3.5 rounded-2xl border space-y-2 shadow-sm">
                             <div class="flex items-center justify-between font-bold">
-                                <span class="ai-summary-title flex items-center gap-1 text-[11px]">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                    <span data-i18n="summaryTitle">Tóm tắt cuộc gọi (AI)</span>
+                                <span class="ai-summary-title flex items-center gap-1.5 text-xs">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="summaryTitle">Tóm tắt cuộc gọi (AI)</span>
                                 </span>
-                                <span id="summary-badge-usage" class="ai-summary-badge text-[8px] px-2 py-0.5 rounded-full font-mono font-bold border">Đã dùng 1/3 lượt</span>
+                                <span id="summary-badge-usage" class="ai-summary-badge text-[8px] px-2 py-0.5 rounded-full font-mono font-bold border">
+                                    Đã dùng 1/3 lượt
+                                </span>
                             </div>
-                            <div class="space-y-1">
-                                <p class="font-bold" data-i18n="summaryKeyPoints">Nội dung chính:</p>
+
+                            <div class="space-y-1 text-[10px]">
+                                <p class="font-bold text-zinc-900 dark:text-zinc-100" data-i18n="summaryKeyPoints">Nội dung chính:</p>
                                 <p data-i18n="summaryPt1">• Khách hàng quan tâm đến giải pháp tổng đài ảo.</p>
                                 <p data-i18n="summaryPt2">• Cần thêm tính năng ghi âm cuộc gọi và báo cáo chi tiết.</p>
                                 <p data-i18n="summaryPt3">• Đề xuất triển khai trong quý tới.</p>
                             </div>
-                            <div class="pt-2 border-t border-purple-500/20 space-y-1">
-                                <p class="font-bold ai-summary-action-title" data-i18n="summaryActionItems">Hành động tiếp theo (Action Items):</p>
-                                <p class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-500 text-[9px]"></i> <span data-i18n="action1">Gửi demo và báo giá chi tiết.</span></p>
-                                <p class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-500 text-[9px]"></i> <span data-i18n="action2">Hỗ trợ tư vấn triển khai AI Agent.</span></p>
+
+                            <div class="pt-2 border-t border-zinc-200 dark:border-purple-500/20 space-y-1 text-[10px]">
+                                <p class="ai-summary-action-title font-bold" data-i18n="summaryActionItems">Hành động tiếp theo (Action Items):</p>
+                                <div class="flex items-start gap-1.5">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+                                    <span data-i18n="action1">Gửi demo và báo giá chi tiết.</span>
+                                </div>
+                                <div class="flex items-start gap-1.5">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+                                    <span data-i18n="action2">Hỗ trợ tư vấn triển khai AI Agent.</span>
+                                </div>
                             </div>
-                        </div>
-                        <button onclick="copySummaryText()" class="w-full py-3 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-xs rounded-full shadow-lg active:scale-95 transition" data-i18n="btnCopySummary">
-                            Sao chép tóm tắt
-                        </button>
-                    </div>
-                </div>
 
-                <div id="screen-audio-player" class="hidden flex-1 p-4 flex flex-col justify-between text-center z-20">
-                    <div class="pb-2 border-b border-zinc-500/20 flex items-center justify-between">
-                        <button onclick="switchScreen('history')" class="text-cfono-orange text-xs font-semibold">
-                            <i class="fa-solid fa-chevron-left"></i> <span data-i18n="btnBack">Quay lại</span>
-                        </button>
-                        <span class="text-xs font-bold" data-i18n="titleAudioRecording">Ghi âm cuộc gọi</span>
-                        <div class="w-8"></div>
-                    </div>
-
-                    <div class="my-auto space-y-4">
-                        <div class="flex flex-col items-center">
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80" class="w-16 h-16 rounded-full object-cover border-2 border-cfono-orange shadow-lg mb-2" alt="Caller">
-                            <h3 class="text-sm font-bold">Nguyễn Thị Lan</h3>
-                            <p class="text-[10px] ios-subtext font-mono">1002 - SIP • 10/09/2025 - 10:24</p>
-                        </div>
-
-                        <div class="ios-card p-4 rounded-3xl border space-y-3 shadow-sm">
-                            <div class="h-12 flex items-center justify-center gap-1">
-                                <div class="w-1 h-6 bg-cfono-orange rounded-full waveform-bar"></div>
-                                <div class="w-1 h-10 bg-cfono-orange rounded-full waveform-bar" style="animation-delay: 0.2s"></div>
-                                <div class="w-1 h-4 bg-zinc-500/40 rounded-full"></div>
-                                <div class="w-1 h-8 bg-cfono-orange rounded-full waveform-bar" style="animation-delay: 0.4s"></div>
-                                <div class="w-1 h-11 bg-cfono-orange rounded-full waveform-bar" style="animation-delay: 0.1s"></div>
-                                <div class="w-1 h-5 bg-zinc-500/40 rounded-full"></div>
-                                <div class="w-1 h-9 bg-zinc-500/40 rounded-full"></div>
-                                <div class="w-1 h-7 bg-zinc-500/40 rounded-full"></div>
-                                <div class="w-1 h-10 bg-zinc-500/40 rounded-full"></div>
-                            </div>
-                            <div class="flex justify-between items-center text-[10px] font-mono ios-subtext font-semibold">
-                                <span>01:12</span>
-                                
-                                <!-- Audio Speed Toggle Button -->
-                                <button onclick="toggleAudioSpeed()" id="btn-audio-speed" class="px-2 py-0.5 bg-cfono-orange/15 text-cfono-orange border border-cfono-orange/30 rounded-full font-bold active:scale-90 transition">
-                                    1.0x
-                                </button>
-
-                                <span>02:34</span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-center gap-6">
-                            <button class="w-10 h-10 rounded-full ios-keypad-btn flex items-center justify-center text-sm shadow"><i class="fa-solid fa-rotate-left"></i></button>
-                            <button onclick="toggleAudioPlay()" id="btn-audio-play" class="w-16 h-16 rounded-full bg-cfono-orange hover:bg-cfono-orangeHover text-white text-2xl flex items-center justify-center shadow-lg shadow-cfono-orange/40 active:scale-95 transition">
-                                <i class="fa-solid fa-play ml-0.5"></i>
+                            <button onclick="copySummaryText()" class="w-full mt-2 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] rounded-xl shadow transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-copy"></i> <span data-i18n="btnCopySummary">Sao chép tóm tắt</span>
                             </button>
-                            <button class="w-10 h-10 rounded-full ios-keypad-btn flex items-center justify-center text-sm shadow"><i class="fa-solid fa-rotate-right"></i></button>
                         </div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-2 text-[10px] font-semibold">
-                        <button class="p-2.5 ios-card rounded-2xl border flex flex-col items-center gap-1 shadow-sm"><i class="fa-solid fa-download text-cfono-orange text-sm"></i> <span data-i18n="btnDownload">Tải về</span></button>
-                        <button class="p-2.5 ios-card rounded-2xl border flex flex-col items-center gap-1 shadow-sm"><i class="fa-solid fa-share-nodes text-blue-500 text-sm"></i> <span data-i18n="btnShare">Chia sẻ</span></button>
-                        <button class="p-2.5 ios-card rounded-2xl border flex flex-col items-center gap-1 shadow-sm"><i class="fa-solid fa-trash text-rose-500 text-sm"></i> <span data-i18n="btnDelete">Xóa</span></button>
                     </div>
                 </div>
 
+                <!-- 8. AUDIO RECORDING PLAYER SCREEN -->
+                <div id="screen-audio-player" class="hidden flex-1 p-3 overflow-hidden flex flex-col">
+                    <!-- Locked View for FREE Tier -->
+                    <div id="audio-locked-view" class="hidden flex-1 flex flex-col items-center justify-center p-6 text-center my-auto">
+                        <div class="ios-card w-full max-w-[310px] p-8 rounded-3xl border flex flex-col items-center justify-center space-y-5 shadow-xl transition-all">
+                            <div class="w-20 h-20 rounded-full bg-cfono-orange/15 border border-cfono-orange/30 flex items-center justify-center text-cfono-orange text-3xl shadow-sm">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+
+                            <div class="space-y-2">
+                                <h3 class="text-base font-bold tracking-tight" data-i18n="audioLockedTitle">Ghi âm cuộc gọi</h3>
+                                <p class="text-xs ios-subtext leading-relaxed max-w-[250px] mx-auto" data-i18n="audioLockedDesc">
+                                    Tính năng không hỗ trợ ở Gói FREE. Vui lòng nâng cấp lên Gói BASIC hoặc PRO để nghe lại ghi âm cuộc gọi.
+                                </p>
+                            </div>
+
+                            <button onclick="openUpgradeModal()" class="w-full max-w-[220px] py-3.5 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-xs rounded-full shadow-lg shadow-cfono-orange/30 active:scale-95 transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-shield-halved text-sm"></i>
+                                <span data-i18n="btnUpgradeBasic">Nâng Basic</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Active Interactive View (For BASIC & PRO Tier Users) -->
+                    <div id="audio-active-view" class="flex-1 p-4 flex flex-col justify-between text-center z-20">
+                        <div class="pb-2 border-b border-zinc-500/20 flex items-center justify-between">
+                            <button onclick="switchScreen('history')" class="text-cfono-orange text-xs font-semibold">
+                                <i class="fa-solid fa-chevron-left"></i> <span data-i18n="btnBack">Quay lại</span>
+                            </button>
+                            <span class="text-xs font-bold" data-i18n="titleAudioRecording">Ghi âm cuộc gọi</span>
+                            <div class="w-8"></div>
+                        </div>
+
+                        <div class="my-auto space-y-4">
+                            <div class="flex flex-col items-center">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80" class="w-16 h-16 rounded-full object-cover border-2 border-cfono-orange shadow-lg mb-2" alt="Caller">
+                                <h3 class="text-sm font-bold">Nguyễn Thị Lan</h3>
+                                <p class="text-[10px] ios-subtext font-mono">1002 - SIP • 10/09/2025 - 10:24</p>
+                            </div>
+
+                            <div class="ios-card p-4 rounded-3xl border space-y-3 shadow-sm">
+                                <div class="h-12 flex items-center justify-center gap-1">
+                                    <div class="w-1 h-6 bg-cfono-orange rounded-full waveform-bar"></div>
+                                    <div class="w-1 h-10 bg-cfono-orange rounded-full waveform-bar" style="animation-delay: 0.2s"></div>
+                                    <div class="w-1 h-4 bg-zinc-500/40 rounded-full"></div>
+                                    <div class="w-1 h-8 bg-cfono-orange rounded-full waveform-bar" style="animation-delay: 0.4s"></div>
+                                    <div class="w-1 h-11 bg-cfono-orange rounded-full waveform-bar" style="animation-delay: 0.1s"></div>
+                                    <div class="w-1 h-5 bg-zinc-500/40 rounded-full"></div>
+                                    <div class="w-1 h-9 bg-zinc-500/40 rounded-full"></div>
+                                    <div class="w-1 h-7 bg-zinc-500/40 rounded-full"></div>
+                                    <div class="w-1 h-10 bg-zinc-500/40 rounded-full"></div>
+                                </div>
+                                <div class="flex justify-between items-center text-[10px] font-mono ios-subtext font-semibold">
+                                    <span>01:12</span>
+                                    
+                                    <!-- Audio Speed Toggle Button -->
+                                    <button onclick="toggleAudioSpeed()" id="btn-audio-speed" class="px-2 py-0.5 bg-cfono-orange/15 text-cfono-orange border border-cfono-orange/30 rounded-full font-bold active:scale-90 transition">
+                                        1.0x
+                                    </button>
+
+                                    <span>02:34</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-center gap-6">
+                                <button class="w-10 h-10 rounded-full ios-keypad-btn flex items-center justify-center text-sm shadow"><i class="fa-solid fa-rotate-left"></i></button>
+                                <button onclick="toggleAudioPlay()" id="btn-audio-play" class="w-16 h-16 rounded-full bg-cfono-orange hover:bg-cfono-orangeHover text-white text-2xl flex items-center justify-center shadow-lg shadow-cfono-orange/40 active:scale-95 transition">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </button>
+                                <button class="w-10 h-10 rounded-full ios-keypad-btn flex items-center justify-center text-sm shadow"><i class="fa-solid fa-rotate-right"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 text-[10px] font-semibold">
+                            <button class="p-2.5 ios-card rounded-2xl border flex flex-col items-center gap-1 shadow-sm"><i class="fa-solid fa-download text-cfono-orange text-sm"></i> <span data-i18n="btnDownload">Tải về</span></button>
+                            <button class="p-2.5 ios-card rounded-2xl border flex flex-col items-center gap-1 shadow-sm"><i class="fa-solid fa-share-nodes text-blue-500 text-sm"></i> <span data-i18n="btnShare">Chia sẻ</span></button>
+                            <button class="p-2.5 ios-card rounded-2xl border flex flex-col items-center gap-1 shadow-sm"><i class="fa-solid fa-trash text-rose-500 text-sm"></i> <span data-i18n="btnDelete">Xóa</span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. CLORYAI CHAT SCREEN -->
                 <div id="screen-cloryai" class="hidden flex-1 flex flex-col p-3 overflow-hidden">
-                    <!-- Locked Pro Upgrade View (Matches Reference UI for Free & Basic Tiers) -->
+                    <!-- Locked Pro Upgrade View (Matches Reference Image) -->
                     <div id="cloryai-locked-view" class="flex-1 flex flex-col items-center justify-center p-6 text-center my-auto">
                         <div class="ios-card w-full max-w-[310px] p-8 rounded-3xl border flex flex-col items-center justify-center space-y-5 shadow-xl transition-all">
                             <!-- Soft Orange Circle with Lock Icon -->
@@ -847,7 +886,7 @@
                         </div>
 
                         <div class="flex gap-1.5 overflow-x-auto pb-2 no-scrollbar">
-                            <button onclick="sendQuickPrompt('Tóm tắt cuộc gọi gần đây')" class="px-3 py-1 ios-card border border-cfono-orange/40 rounded-full text-[10px] text-cfono-orange shrink-0 shadow-sm font-semibold" data-i18n="promptPromptSummary">
+                            <button onclick="sendQuickPrompt('Tóm tắt cuộc gọi gần đây')" class="px-3 py-1 ios-card border border-cfono-orange/40 rounded-full text-[10px] text-cfono-orange shrink-0 shadow-sm font-semibold" data-i18n="promptSummary">
                                 ⚡ Tóm tắt cuộc gọi gần đây
                             </button>
                             <button onclick="sendQuickPrompt('Tư vấn gói dịch vụ phù hợp')" class="px-3 py-1 ios-card border rounded-full text-[10px] ios-subtext shrink-0 shadow-sm font-semibold" data-i18n="promptConsult">
@@ -864,6 +903,7 @@
                     </div>
                 </div>
 
+                <!-- 10. SETTINGS SCREEN -->
                 <div id="screen-settings" class="hidden flex-1 p-3 overflow-y-auto no-scrollbar space-y-3">
                     <div class="pb-2 border-b border-zinc-500/20">
                         <h2 class="text-sm font-bold" data-i18n="titleSettings">Cài đặt</h2>
@@ -945,7 +985,6 @@
 
             </div>
 
-            <!-- Tab Bar -->
             <div id="phone-tab-bar" class="border-t px-2 py-2 flex items-center justify-around z-30 transition-colors">
                 <button onclick="switchScreen('dialer')" id="tab-dialer" class="flex flex-col items-center gap-0.5 text-cfono-orange transition">
                     <i class="fa-solid fa-phone text-base"></i>
@@ -1147,7 +1186,7 @@
                 <button onclick="saveAutoAnswerSettings()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-full shadow transition">Lưu cấu hình</button>
             </div>
 
-            <!-- SIP Accounts Modal Overlay with Company Field -->
+            <!-- SIP Accounts Modal Overlay -->
             <div id="sip-account-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white">
                 <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                     <span class="text-xs font-bold text-cfono-orange"><i class="fa-solid fa-phone mr-1"></i> Chi tiết Tài khoản SIP</span>
@@ -1339,6 +1378,12 @@
                                 <td class="py-2.5 px-2 text-center font-bold text-purple-400">2 Accounts</td>
                             </tr>
                             <tr>
+                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowVendor">Nhà cung cấp khác (3rd Party Vendor)</td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                            </tr>
+                            <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowAds">Quảng cáo (Ads)</td>
                                 <td class="py-2.5 px-2 text-center text-amber-400" data-i18n="valHasAds">AdMob/In-App</td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold" data-i18n="valNoAds">Không (No Ads)</td>
@@ -1365,13 +1410,13 @@
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowRecording">Ghi âm</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
-                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-amber-400 font-bold" data-i18n="val3PerWeek">3 lượt/tuần</td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowTranscript">Bản ghi</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
-                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-amber-400 font-bold" data-i18n="val3PerWeek">3 lượt/tuần</td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
@@ -1425,127 +1470,6 @@
         let basicSummaryUsageCount = 1;
         let basicTranscriptUsageCount = 1;
 
-        function showToast(msg, iconClass = "fa-circle-check text-emerald-400") {
-            const toast = document.getElementById('toast-notification');
-            const toastText = document.getElementById('toast-text');
-            const toastIcon = document.getElementById('toast-icon');
-            if (toast && toastText) {
-                toastText.innerText = msg;
-                if (toastIcon) toastIcon.className = `fa-solid ${iconClass} text-sm`;
-                toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
-                toast.classList.add('opacity-100', 'translate-y-0');
-                setTimeout(() => {
-                    toast.classList.remove('opacity-100', 'translate-y-0');
-                    toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
-                }, 2500);
-            }
-        }
-
-        function pressKey(key) {
-            const display = document.getElementById('dial-display');
-            if (display) {
-                display.value += key;
-            }
-        }
-
-        function setTier(tier) {
-            currentTier = tier;
-
-            // 1. Update Header Tier Buttons
-            const btnFree = document.getElementById('btn-tier-free');
-            const btnBasic = document.getElementById('btn-tier-basic');
-            const btnPro = document.getElementById('btn-tier-pro');
-
-            const activeClass = "px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-cfono-orange text-white shadow";
-            const inactiveClass = "px-3 py-1.5 rounded-lg text-xs font-semibold text-cfono-mutedGray hover:text-white transition flex items-center gap-1.5";
-
-            if (btnFree) btnFree.className = tier === 'free' ? activeClass : inactiveClass;
-            if (btnBasic) btnBasic.className = tier === 'basic' ? activeClass : inactiveClass;
-            if (btnPro) btnPro.className = tier === 'pro' ? activeClass : inactiveClass;
-
-            // 2. Update Mobile Status Bar Badge
-            const activeBadge = document.getElementById('active-tier-badge');
-            if (activeBadge) {
-                activeBadge.innerText = tier.toUpperCase();
-                if (tier === 'free') {
-                    activeBadge.className = "px-2 py-0.5 text-[9px] bg-cfono-orange/20 text-cfono-orange rounded font-bold uppercase tracking-wider border border-cfono-orange/30";
-                } else if (tier === 'basic') {
-                    activeBadge.className = "px-2 py-0.5 text-[9px] bg-emerald-500/20 text-emerald-400 rounded font-bold uppercase tracking-wider border border-emerald-500/30";
-                } else {
-                    activeBadge.className = "px-2 py-0.5 text-[9px] bg-purple-500/20 text-purple-400 rounded font-bold uppercase tracking-wider border border-purple-500/30";
-                }
-            }
-
-            // 3. Update Guide Panel
-            const guideTierName = document.getElementById('guide-tier-name');
-            const guideContent = document.getElementById('guide-content');
-            
-            if (guideTierName) {
-                guideTierName.innerText = tier === 'free' ? 'Gói FREE' : (tier === 'basic' ? 'Gói BASIC' : 'Gói PRO (CloryAI)');
-            }
-
-            if (guideContent) {
-                if (tier === 'free') {
-                    guideContent.innerHTML = `
-                        <p>● <strong>Miễn phí 100%:</strong> Trải nghiệm nghe/gọi chất lượng cao, 1 SIP Account.</p>
-                        <p>● <strong>Quảng cáo:</strong> Hiển thị Banner Ads và Popup gợi ý nâng cấp sau khi kết thúc cuộc gọi & sau 15s ở màn chi tiết.</p>
-                        <p>● <strong>Nâng cấp:</strong> Khóa tính năng Bản ghi, Tóm tắt AI & Trợ lý CloryAI.</p>
-                    `;
-                } else if (tier === 'basic') {
-                    guideContent.innerHTML = `
-                        <p>● <strong>Không quảng cáo tác nghiệp:</strong> Ẩn toàn bộ Banner Ads ở màn hình Quay số, Trong cuộc gọi, Danh bạ, Lịch sử.</p>
-                        <p>● <strong>Gợi ý nâng Pro:</strong> Hiển thị Native Banner nâng Pro nhẹ nhàng ở màn hình Cài đặt.</p>
-                        <p>● <strong>Bản ghi & Tóm tắt AI:</strong> Giới hạn 3 lượt/tuần (Bấm chọn tab mới tải nội dung và hiển thị số lượt đã dùng).</p>
-                    `;
-                } else {
-                    guideContent.innerHTML = `
-                        <p>● <strong>Gói Cao Cấp Nhất:</strong> Tận hưởng trọn bộ tính năng CFONO không giới hạn.</p>
-                        <p>● <strong>Đa tài khoản:</strong> Hỗ trợ 2 SIP Accounts + Auto-Answer tự động trả lời bằng âm thanh riêng.</p>
-                        <p>● <strong>CloryAI Copilot:</strong> Trợ lý AI hỏi đáp KB doanh nghiệp, Tóm tắt AI & Chuyển đổi văn bản tự động không giới hạn.</p>
-                    `;
-                }
-            }
-
-            // 4. Update Ad Banners across screen states
-            const contactsAd = document.getElementById('contacts-native-ad');
-            const historyAd = document.getElementById('history-native-ad');
-            const basicProPromoBox = document.getElementById('basic-pro-promo-box');
-
-            if (contactsAd) contactsAd.style.display = (tier === 'free') ? 'flex' : 'none';
-            if (historyAd) historyAd.style.display = (tier === 'free') ? 'flex' : 'none';
-
-            if (basicProPromoBox) {
-                if (tier === 'basic' && currentScreen === 'settings') {
-                    basicProPromoBox.classList.remove('hidden');
-                } else {
-                    basicProPromoBox.classList.add('hidden');
-                }
-            }
-
-            // 5. Update CloryAI Screen if active
-            if (currentScreen === 'cloryai') {
-                const lockedView = document.getElementById('cloryai-locked-view');
-                const activeView = document.getElementById('cloryai-active-view');
-                if (tier === 'pro') {
-                    if (lockedView) lockedView.classList.add('hidden');
-                    if (activeView) activeView.classList.remove('hidden');
-                } else {
-                    if (lockedView) lockedView.classList.remove('hidden');
-                    if (activeView) activeView.classList.add('hidden');
-                }
-            }
-
-            // 6. Update Call Detail Screen if active
-            if (currentScreen === 'call-detail') {
-                initCallDetailScreenView();
-            }
-
-            showToast(
-                currentLang === 'vi' ? `Đã chuyển sang ${tier === 'free' ? 'Gói FREE' : (tier === 'basic' ? 'Gói BASIC' : 'Gói PRO')}` : `Switched to ${tier.toUpperCase()} Plan`,
-                tier === 'pro' ? "fa-wand-magic-sparkles text-purple-400" : "fa-shield-halved text-emerald-400"
-            );
-        }
-
         const i18nDict = {
             vi: {
                 tierFree: "Gói FREE",
@@ -1555,6 +1479,8 @@
                 valBasicSummaryBadge: "Đã dùng 1/3 lượt",
                 cloryAiLockedTitle: "CloryAI Copilot Agent",
                 cloryAiLockedDesc: "Tính năng dành riêng cho Gói PRO. Hỗ trợ tra cứu Knowledge Base doanh nghiệp, tóm tắt thông tin tức thì.",
+                audioLockedTitle: "Ghi âm cuộc gọi",
+                audioLockedDesc: "Tính năng không hỗ trợ ở Gói FREE. Vui lòng nâng cấp lên Gói BASIC hoặc PRO để nghe lại ghi âm cuộc gọi.",
                 btnActivatePro: "Kích hoạt Gói PRO",
                 viewScreen: "Xem Màn Hình:",
                 navLogin: "Đăng nhập",
@@ -1665,6 +1591,7 @@
                 thPro: "PRO",
                 rowPrice: "Mức phí / bản quyền",
                 rowSipAccounts: "Tài khoản SIP (Accounts)",
+                rowVendor: "Nhà cung cấp khác (3rd Party Vendor)",
                 rowAds: "Quảng cáo (Ads)",
                 valHasAds: "AdMob/In-App",
                 valNoAds: "Không (No Ads)",
@@ -1688,6 +1615,8 @@
                 valBasicSummaryBadge: "Used 1/3 times",
                 cloryAiLockedTitle: "CloryAI Copilot Agent",
                 cloryAiLockedDesc: "Exclusive PRO feature. Query enterprise Knowledge Base and get instant news summaries.",
+                audioLockedTitle: "Call Recording",
+                audioLockedDesc: "Not available on FREE plan. Please upgrade to BASIC or PRO plan to listen to call recordings.",
                 btnActivatePro: "Activate PRO Plan",
                 viewScreen: "View Screen:",
                 navLogin: "Login",
@@ -1798,6 +1727,7 @@
                 thPro: "PRO",
                 rowPrice: "Fee / License",
                 rowSipAccounts: "SIP Accounts",
+                rowVendor: "3rd Party Vendor",
                 rowAds: "Ads",
                 valHasAds: "AdMob/In-App",
                 valNoAds: "No Ads",
@@ -1814,6 +1744,207 @@
                 valCloryAiPro: "CloryAI Assistant"
             }
         };
+
+        function switchScreen(screenId) {
+            currentScreen = screenId;
+            clearTimeout(callDetailAdTimer);
+
+            const screens = [
+                'login', 'dialer', 'incall', 'contacts', 
+                'history', 'call-detail', 'audio-player', 
+                'cloryai', 'settings'
+            ];
+
+            screens.forEach(s => {
+                const el = document.getElementById(`screen-${s}`);
+                if (el) {
+                    if (s === screenId) {
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Update Top Navigation Toolbar Active State
+            screens.forEach(s => {
+                const navBtn = document.getElementById(`nav-screen-${s}`);
+                if (navBtn) {
+                    if (s === screenId) {
+                        navBtn.className = "px-3 py-1.5 rounded-xl font-medium bg-cfono-orange text-white shadow";
+                    } else {
+                        navBtn.className = "px-3 py-1.5 rounded-xl font-medium text-cfono-mutedGray hover:text-white hover:bg-cfono-darkBg";
+                    }
+                }
+            });
+
+            // Update Bottom Tab Bar Active State
+            const tabMap = {
+                'dialer': 'dialer',
+                'incall': 'dialer',
+                'contacts': 'contacts',
+                'history': 'history',
+                'call-detail': 'history',
+                'audio-player': 'history',
+                'cloryai': 'cloryai',
+                'settings': 'settings'
+            };
+
+            const activeTabKey = tabMap[screenId] || 'dialer';
+            ['dialer', 'contacts', 'history', 'cloryai', 'settings'].forEach(t => {
+                const tabBtn = document.getElementById(`tab-${t}`);
+                if (tabBtn) {
+                    if (t === activeTabKey) {
+                        tabBtn.className = "flex flex-col items-center gap-0.5 text-cfono-orange transition";
+                    } else {
+                        tabBtn.className = "flex flex-col items-center gap-0.5 ios-subtext hover:text-cfono-orange transition";
+                    }
+                }
+            });
+
+            // Handle Screen-Specific Logic & Tier Locks
+            if (screenId === 'cloryai') {
+                const lockedView = document.getElementById('cloryai-locked-view');
+                const activeView = document.getElementById('cloryai-active-view');
+                if (currentTier === 'pro') {
+                    if (lockedView) lockedView.classList.add('hidden');
+                    if (activeView) activeView.classList.remove('hidden');
+                } else {
+                    if (lockedView) lockedView.classList.remove('hidden');
+                    if (activeView) activeView.classList.add('hidden');
+                }
+            }
+
+            if (screenId === 'audio-player') {
+                const lockedAudioView = document.getElementById('audio-locked-view');
+                const activeAudioView = document.getElementById('audio-active-view');
+                if (currentTier === 'free') {
+                    if (lockedAudioView) lockedAudioView.classList.remove('hidden');
+                    if (activeAudioView) activeAudioView.classList.add('hidden');
+                } else {
+                    if (lockedAudioView) lockedAudioView.classList.add('hidden');
+                    if (activeAudioView) activeAudioView.classList.remove('hidden');
+                }
+            }
+
+            if (screenId === 'call-detail') {
+                initCallDetailScreenView();
+                if (currentTier === 'free') {
+                    callDetailAdTimer = setTimeout(() => {
+                        const modal = document.getElementById('freemium-popup-modal');
+                        if (modal) modal.classList.remove('hidden');
+                    }, 15000);
+                }
+            }
+
+            const basicPromoBox = document.getElementById('basic-pro-promo-box');
+            if (basicPromoBox) {
+                if (currentTier === 'basic' && screenId === 'settings') {
+                    basicPromoBox.classList.remove('hidden');
+                } else {
+                    basicPromoBox.classList.add('hidden');
+                }
+            }
+        }
+
+        function showToast(msg, iconClass = "fa-circle-check text-emerald-400") {
+            const toast = document.getElementById('toast-notification');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
+            if (toast && toastText) {
+                toastText.innerText = msg;
+                if (toastIcon) toastIcon.className = `fa-solid ${iconClass} text-sm`;
+                toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
+                toast.classList.add('opacity-100', 'translate-y-0');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                    toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
+                }, 2500);
+            }
+        }
+
+        function pressKey(key) {
+            const display = document.getElementById('dial-display');
+            if (display) {
+                display.value += key;
+            }
+        }
+
+        function deleteKey() {
+            const display = document.getElementById('dial-display');
+            if (display && display.value) {
+                display.value = display.value.slice(0, -1);
+            }
+        }
+
+        function setTier(tier) {
+            currentTier = tier;
+
+            const btnFree = document.getElementById('btn-tier-free');
+            const btnBasic = document.getElementById('btn-tier-basic');
+            const btnPro = document.getElementById('btn-tier-pro');
+
+            const activeClass = "px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-cfono-orange text-white shadow";
+            const inactiveClass = "px-3 py-1.5 rounded-lg text-xs font-semibold text-cfono-mutedGray hover:text-white transition flex items-center gap-1.5";
+
+            if (btnFree) btnFree.className = tier === 'free' ? activeClass : inactiveClass;
+            if (btnBasic) btnBasic.className = tier === 'basic' ? activeClass : inactiveClass;
+            if (btnPro) btnPro.className = tier === 'pro' ? activeClass : inactiveClass;
+
+            const activeBadge = document.getElementById('active-tier-badge');
+            if (activeBadge) {
+                activeBadge.innerText = tier.toUpperCase();
+                if (tier === 'free') {
+                    activeBadge.className = "px-2 py-0.5 text-[9px] bg-cfono-orange/20 text-cfono-orange rounded font-bold uppercase tracking-wider border border-cfono-orange/30";
+                } else if (tier === 'basic') {
+                    activeBadge.className = "px-2 py-0.5 text-[9px] bg-emerald-500/20 text-emerald-400 rounded font-bold uppercase tracking-wider border border-emerald-500/30";
+                } else {
+                    activeBadge.className = "px-2 py-0.5 text-[9px] bg-purple-500/20 text-purple-400 rounded font-bold uppercase tracking-wider border border-purple-500/30";
+                }
+            }
+
+            const guideTierName = document.getElementById('guide-tier-name');
+            const guideContent = document.getElementById('guide-content');
+            
+            if (guideTierName) {
+                guideTierName.innerText = tier === 'free' ? 'Gói FREE' : (tier === 'basic' ? 'Gói BASIC' : 'Gói PRO (CloryAI)');
+            }
+
+            if (guideContent) {
+                if (tier === 'free') {
+                    guideContent.innerHTML = `
+                        <p>● <strong>Miễn phí 100%:</strong> Trải nghiệm nghe/gọi chất lượng cao, 1 SIP Account.</p>
+                        <p>● <strong>Quảng cáo:</strong> Hiển thị Banner Ads và Popup gợi ý nâng cấp sau khi kết thúc cuộc gọi & sau 15s ở màn chi tiết.</p>
+                        <p>● <strong>Nâng cấp:</strong> Khóa tính năng Bản ghi, Tóm tắt AI & Trợ lý CloryAI.</p>
+                    `;
+                } else if (tier === 'basic') {
+                    guideContent.innerHTML = `
+                        <p>● <strong>Không quảng cáo tác nghiệp:</strong> Ẩn toàn bộ Banner Ads ở màn hình Quay số, Trong cuộc gọi, Danh bạ, Lịch sử.</p>
+                        <p>● <strong>Gợi ý nâng Pro:</strong> Hiển thị Native Banner nâng Pro nhẹ nhàng ở màn hình Cài đặt.</p>
+                        <p>● <strong>Bản ghi & Tóm tắt AI:</strong> Giới hạn 3 lượt/tuần (Bấm chọn tab mới tải nội dung và hiển thị số lượt đã dùng).</p>
+                    `;
+                } else {
+                    guideContent.innerHTML = `
+                        <p>● <strong>Gói Cao Cấp Nhất:</strong> Tận hưởng trọn bộ tính năng CFONO không giới hạn.</p>
+                        <p>● <strong>Đa tài khoản:</strong> Hỗ trợ 2 SIP Accounts + Auto-Answer tự động trả lời bằng âm thanh riêng.</p>
+                        <p>● <strong>CloryAI Copilot:</strong> Trợ lý AI hỏi đáp KB doanh nghiệp, Tóm tắt AI & Chuyển đổi văn bản tự động không giới hạn.</p>
+                    `;
+                }
+            }
+
+            const contactsAd = document.getElementById('contacts-native-ad');
+            const historyAd = document.getElementById('history-native-ad');
+
+            if (contactsAd) contactsAd.style.display = (tier === 'free') ? 'flex' : 'none';
+            if (historyAd) historyAd.style.display = (tier === 'free') ? 'flex' : 'none';
+
+            switchScreen(currentScreen);
+
+            showToast(
+                currentLang === 'vi' ? `Đã chuyển sang ${tier === 'free' ? 'Gói FREE' : (tier === 'basic' ? 'Gói BASIC' : 'Gói PRO')}` : `Switched to ${tier.toUpperCase()} Plan`,
+                tier === 'pro' ? "fa-wand-magic-sparkles text-purple-400" : "fa-shield-halved text-emerald-400"
+            );
+        }
 
         function setTheme(theme) {
             currentTheme = theme;
@@ -1868,71 +1999,6 @@
                 const key = el.getAttribute('data-i18n-ph');
                 if (dict[key]) el.placeholder = dict[key];
             });
-
-            showToast(lang === 'vi' ? "Đã chuyển sang Tiếng Việt" : "Switched to English", "fa-globe text-purple-400");
-        }
-
-        function switchScreen(screenId) {
-            currentScreen = screenId;
-            const screens = ['login', 'dialer', 'incall', 'contacts', 'history', 'call-detail', 'audio-player', 'cloryai', 'settings'];
-            
-            // Clear Call Detail 15s Ads timer when switching screen
-            if (callDetailAdTimer) {
-                clearTimeout(callDetailAdTimer);
-                callDetailAdTimer = null;
-            }
-
-            screens.forEach(s => {
-                const el = document.getElementById(`screen-${s}`);
-                const navBtn = document.getElementById(`nav-screen-${s}`);
-                if (s === screenId) {
-                    if (el) el.classList.remove('hidden');
-                    if (navBtn) navBtn.className = "px-3 py-1.5 rounded-xl font-medium bg-cfono-orange text-white shadow";
-                } else {
-                    if (el) el.classList.add('hidden');
-                    if (navBtn) navBtn.className = "px-3 py-1.5 rounded-xl font-medium text-cfono-mutedGray hover:text-white hover:bg-cfono-darkBg";
-                }
-            });
-
-            // Initialize Call Detail screen initial view state according to Tier
-            if (screenId === 'call-detail') {
-                initCallDetailScreenView();
-            }
-
-            // Toggle CloryAI Locked vs Active View based on Tier
-            if (screenId === 'cloryai') {
-                const lockedView = document.getElementById('cloryai-locked-view');
-                const activeView = document.getElementById('cloryai-active-view');
-                if (currentTier === 'pro') {
-                    if (lockedView) lockedView.classList.add('hidden');
-                    if (activeView) activeView.classList.remove('hidden');
-                } else {
-                    if (lockedView) lockedView.classList.remove('hidden');
-                    if (activeView) activeView.classList.add('hidden');
-                }
-            }
-
-            // Native Pro Promo Banner is strictly for Basic plan on Settings screen
-            const basicPromoBox = document.getElementById('basic-pro-promo-box');
-            if (basicPromoBox) {
-                if (currentTier === 'basic' && screenId === 'settings') {
-                    basicPromoBox.classList.remove('hidden');
-                } else {
-                    basicPromoBox.classList.add('hidden');
-                }
-            }
-
-            const tabs = ['dialer', 'contacts', 'history', 'cloryai', 'settings'];
-            tabs.forEach(t => {
-                const tabBtn = document.getElementById(`tab-${t}`);
-                if (tabBtn) {
-                    if (t === screenId || (screenId === 'incall' && t === 'dialer') || (screenId === 'call-detail' && t === 'history') || (screenId === 'audio-player' && t === 'history')) {
-                        tabBtn.className = "flex flex-col items-center gap-0.5 text-cfono-orange transition";
-                    } else {
-                        tabBtn.className = "flex flex-col items-center gap-0.5 ios-subtext hover:text-cfono-orange transition";
-                    }
-                }
-            });
         }
 
         function initCallDetailScreenView() {
@@ -1949,7 +2015,6 @@
             if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
 
             if (currentTier === 'free' || currentTier === 'basic') {
-                // Free & Basic: Hoàn toàn không hiển thị nội dung bản ghi & tóm tắt khi mới truy cập
                 if (transBox) transBox.classList.add('hidden');
                 if (sumBox) sumBox.classList.add('hidden');
                 if (lockedBox) lockedBox.classList.remove('hidden');
@@ -1964,7 +2029,6 @@
                     if (lockedBtn) lockedBtn.classList.add('hidden');
                 }
             } else {
-                // PRO Tier: Tự động hiển thị
                 if (lockedBox) lockedBox.classList.add('hidden');
                 if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
                 if (transBox) transBox.classList.remove('hidden');
@@ -1979,7 +2043,6 @@
             const sumBox = document.getElementById('detail-summary-box');
             const lockedBox = document.getElementById('detail-locked-box');
 
-            // 1. Gói Free: Bật Ads khi người dùng chọn Bản ghi hoặc Tóm tắt AI
             if (currentTier === 'free') {
                 const freemiumModal = document.getElementById('freemium-popup-modal');
                 if (freemiumModal) freemiumModal.classList.remove('hidden');
@@ -1990,7 +2053,6 @@
                 return;
             }
 
-            // 2. Gói Basic: Bấm chọn mới hiển thị nội dung & hiển thị số lượt đã dùng
             if (currentTier === 'basic') {
                 if (lockedBox) lockedBox.classList.add('hidden');
 
@@ -2024,7 +2086,6 @@
                 return;
             }
 
-            // 3. Gói PRO: Hiển thị đầy đủ không giới hạn
             if (currentTier === 'pro') {
                 if (lockedBox) lockedBox.classList.add('hidden');
 
@@ -2045,13 +2106,6 @@
                         badge.className = "ai-summary-badge-pro text-[8px] px-2 py-0.5 rounded-full font-mono font-bold border";
                     }
                 }
-            }
-        }
-
-        function deleteKey() {
-            const display = document.getElementById('dial-display');
-            if (display && display.value) {
-                display.value = display.value.slice(0, -1);
             }
         }
 
@@ -2098,7 +2152,6 @@
             clearInterval(callTimerInterval);
             switchScreen('dialer');
 
-            // Trigger Ads immediately on ALL call ends for Free tier
             if (currentTier === 'free') {
                 setTimeout(() => {
                     const modal = document.getElementById('freemium-popup-modal');
@@ -2253,7 +2306,6 @@
             const input = document.getElementById('chat-input');
             if (!input || !input.value.trim()) return;
 
-            // Strict PRO Tier requirement for CloryAI
             if (currentTier !== 'pro') {
                 showToast(currentLang === 'vi' ? "Tính năng CloryAI chỉ khả dụng ở Gói PRO!" : "CloryAI is exclusive to PRO Plan!", "fa-lock text-purple-400");
                 openUpgradeModal();
