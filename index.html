@@ -945,7 +945,7 @@
                                 <div class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-address-book"></i></div>
                                 <div class="flex items-center gap-1.5">
                                     <span class="font-semibold" data-i18n="settingCompanyDir">Danh bạ công ty (XML)</span>
-                                    <span class="px-1.5 py-0.2 bg-purple-500/20 text-purple-400 text-[8px] font-bold rounded">PRO</span>
+                                    <span id="badge-company-dir" class="px-1.5 py-0.2 bg-cfono-orange/20 text-cfono-orange text-[8px] font-bold rounded border border-cfono-orange/30">Upgrade</span>
                                 </div>
                             </div>
                             <span class="text-[10px] ios-subtext font-semibold">Remote Sync <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></span>
@@ -957,7 +957,7 @@
                                 <div class="w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-robot"></i></div>
                                 <div class="flex items-center gap-1.5">
                                     <span class="font-semibold" data-i18n="settingAutoAnswer">Cài đặt Auto-Answer</span>
-                                    <span class="px-1.5 py-0.2 bg-purple-500/20 text-purple-400 text-[8px] font-bold rounded">PRO</span>
+                                    <span id="badge-auto-answer" class="px-1.5 py-0.2 bg-cfono-orange/20 text-cfono-orange text-[8px] font-bold rounded border border-cfono-orange/30">Upgrade</span>
                                 </div>
                             </div>
                             <span class="text-[10px] ios-subtext font-mono" id="auto-answer-status-label">Tắt <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></span>
@@ -1398,22 +1398,34 @@
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
+                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowPushNotification">Push Notification</td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                            </tr>
+                            <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowAds">Quảng cáo (Ads)</td>
                                 <td class="py-2.5 px-2 text-center text-amber-400" data-i18n="valHasAds">AdMob/In-App</td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold" data-i18n="valNoAds">Không (No Ads)</td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold" data-i18n="valNoAds">Không (No Ads)</td>
                             </tr>
                             <tr>
-                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowPersonalDir">Danh bạ cá nhân</td>
+                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowPersonalDir">Danh bạ cá nhân (Local Phonebook)</td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
-                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowCompanyDir">Danh bạ công ty (XML)</td>
+                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowCompanyDir">Danh bạ công ty (Business Phonebook, XML)</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
-                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                                 <td class="py-2.5 px-2 text-center text-purple-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowRecording">Ghi âm (Call Recording)</td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowAutoAnswer">Tự động trả lời (Auto-Answer)</td>
@@ -1422,19 +1434,13 @@
                                 <td class="py-2.5 px-2 text-center text-purple-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
-                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowRecording">Ghi âm</td>
-                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
-                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
-                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
-                            </tr>
-                            <tr>
-                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowTranscript">Bản ghi</td>
+                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowTranscript">Bản ghi (Call Transcript)</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
-                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowSummary">Tóm tắt cuộc gọi</td>
+                                <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowSummary">Tóm tắt cuộc gọi (Call Summary)</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-purple-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valAiSummary">Tóm tắt AI</span></td>
@@ -1606,15 +1612,15 @@
                 rowPrice: "Mức phí / bản quyền",
                 rowSipAccounts: "Tài khoản SIP (Accounts)",
                 rowVendor: "Nhà cung cấp khác (3rd Party Vendor)",
-                rowAds: "Quảng cáo (Ads)",
+                rowPushNotification: "Push Notification",
                 valHasAds: "AdMob/In-App",
                 valNoAds: "Không (No Ads)",
-                rowPersonalDir: "Danh bạ cá nhân",
-                rowCompanyDir: "Danh bạ công ty (XML)",
+                rowPersonalDir: "Danh bạ cá nhân (Local Phonebook)",
+                rowCompanyDir: "Danh bạ công ty (Business Phonebook, XML)",
                 rowAutoAnswer: "Tự động trả lời (Auto-Answer)",
-                rowRecording: "Ghi âm",
-                rowTranscript: "Bản ghi",
-                rowSummary: "Tóm tắt cuộc gọi",
+                rowRecording: "Ghi âm (Call Recording)",
+                rowTranscript: "Bản ghi (Call Transcript)",
+                rowSummary: "Tóm tắt cuộc gọi (Call Summary)",
                 rowCloryAi: "Trợ lý CloryAI",
                 rowSla: "Cam kết dịch vụ (SLA)",
                 valYes: "Có",
@@ -1702,7 +1708,7 @@
                 phChatInput: "Type a message...",
                 titleSettings: "Settings",
                 settingSipAccount: "SIP Account",
-                settingCompanyDir: "Company Directory (XML)",
+                settingCompanyDir: "Business Phonebook (XML)",
                 settingAutoAnswer: "Auto-Answer Settings",
                 settingNotifications: "Notifications",
                 settingOn: "On",
@@ -1744,14 +1750,14 @@
                 rowPrice: "Fee / License",
                 rowSipAccounts: "SIP Accounts",
                 rowVendor: "3rd Party Vendor",
-                rowAds: "Ads",
+                rowPushNotification: "Push Notification",
                 valHasAds: "AdMob/In-App",
                 valNoAds: "No Ads",
-                rowPersonalDir: "Personal Directory",
-                rowCompanyDir: "Company Directory",
+                rowPersonalDir: "Local Phonebook",
+                rowCompanyDir: "Business Phonebook (XML)",
                 rowAutoAnswer: "Auto-Answer",
-                rowRecording: "Recording",
-                rowTranscript: "Transcript",
+                rowRecording: "Call Recording",
+                rowTranscript: "Call Transcript",
                 rowSummary: "Call Summary",
                 rowCloryAi: "CloryAI Assistant",
                 rowSla: "Service Level Agreement (SLA)",
@@ -1962,6 +1968,39 @@
 
             if (contactsAd) contactsAd.style.display = (tier === 'free') ? 'flex' : 'none';
             if (historyAd) historyAd.style.display = (tier === 'free') ? 'flex' : 'none';
+
+            // Dynamic badges update for Settings Screen based on Tier
+            const badgeCompanyDir = document.getElementById('badge-company-dir');
+            const badgeAutoAnswer = document.getElementById('badge-auto-answer');
+
+            if (tier === 'free') {
+                if (badgeCompanyDir) {
+                    badgeCompanyDir.innerText = 'Upgrade';
+                    badgeCompanyDir.className = 'px-1.5 py-0.2 bg-cfono-orange/20 text-cfono-orange text-[8px] font-bold rounded border border-cfono-orange/30';
+                    badgeCompanyDir.classList.remove('hidden');
+                }
+                if (badgeAutoAnswer) {
+                    badgeAutoAnswer.innerText = 'Upgrade';
+                    badgeAutoAnswer.className = 'px-1.5 py-0.2 bg-cfono-orange/20 text-cfono-orange text-[8px] font-bold rounded border border-cfono-orange/30';
+                    badgeAutoAnswer.classList.remove('hidden');
+                }
+            } else if (tier === 'basic') {
+                if (badgeCompanyDir) {
+                    badgeCompanyDir.classList.add('hidden');
+                }
+                if (badgeAutoAnswer) {
+                    badgeAutoAnswer.innerText = 'PRO';
+                    badgeAutoAnswer.className = 'px-1.5 py-0.2 bg-purple-500/20 text-purple-400 text-[8px] font-bold rounded';
+                    badgeAutoAnswer.classList.remove('hidden');
+                }
+            } else if (tier === 'pro') {
+                if (badgeCompanyDir) {
+                    badgeCompanyDir.classList.add('hidden');
+                }
+                if (badgeAutoAnswer) {
+                    badgeAutoAnswer.classList.add('hidden');
+                }
+            }
 
             switchScreen(currentScreen);
 
@@ -2375,8 +2414,8 @@
         }
 
         function openCompanyDirectoryModal() {
-            if (currentTier !== 'pro') {
-                showToast(currentLang === 'vi' ? "Danh bạ công ty (XML) chỉ dành cho Gói PRO!" : "Company Directory (XML) requires PRO Plan!", "fa-lock text-purple-400");
+            if (currentTier === 'free') {
+                showToast(currentLang === 'vi' ? "Danh bạ công ty (XML) chỉ dành cho Gói BASIC & PRO!" : "Business Phonebook (XML) requires BASIC or PRO Plan!", "fa-lock text-purple-400");
                 openUpgradeModal();
                 return;
             }
