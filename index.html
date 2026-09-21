@@ -300,6 +300,20 @@
             <!-- Phone Screen Dynamic Canvas -->
             <div class="flex-1 relative overflow-hidden flex flex-col">
 
+                <!-- Native Basic Upgrade Banner (Only on Settings for Free Plan) -->
+                <div id="free-basic-promo-box" class="hidden mx-3 mt-1 p-2 bg-gradient-to-r from-orange-950/80 via-zinc-900 to-orange-950/80 rounded-2xl border border-cfono-orange/40 flex items-center justify-between text-xs shadow-lg">
+                    <div class="flex items-center gap-2">
+                        <span class="px-1.5 py-0.5 bg-cfono-orange text-white text-[8px] font-bold rounded-md">BASIC</span>
+                        <div>
+                            <p class="font-bold text-cfono-orange text-[10px]" data-i18n="promoBasicTitle">Nâng cấp Gói BASIC</p>
+                            <p class="text-[9px] text-zinc-300" data-i18n="promoBasicSubtitle">Tắt quảng cáo & Nghe lại ghi âm</p>
+                        </div>
+                    </div>
+                    <button onclick="openUpgradeModal()" class="px-2.5 py-1 bg-cfono-orange hover:bg-cfono-orangeHover text-white font-bold text-[9px] rounded-full shadow active:scale-95 transition" data-i18n="btnUpgradeBasic">
+                        Nâng Basic
+                    </button>
+                </div>
+
                 <!-- Native Pro Upgrade Banner (Only on Settings for Basic Plan) -->
                 <div id="basic-pro-promo-box" class="hidden mx-3 mt-1 p-2 bg-gradient-to-r from-purple-950/80 via-zinc-900 to-purple-950/80 rounded-2xl border border-purple-500/40 flex items-center justify-between text-xs shadow-lg">
                     <div class="flex items-center gap-2">
@@ -1410,19 +1424,19 @@
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowRecording">Ghi âm</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
-                                <td class="py-2.5 px-2 text-center text-amber-400 font-bold" data-i18n="val3PerWeek">3 lượt/tuần</td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowTranscript">Bản ghi</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
-                                <td class="py-2.5 px-2 text-center text-amber-400 font-bold" data-i18n="val3PerWeek">3 lượt/tuần</td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valYes">Có</span></td>
                             </tr>
                             <tr>
                                 <td class="py-2.5 px-2 font-medium text-zinc-200" data-i18n="rowSummary">Tóm tắt cuộc gọi</td>
                                 <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
-                                <td class="py-2.5 px-2 text-center text-amber-400 font-bold" data-i18n="val3PerWeek">3 lượt/tuần</td>
+                                <td class="py-2.5 px-2 text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
                                 <td class="py-2.5 px-2 text-center text-purple-400 font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="valAiSummary">Tóm tắt AI</span></td>
                             </tr>
                             <tr>
@@ -1467,8 +1481,6 @@
         let audioSpeed = 1.0;
         let activeLineIndex = 0; // 0: SIP Ext 1001, 1: SIP Ext 1002 (Pro), 2: SIM Di dong
         let callDetailAdTimer = null;
-        let basicSummaryUsageCount = 1;
-        let basicTranscriptUsageCount = 1;
 
         const i18nDict = {
             vi: {
@@ -1492,6 +1504,8 @@
                 navRecordings: "Ghi âm",
                 navCloryai: "Chat CloryAI",
                 navSettings: "Cài đặt",
+                promoBasicTitle: "Nâng cấp Gói BASIC",
+                promoBasicSubtitle: "Tắt quảng cáo & Nghe lại ghi âm",
                 promoProTitle: "Nâng cấp CloryAI Copilot",
                 promoProSubtitle: "Tra cứu KB & Tóm tắt AI tự động",
                 btnUpgradePro: "Nâng Pro",
@@ -1628,6 +1642,8 @@
                 navRecordings: "Recordings",
                 navCloryai: "CloryAI Chat",
                 navSettings: "Settings",
+                promoBasicTitle: "Upgrade to BASIC Plan",
+                promoBasicSubtitle: "No Ads & Call Recording access",
                 promoProTitle: "Upgrade CloryAI Copilot",
                 promoProSubtitle: "Auto KB Search & AI Summarization",
                 btnUpgradePro: "Upgrade Pro",
@@ -1837,6 +1853,15 @@
                 }
             }
 
+            const freePromoBox = document.getElementById('free-basic-promo-box');
+            if (freePromoBox) {
+                if (currentTier === 'free' && screenId === 'settings') {
+                    freePromoBox.classList.remove('hidden');
+                } else {
+                    freePromoBox.classList.add('hidden');
+                }
+            }
+
             const basicPromoBox = document.getElementById('basic-pro-promo-box');
             if (basicPromoBox) {
                 if (currentTier === 'basic' && screenId === 'settings') {
@@ -1914,14 +1939,14 @@
                 if (tier === 'free') {
                     guideContent.innerHTML = `
                         <p>● <strong>Miễn phí 100%:</strong> Trải nghiệm nghe/gọi chất lượng cao, 1 SIP Account.</p>
-                        <p>● <strong>Quảng cáo:</strong> Hiển thị Banner Ads và Popup gợi ý nâng cấp sau khi kết thúc cuộc gọi & sau 15s ở màn chi tiết.</p>
-                        <p>● <strong>Nâng cấp:</strong> Khóa tính năng Bản ghi, Tóm tắt AI & Trợ lý CloryAI.</p>
+                        <p>● <strong>Quảng cáo:</strong> Hiển thị Banner Ads, Banner nâng cấp Basic ở màn hình Cài đặt & Popup gợi ý nâng cấp sau khi kết thúc cuộc gọi.</p>
+                        <p>● <strong>Nâng cấp:</strong> Khóa tính năng Ghi âm, Bản ghi, Tóm tắt AI & Trợ lý CloryAI.</p>
                     `;
                 } else if (tier === 'basic') {
                     guideContent.innerHTML = `
                         <p>● <strong>Không quảng cáo tác nghiệp:</strong> Ẩn toàn bộ Banner Ads ở màn hình Quay số, Trong cuộc gọi, Danh bạ, Lịch sử.</p>
-                        <p>● <strong>Gợi ý nâng Pro:</strong> Hiển thị Native Banner nâng Pro nhẹ nhàng ở màn hình Cài đặt.</p>
-                        <p>● <strong>Bản ghi & Tóm tắt AI:</strong> Giới hạn 3 lượt/tuần (Bấm chọn tab mới tải nội dung và hiển thị số lượt đã dùng).</p>
+                        <p>● <strong>Tính năng Ghi âm:</strong> Hỗ trợ nghe lại ghi âm cuộc gọi.</p>
+                        <p>● <strong>Gợi ý nâng Pro:</strong> Hiển thị Native Banner nâng Pro ở màn hình Cài đặt cho tính năng CloryAI, Bản ghi & Tóm tắt AI.</p>
                     `;
                 } else {
                     guideContent.innerHTML = `
@@ -2019,15 +2044,9 @@
                 if (sumBox) sumBox.classList.add('hidden');
                 if (lockedBox) lockedBox.classList.remove('hidden');
 
-                if (currentTier === 'free') {
-                    if (lockedTitle) lockedTitle.innerText = currentLang === 'vi' ? "Bản ghi & Tóm tắt AI (Gói FREE)" : "Transcript & AI Summary (FREE)";
-                    if (lockedDesc) lockedDesc.innerText = currentLang === 'vi' ? "Yêu cầu nâng cấp gói để xem nội dung Bản ghi & Tóm tắt AI. Chọn tính năng để xem chi tiết." : "Upgrade required to view Transcript & AI Summary.";
-                    if (lockedBtn) lockedBtn.classList.remove('hidden');
-                } else {
-                    if (lockedTitle) lockedTitle.innerText = currentLang === 'vi' ? "Xem Bản ghi hoặc Tóm tắt AI" : "Select Transcript or AI Summary";
-                    if (lockedDesc) lockedDesc.innerText = currentLang === 'vi' ? "Nội dung bản ghi và tóm tắt khả dụng. Nhấp chọn tab 'Bản ghi' hoặc 'Tóm tắt AI' ở trên để tải nội dung." : "Content ready. Click 'Transcript' or 'AI Summary' tab above.";
-                    if (lockedBtn) lockedBtn.classList.add('hidden');
-                }
+                if (lockedTitle) lockedTitle.innerText = currentLang === 'vi' ? "Bản ghi & Tóm tắt AI (Gói PRO)" : "Transcript & AI Summary (PRO)";
+                if (lockedDesc) lockedDesc.innerText = currentLang === 'vi' ? "Yêu cầu nâng cấp Gói PRO để sử dụng tính năng Bản ghi & Tóm tắt AI." : "Upgrade to PRO Plan required for Transcript & AI Summary.";
+                if (lockedBtn) lockedBtn.classList.remove('hidden');
             } else {
                 if (lockedBox) lockedBox.classList.add('hidden');
                 if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
@@ -2043,46 +2062,13 @@
             const sumBox = document.getElementById('detail-summary-box');
             const lockedBox = document.getElementById('detail-locked-box');
 
-            if (currentTier === 'free') {
+            if (currentTier === 'free' || currentTier === 'basic') {
                 const freemiumModal = document.getElementById('freemium-popup-modal');
                 if (freemiumModal) freemiumModal.classList.remove('hidden');
                 showToast(
-                    currentLang === 'vi' ? "Gói FREE: Vui lòng nâng cấp gói để xem Bản ghi & Tóm tắt AI!" : "FREE Tier: Please upgrade to view Transcript & Summary!",
+                    currentLang === 'vi' ? "Tính năng Bản ghi & Tóm tắt AI dành riêng cho Gói PRO!" : "Transcript & AI Summary require PRO Plan!",
                     "fa-lock text-purple-400"
                 );
-                return;
-            }
-
-            if (currentTier === 'basic') {
-                if (lockedBox) lockedBox.classList.add('hidden');
-
-                if (subtab === 'transcript') {
-                    if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
-                    if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
-                    if (transBox) transBox.classList.remove('hidden');
-                    if (sumBox) sumBox.classList.add('hidden');
-
-                    showToast(
-                        currentLang === 'vi' ? `Gói BASIC: Xem bản ghi (Đã dùng ${basicTranscriptUsageCount}/3 lượt)` : `BASIC Plan: Viewing transcript (${basicTranscriptUsageCount}/3 used)`,
-                        "fa-file-lines text-blue-400"
-                    );
-                } else if (subtab === 'summary') {
-                    if (sumBtn) sumBtn.className = "flex-1 py-1.5 rounded-lg bg-cfono-orange text-white shadow transition";
-                    if (transBtn) transBtn.className = "flex-1 py-1.5 rounded-lg ios-subtext transition";
-                    if (sumBox) sumBox.classList.remove('hidden');
-                    if (transBox) transBox.classList.add('hidden');
-
-                    const badge = document.getElementById('summary-badge-usage');
-                    if (badge) {
-                        badge.innerText = currentLang === 'vi' ? `Đã dùng ${basicSummaryUsageCount}/3 lượt` : `Used ${basicSummaryUsageCount}/3`;
-                        badge.className = "ai-summary-badge text-[8px] px-2 py-0.5 rounded-full font-mono font-bold border";
-                    }
-
-                    showToast(
-                        currentLang === 'vi' ? `Gói BASIC: Tóm tắt AI (Đã dùng ${basicSummaryUsageCount}/3 lượt)` : `BASIC Plan: AI Summary (${basicSummaryUsageCount}/3 used)`,
-                        "fa-wand-magic-sparkles text-purple-400"
-                    );
-                }
                 return;
             }
 
