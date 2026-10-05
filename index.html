@@ -1264,50 +1264,72 @@
                 </div>
 
                 <div class="flex-1 my-3 overflow-y-auto no-scrollbar space-y-3.5 text-xs">
+                    <!-- SIP Account 1 (Chính) -->
                     <div class="p-3.5 bg-zinc-900 border-2 border-orange-500/40 rounded-2xl space-y-2.5 shadow-md">
                         <div class="flex items-center justify-between pb-2 border-b border-zinc-800">
                             <span class="font-extrabold text-[11px] flex items-center gap-1.5 text-white">
                                 <i class="fa-solid fa-circle-dot text-cfono-orange text-[10px]"></i> <span data-i18n="sipAcc1Title">SIP Account 1 (Chính)</span>
                             </span>
-                            <span class="text-[9px] px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-mono font-bold border border-emerald-500/40 flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> <span data-i18n="sipBadgeConnected">Đã kết nối</span>
-                            </span>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="openEditSipAccountModal(1)" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-cfono-orange hover:text-white text-zinc-300 text-[10px] font-bold border border-zinc-700 hover:border-cfono-orange transition flex items-center gap-1 shadow-sm active:scale-95" title="Cài đặt tài khoản SIP 1">
+                                    <i class="fa-solid fa-gear text-[9px] text-cfono-orange"></i>
+                                    <span data-i18n="btnEditSip">Cài đặt</span>
+                                </button>
+                                <span class="text-[9px] px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full font-mono font-bold border border-emerald-500/40 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> <span data-i18n="sipBadgeConnected">Đã kết nối</span>
+                                </span>
+                            </div>
                         </div>
 
                         <div class="text-[10px] space-y-1.5 font-mono">
                             <div class="flex items-center justify-between py-0.5 border-b border-zinc-800/80">
                                 <span class="text-zinc-400" data-i18n="lblCompany">Doanh nghiệp:</span>
-                                <span class="text-cfono-orange font-bold">CloudPBX Corporation</span>
+                                <span id="sip-1-display-company" class="text-cfono-orange font-bold">CloudPBX Corporation</span>
                             </div>
                             <div class="flex items-center justify-between py-0.5 border-b border-zinc-800/80">
                                 <span class="text-zinc-400">Extension:</span>
-                                <span class="text-white font-bold">1001</span>
+                                <span id="sip-1-display-ext" class="text-white font-bold">1001</span>
                             </div>
                             <div class="flex items-center justify-between py-0.5 border-b border-zinc-800/80">
                                 <span class="text-zinc-400">Domain / Server:</span>
-                                <span class="text-white font-bold">pbx.cfono.vn</span>
+                                <span id="sip-1-display-domain" class="text-white font-bold">pbx.cfono.vn</span>
                             </div>
                             <div class="flex items-center justify-between py-0.5">
                                 <span class="text-zinc-400">Transport:</span>
-                                <span class="text-white font-bold">TLS / WebSocket (WSS)</span>
+                                <span id="sip-1-display-transport" class="text-white font-bold">TLS / WebSocket (WSS)</span>
                             </div>
                         </div>
                     </div>
 
+                    <!-- SIP Account 2 (Gói PRO) -->
                     <div id="sip-acc-2-modal-box" class="p-3.5 bg-zinc-900 border-2 border-purple-500/50 rounded-2xl space-y-2.5 shadow-md">
                         <div class="flex items-center justify-between pb-2 border-b border-zinc-800">
                             <span class="font-extrabold text-purple-400 text-[11px] flex items-center gap-1.5">
                                 <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> <span data-i18n="sipAcc2Title">SIP Account 2 (Gói PRO)</span>
                             </span>
-                            <span id="sip-acc-2-status" class="text-[9px] px-2.5 py-0.5 bg-purple-500/20 text-purple-300 rounded-full font-mono font-bold border border-purple-500/40" data-i18n="statusReady">
-                                Sẵn sàng
-                            </span>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="openEditSipAccountModal(2)" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-purple-600 hover:text-white text-zinc-300 text-[10px] font-bold border border-zinc-700 hover:border-purple-500 transition flex items-center gap-1 shadow-sm active:scale-95" title="Cài đặt tài khoản SIP 2">
+                                    <i class="fa-solid fa-gear text-[9px] text-purple-400"></i>
+                                    <span data-i18n="btnEditSip">Cài đặt</span>
+                                </button>
+                                <span id="sip-acc-2-status" class="text-[9px] px-2.5 py-0.5 bg-purple-500/20 text-purple-300 rounded-full font-mono font-bold border border-purple-500/40" data-i18n="statusReady">
+                                    Sẵn sàng
+                                </span>
+                            </div>
                         </div>
 
                         <div class="text-[10px] space-y-1.5 font-mono">
                             <div class="flex items-center justify-between py-0.5 border-b border-zinc-800/80">
+                                <span class="text-zinc-400" data-i18n="lblCompany">Doanh nghiệp:</span>
+                                <span id="sip-2-display-company" class="text-purple-400 font-bold">CloudPBX Corporation</span>
+                            </div>
+                            <div class="flex items-center justify-between py-0.5 border-b border-zinc-800/80">
                                 <span class="text-zinc-400">Extension:</span>
-                                <span class="text-white font-bold">1002</span>
+                                <span id="sip-2-display-ext" class="text-white font-bold">1002</span>
+                            </div>
+                            <div class="flex items-center justify-between py-0.5 border-b border-zinc-800/80">
+                                <span class="text-zinc-400">Domain / Server:</span>
+                                <span id="sip-2-display-domain" class="text-white font-bold">pbx.cfono.vn</span>
                             </div>
                             <div class="flex items-center justify-between py-0.5">
                                 <span class="text-zinc-400" data-i18n="lblStatus">Trạng thái:</span>
@@ -1320,6 +1342,94 @@
                 <button onclick="closeSipAccountModal()" class="w-full py-2.5 bg-cfono-orange hover:bg-cfono-orangeHover active:scale-95 text-white font-bold text-xs rounded-full shadow-lg transition shrink-0" data-i18n="btnClose">
                     Đóng
                 </button>
+            </div>
+
+            <!-- Edit SIP Account Modal -->
+            <div id="edit-sip-account-modal" class="hidden absolute inset-0 z-50 p-4 flex flex-col justify-between backdrop-blur-2xl bg-zinc-950/95 text-white overflow-y-auto no-scrollbar">
+                <div class="flex items-center justify-between pb-3 border-b border-zinc-800 shrink-0">
+                    <button onclick="closeEditSipAccountModal()" class="text-xs font-semibold text-zinc-400 hover:text-white transition px-1 py-1" data-i18n="btnCancel">Hủy</button>
+                    <span class="text-xs font-bold tracking-tight text-cfono-orange flex items-center gap-1.5">
+                        <i class="fa-solid fa-gear"></i>
+                        <span id="edit-sip-modal-title" data-i18n="titleEditSipAccount">Cài đặt Tài khoản SIP 1</span>
+                    </span>
+                    <button onclick="saveEditSipAccount()" class="px-3.5 py-1 bg-cfono-orange hover:bg-cfono-orangeHover active:scale-95 text-white font-bold text-xs rounded-full shadow-md transition" data-i18n="btnSave">Lưu</button>
+                </div>
+
+                <div class="flex-1 my-auto py-2 space-y-3">
+                    <input type="hidden" id="edit-sip-target-index" value="1">
+
+                    <div class="bg-zinc-900 border border-zinc-800 p-3.5 rounded-2xl space-y-2.5 shadow-sm">
+                        <div>
+                            <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1">
+                                <span data-i18n="lblSipCompany">Tên hiển thị / Doanh nghiệp</span> <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="edit-sip-company" value="CloudPBX Corporation" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2 text-xs font-medium outline-none transition focus:border-cfono-orange">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1">
+                                    <span data-i18n="lblContactSip">Số máy nhánh (Extension)</span> <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="edit-sip-ext" value="1001" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2 text-xs font-mono font-bold outline-none transition focus:border-cfono-orange">
+                            </div>
+                            <div>
+                                <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1">
+                                    <span>Cổng (Port)</span>
+                                </label>
+                                <input type="text" id="edit-sip-port" value="5061" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2 text-xs font-mono outline-none transition focus:border-cfono-orange">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1">
+                                <span>Domain / Máy chủ SIP</span> <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="edit-sip-domain" value="pbx.cfono.vn" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2 text-xs font-mono outline-none transition focus:border-cfono-orange">
+                        </div>
+
+                        <div>
+                            <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1">
+                                <span data-i18n="lblSipPassword">Mật khẩu SIP (Password)</span> <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative mt-1">
+                                <input type="password" id="edit-sip-password" value="••••••••••••" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl pl-3 pr-9 py-2 text-xs font-mono outline-none transition focus:border-cfono-orange">
+                                <button type="button" onclick="toggleSipPasswordVisibility()" class="absolute right-2.5 top-2.5 text-zinc-400 hover:text-white text-xs">
+                                    <i id="icon-toggle-sip-pwd" class="fa-solid fa-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400">Giao thức (Transport)</label>
+                                <select id="edit-sip-transport" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-2.5 py-2 text-[10px] outline-none text-zinc-200">
+                                    <option value="TLS / WebSocket (WSS)">TLS / WSS (Mặc định)</option>
+                                    <option value="TCP">TCP</option>
+                                    <option value="UDP">UDP</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400">Codec ưu tiên</label>
+                                <select id="edit-sip-codec" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-2.5 py-2 text-[10px] outline-none text-zinc-200">
+                                    <option value="Opus (24kbps), G.711u">Opus (HD Voice)</option>
+                                    <option value="G.711u (PCMU)">G.711u (PCMU)</option>
+                                    <option value="G.729">G.729</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2 shrink-0 flex items-center gap-2">
+                    <button onclick="closeEditSipAccountModal()" class="flex-1 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-xs rounded-xl transition" data-i18n="btnCancel">
+                        Hủy
+                    </button>
+                    <button onclick="saveEditSipAccount()" class="flex-1 py-2.5 bg-cfono-orange hover:bg-cfono-orangeHover active:scale-95 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-1.5" data-i18n="btnSaveConfig">
+                        <i class="fa-solid fa-check text-xs"></i>
+                        <span>Lưu cấu hình</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Freemium Ad Modal -->
@@ -1590,6 +1700,10 @@
                 sipReadyAccount: "Tài khoản sẵn sàng (1001)",
                 msgPleaseWait: "Vui lòng chờ...",
                 btnConfigSip: "Cài đặt tài khoản SIP",
+                btnEditSip: "Cài đặt",
+                titleEditSipAccount: "Cài đặt Tài khoản SIP",
+                lblSipCompany: "Tên hiển thị / Doanh nghiệp",
+                lblSipPassword: "Mật khẩu SIP (Password)",
                 btnContinueFree: "Tiếp tục sử dụng bản FREE",
                 btnCallBack: "Gọi lại",
                 btnRecordingAction: "Ghi âm",
@@ -1745,6 +1859,10 @@
                 sipReadyAccount: "Account Ready (1001)",
                 msgPleaseWait: "Please wait...",
                 btnConfigSip: "Setup SIP Account",
+                btnEditSip: "Edit",
+                titleEditSipAccount: "Edit SIP Account",
+                lblSipCompany: "Display Name / Company",
+                lblSipPassword: "SIP Password",
                 btnContinueFree: "Continue with FREE Version",
                 btnCallBack: "Call Back",
                 btnRecordingAction: "Recordings",
@@ -2682,6 +2800,110 @@
                 updateLoginScreenLayout();
                 showToast("Đã lưu và kết nối tài khoản SIP!");
             }
+        }
+
+        function openEditSipAccountModal(accIndex) {
+            if (accIndex === 2 && currentTier !== 'pro') {
+                showToast(currentLang === 'vi' ? "Tài khoản SIP 2 chỉ khả dụng ở Gói PRO!" : "SIP Account 2 requires PRO Plan!", "fa-lock text-purple-400");
+                openUpgradeModal();
+                return;
+            }
+
+            const targetInput = document.getElementById('edit-sip-target-index');
+            const titleEl = document.getElementById('edit-sip-modal-title');
+            const compInput = document.getElementById('edit-sip-company');
+            const extInput = document.getElementById('edit-sip-ext');
+            const domainInput = document.getElementById('edit-sip-domain');
+
+            if (targetInput) targetInput.value = accIndex;
+            if (titleEl) {
+                titleEl.innerText = (currentLang === 'vi' ? "Cài đặt Tài khoản SIP " : "Edit SIP Account ") + accIndex;
+            }
+
+            const currentComp = document.getElementById('sip-' + accIndex + '-display-company');
+            const currentExt = document.getElementById('sip-' + accIndex + '-display-ext');
+            const currentDomain = document.getElementById('sip-' + accIndex + '-display-domain');
+
+            if (compInput && currentComp) compInput.value = currentComp.innerText;
+            if (extInput && currentExt) extInput.value = currentExt.innerText;
+            if (domainInput && currentDomain) domainInput.value = currentDomain.innerText;
+
+            const modal = document.getElementById('edit-sip-account-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeEditSipAccountModal() {
+            const modal = document.getElementById('edit-sip-account-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function toggleSipPasswordVisibility() {
+            const pwdInput = document.getElementById('edit-sip-password');
+            const icon = document.getElementById('icon-toggle-sip-pwd');
+            if (!pwdInput) return;
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                if (icon) icon.className = 'fa-solid fa-eye';
+            } else {
+                pwdInput.type = 'password';
+                if (icon) icon.className = 'fa-solid fa-eye-slash';
+            }
+        }
+
+        function saveEditSipAccount() {
+            const targetInput = document.getElementById('edit-sip-target-index');
+            const accIndex = targetInput ? targetInput.value : '1';
+
+            const compInput = document.getElementById('edit-sip-company');
+            const extInput = document.getElementById('edit-sip-ext');
+            const domainInput = document.getElementById('edit-sip-domain');
+            const transportSelect = document.getElementById('edit-sip-transport');
+
+            const compVal = compInput ? compInput.value.trim() : 'CloudPBX Corporation';
+            const extVal = extInput ? extInput.value.trim() : (accIndex === '1' ? '1001' : '1002');
+            const domainVal = domainInput ? domainInput.value.trim() : 'pbx.cfono.vn';
+            const transportVal = transportSelect ? transportSelect.value : 'TLS / WebSocket (WSS)';
+
+            if (!extVal) {
+                showToast(currentLang === 'vi' ? "Vui lòng nhập số máy nhánh SIP!" : "Please enter SIP Extension!", "fa-triangle-exclamation text-amber-400");
+                return;
+            }
+
+            const compDisplay = document.getElementById('sip-' + accIndex + '-display-company');
+            const extDisplay = document.getElementById('sip-' + accIndex + '-display-ext');
+            const domainDisplay = document.getElementById('sip-' + accIndex + '-display-domain');
+            const transportDisplay = document.getElementById('sip-' + accIndex + '-display-transport');
+
+            if (compDisplay) compDisplay.innerText = compVal;
+            if (extDisplay) extDisplay.innerText = extVal;
+            if (domainDisplay) domainDisplay.innerText = domainVal;
+            if (transportDisplay) transportDisplay.innerText = transportVal;
+
+            if (accIndex === '1') {
+                const dialerExt = document.getElementById('active-sip-ext');
+                if (dialerExt) dialerExt.innerText = extVal;
+
+                const lineLabel = document.getElementById('current-line-label');
+                if (lineLabel && activeLineIndex === 0) lineLabel.innerText = "SIP Ext " + extVal;
+
+                const settingsVal = document.getElementById('settings-sip-val');
+                if (settingsVal) settingsVal.innerHTML = '1 (' + extVal + ') <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>';
+
+                const settingsLabel = document.getElementById('settings-sip-label');
+                if (settingsLabel) settingsLabel.innerText = extVal + ' - SIP Account';
+            } else if (accIndex === '2') {
+                const lineLabel = document.getElementById('current-line-label');
+                if (lineLabel && activeLineIndex === 1) lineLabel.innerText = "SIP Ext " + extVal + " (PRO)";
+            }
+
+            closeEditSipAccountModal();
+
+            if (currentScreen === 'login' && !isSipConfigured) {
+                isSipConfigured = true;
+                updateLoginScreenLayout();
+            }
+
+            showToast(currentLang === 'vi' ? ("Đã cập nhật cấu hình SIP Account " + accIndex + " (" + extVal + ")!") : ("Updated SIP Account " + accIndex + " (" + extVal + ")!"));
         }
 
         function openUpgradeModal() {
