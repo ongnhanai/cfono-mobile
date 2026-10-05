@@ -1264,7 +1264,7 @@
                 </div>
 
                 <div class="flex-1 my-3 overflow-y-auto no-scrollbar space-y-3.5 text-xs">
-                    <!-- SIP Account 1 (Chính) -->
+                    <!-- SIP Account 1 (Chính) - Luôn hiển thị cho FREE, BASIC, PRO -->
                     <div class="p-3.5 bg-zinc-900 border-2 border-orange-500/40 rounded-2xl space-y-2.5 shadow-md">
                         <div class="flex items-center justify-between pb-2 border-b border-zinc-800">
                             <span class="font-extrabold text-[11px] flex items-center gap-1.5 text-white">
@@ -1301,7 +1301,7 @@
                         </div>
                     </div>
 
-                    <!-- SIP Account 2 (Gói PRO) -->
+                    <!-- SIP Account 2 (Chỉ mở khóa ở Gói PRO) -->
                     <div id="sip-acc-2-modal-box" class="p-3.5 bg-zinc-900 border-2 border-purple-500/50 rounded-2xl space-y-2.5 shadow-md">
                         <div class="flex items-center justify-between pb-2 border-b border-zinc-800">
                             <span class="font-extrabold text-purple-400 text-[11px] flex items-center gap-1.5">
@@ -1336,6 +1336,25 @@
                                 <span id="sip-acc-2-desc" class="text-emerald-400 font-bold" data-i18n="statusActivated">Đã kích hoạt</span>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Thẻ khóa SIP Account 2 dành riêng cho FREE & BASIC -->
+                    <div id="sip-acc-2-locked-box" class="hidden p-3.5 bg-zinc-900/80 border border-dashed border-zinc-700 rounded-2xl flex items-center justify-between shadow-sm">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <div>
+                                <p class="text-[11px] font-bold text-zinc-300 flex items-center gap-1.5">
+                                    <span>SIP Account 2</span>
+                                    <span class="px-1.5 py-0.2 bg-purple-500/20 text-purple-300 text-[8px] font-extrabold rounded">PRO</span>
+                                </p>
+                                <p class="text-[9px] text-zinc-400">Hỗ trợ 2 tài khoản SIP chỉ khả dụng ở Gói PRO</p>
+                            </div>
+                        </div>
+                        <button onclick="closeSipAccountModal(); openUpgradeModal();" class="px-3 py-1 bg-gradient-to-r from-purple-600 to-cfono-orange text-white text-[10px] font-bold rounded-full shadow hover:brightness-110 transition shrink-0 active:scale-95">
+                            Nâng PRO
+                        </button>
                     </div>
                 </div>
 
@@ -1547,22 +1566,140 @@
                 <button onclick="saveAutoAnswerSettings()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-full shadow transition" data-i18n="btnSaveConfig">Lưu cấu hình</button>
             </div>
 
-            <!-- Company Directory XML Modal -->
-            <div id="company-dir-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-5 flex flex-col justify-between backdrop-blur-xl text-white">
-                <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
-                    <span class="text-xs font-bold text-blue-400"><i class="fa-solid fa-address-book mr-1"></i> Remote Phonebook (XML)</span>
-                    <button onclick="closeCompanyDirectoryModal()" class="text-zinc-400 hover:text-white text-xs"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <!-- Company Directory XML Modal (Enhanced Enterprise Edition) -->
+            <div id="company-dir-modal" class="hidden absolute inset-0 bg-black/90 z-50 p-4 flex flex-col justify-between backdrop-blur-xl text-white overflow-hidden">
+                <div class="flex items-center justify-between pb-3 border-b border-zinc-800 shrink-0">
+                    <span class="text-xs font-bold text-blue-400 flex items-center gap-2">
+                        <i class="fa-solid fa-address-book"></i>
+                        <span>Remote Phonebook (XML)</span>
+                    </span>
+                    <button onclick="closeCompanyDirectoryModal()" class="w-7 h-7 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white flex items-center justify-center text-xs transition">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
-                <div class="my-auto space-y-2.5 text-xs">
-                    <div class="p-3 bg-zinc-900 border border-blue-500/30 rounded-2xl space-y-2">
-                        <label class="text-[10px] text-zinc-400 font-bold">XML Phonebook Server URL</label>
-                        <input type="text" id="xml-server-url" value="https://pbx.cfono.vn/directory.xml" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl p-2 text-[11px] text-white font-mono outline-none">
-                        <button onclick="saveXmlConfig()" class="w-full mt-2 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-[10px] rounded-xl transition shadow" data-i18n="btnSaveSyncNow">
-                            Lưu & Đồng bộ ngay
-                        </button>
+
+                <div class="flex-1 my-2 overflow-y-auto no-scrollbar space-y-3 text-xs pr-0.5">
+                    <!-- Nhóm 1: Cấu hình Máy chủ XML -->
+                    <div class="p-3 bg-zinc-900 border border-blue-500/30 rounded-2xl space-y-2.5 shadow-sm">
+                        <div class="flex items-center justify-between pb-1 border-b border-zinc-800/80">
+                            <span class="font-bold text-blue-400 text-[11px] flex items-center gap-1.5">
+                                <i class="fa-solid fa-network-wired text-[10px]"></i> Máy chủ Danh bạ XML
+                            </span>
+                            <span class="text-[9px] px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded font-mono font-bold">Active</span>
+                        </div>
+
+                        <div>
+                            <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1">
+                                <span>Tên danh bạ / Doanh nghiệp</span> <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="xml-directory-name" value="CloudPBX Enterprise Phonebook" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white font-medium outline-none focus:border-blue-500 transition">
+                        </div>
+
+                        <div>
+                            <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1">
+                                <span>URL Máy chủ XML (Server URL)</span> <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="xml-server-url" value="https://pbx.cfono.vn/directory.xml" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-blue-300 font-mono outline-none focus:border-blue-500 transition">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400">Định dạng XML</label>
+                                <select id="xml-format" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-2 py-2 text-[10px] outline-none text-zinc-200">
+                                    <option value="yealink" selected>Yealink XML Format</option>
+                                    <option value="grandstream">Grandstream XML Format</option>
+                                    <option value="cisco">Cisco IP Phone XML</option>
+                                    <option value="generic">Generic XML / CardDAV</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400">Chu kỳ đồng bộ</label>
+                                <select id="xml-sync-interval" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-2 py-2 text-[10px] outline-none text-zinc-200">
+                                    <option value="15">Mỗi 15 phút</option>
+                                    <option value="60" selected>Mỗi 1 giờ (Khuyên dùng)</option>
+                                    <option value="360">Mỗi 6 giờ</option>
+                                    <option value="1440">Hàng ngày (24h)</option>
+                                    <option value="manual">Chỉ khi bấm thủ công</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nhóm 2: Xác thực HTTP / Bảo mật -->
+                    <div class="p-3 bg-zinc-900 border border-zinc-800 rounded-2xl space-y-2.5 shadow-sm">
+                        <span class="font-bold text-zinc-300 text-[11px] flex items-center gap-1.5 pb-1 border-b border-zinc-800/80">
+                            <i class="fa-solid fa-lock text-cfono-orange text-[10px]"></i> Xác thực bảo mật (Tùy chọn)
+                        </span>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400">Tên đăng nhập (Username)</label>
+                                <input type="text" id="xml-username" value="cloudpbx_api" placeholder="Không bắt buộc" class="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-xl px-2.5 py-1.5 text-xs text-white font-mono outline-none focus:border-blue-500 transition">
+                            </div>
+                            <div>
+                                <label class="text-[9px] font-bold uppercase tracking-wider text-zinc-400">Mật khẩu (Password)</label>
+                                <div class="relative mt-1">
+                                    <input type="password" id="xml-password" value="••••••••" placeholder="Không bắt buộc" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl pl-2.5 pr-8 py-1.5 text-xs text-white font-mono outline-none focus:border-blue-500 transition">
+                                    <button type="button" onclick="toggleXmlPasswordVisibility()" class="absolute right-2 top-2 text-zinc-400 hover:text-white text-xs">
+                                        <i id="icon-toggle-xml-pwd" class="fa-solid fa-eye-slash text-[11px]"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nhóm 3: Tùy chọn nâng cao & Tải trước -->
+                    <div class="p-3 bg-zinc-900 border border-zinc-800 rounded-2xl space-y-2 shadow-sm text-[11px]">
+                        <span class="font-bold text-zinc-300 text-[11px] flex items-center gap-1.5 pb-1 border-b border-zinc-800/80">
+                            <i class="fa-solid fa-sliders text-emerald-400 text-[10px]"></i> Tùy chọn đồng bộ
+                        </span>
+
+                        <label class="flex items-center justify-between cursor-pointer py-0.5">
+                            <span class="text-zinc-300 text-[10px]">Tải trước danh bạ khi khởi động app</span>
+                            <input type="checkbox" id="xml-preload-toggle" checked class="w-4 h-4 accent-blue-500 cursor-pointer">
+                        </label>
+                        <label class="flex items-center justify-between cursor-pointer py-0.5">
+                            <span class="text-zinc-300 text-[10px]">Tìm kiếm trực tiếp từ server khi quay số</span>
+                            <input type="checkbox" id="xml-search-toggle" checked class="w-4 h-4 accent-blue-500 cursor-pointer">
+                        </label>
+                    </div>
+
+                    <!-- Nhóm 4: Trạng thái & Phòng ban đã đồng bộ -->
+                    <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded-2xl space-y-2 text-[10px]">
+                        <div class="flex items-center justify-between text-zinc-400">
+                            <span class="font-bold uppercase tracking-wider">Trạng thái đồng bộ:</span>
+                            <span class="text-emerald-400 font-bold flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Thành công (27 nhân sự)
+                            </span>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="p-2 bg-zinc-800/80 rounded-xl flex justify-between items-center border border-zinc-700/50">
+                                <div>
+                                    <p class="font-bold text-zinc-200">Ban Giám Đốc</p>
+                                    <p class="text-[9px] text-zinc-400">Ext: 1000 - 1010</p>
+                                </div>
+                                <span class="text-blue-400 font-mono font-bold">12 nhân sự</span>
+                            </div>
+                            <div class="p-2 bg-zinc-800/80 rounded-xl flex justify-between items-center border border-zinc-700/50">
+                                <div>
+                                    <p class="font-bold text-zinc-200">Phòng Kinh Doanh (Sales)</p>
+                                    <p class="text-[9px] text-zinc-400">Ext: 1011 - 1025</p>
+                                </div>
+                                <span class="text-blue-400 font-mono font-bold">15 nhân sự</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <button onclick="closeCompanyDirectoryModal()" class="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs rounded-full transition" data-i18n="btnClose">Đóng</button>
+
+                <div class="pt-2 shrink-0 flex items-center gap-2">
+                    <button onclick="closeCompanyDirectoryModal()" class="w-1/3 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-xs rounded-xl transition" data-i18n="btnClose">
+                        Đóng
+                    </button>
+                    <button onclick="saveXmlConfig()" class="w-2/3 py-2.5 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-bold text-xs rounded-xl shadow-lg shadow-blue-900/30 transition flex items-center justify-center gap-1.5" data-i18n="btnSaveSyncNow">
+                        <i class="fa-solid fa-arrows-rotate text-xs"></i>
+                        <span>Lưu & Đồng bộ ngay</span>
+                    </button>
+                </div>
             </div>
 
         </div>
@@ -2359,7 +2496,7 @@
                 if (tier === 'free') {
                     guideContent.innerHTML = '<p>● <strong>Miễn phí 100%:</strong> Trải nghiệm nghe/gọi SIP chuẩn HD Voice, 1 SIP Account.</p><p>● <strong>Quảng cáo:</strong> Hiển thị Banner Ads ở danh bạ/lịch sử & Popup gợi ý nâng cấp sau khi kết thúc cuộc gọi.</p><p>● <strong>Nâng cấp:</strong> Khóa tính năng Ghi âm, Bản ghi, Tóm tắt AI & Trợ lý CloryAI.</p>';
                 } else if (tier === 'basic') {
-                    guideContent.innerHTML = '<p>● <strong>Không quảng cáo tác nghiệp:</strong> Ẩn toàn bộ Banner Ads ở màn hình Quay số, Trong cuộc gọi, Danh bạ, Lịch sử.</p><p>● <strong>Tính năng Ghi âm:</strong> Hỗ trợ nghe lại ghi âm cuộc gọi và quản lý tệp âm thanh.</p><p>● <strong>Gợi ý nâng Pro:</strong> Hiển thị Banner nâng Pro ở màn hình Cài đặt cho tính năng CloryAI & Tóm tắt AI.</p>';
+                    guideContent.innerHTML = '<p>● <strong>Không quảng cáo tác nghiệp:</strong> Ẩn toàn bộ Banner Ads ở màn hình Quay số, Trong cuộc gọi, Danh bạ, Lịch sử.</p><p>● <strong>1 SIP Account:</strong> Hỗ trợ 1 tài khoản SIP chính (Ext 1001), mở khóa tính năng Ghi âm cuộc gọi.</p><p>● <strong>Gợi ý nâng Pro:</strong> Hiển thị Banner nâng Pro ở màn hình Cài đặt cho tính năng CloryAI & Tóm tắt AI.</p>';
                 } else {
                     guideContent.innerHTML = '<p>● <strong>Gói Cao Cấp Nhất:</strong> Tận hưởng trọn bộ tính năng CFONO không giới hạn.</p><p>● <strong>Đa tài khoản:</strong> Hỗ trợ 2 SIP Accounts + Auto-Answer tự động trả lời bằng âm thanh riêng.</p><p>● <strong>CloryAI Copilot:</strong> Trợ lý AI hỏi đáp KB doanh nghiệp, Tóm tắt AI & Live Transcription.</p>';
                 }
@@ -2369,6 +2506,70 @@
             const historyAd = document.getElementById('history-native-ad');
             if (contactsAd) contactsAd.style.display = (tier === 'free') ? 'flex' : 'none';
             if (historyAd) historyAd.style.display = (tier === 'free') ? 'flex' : 'none';
+
+            // Quản lý hiển thị badge Upgrade trên màn hình Cài đặt theo Gói
+            const badgeCompanyDir = document.getElementById('badge-company-dir');
+            const badgeAutoAnswer = document.getElementById('badge-auto-answer');
+
+            if (tier === 'free') {
+                if (badgeCompanyDir) {
+                    badgeCompanyDir.innerText = 'Upgrade';
+                    badgeCompanyDir.className = 'px-1.5 py-0.2 bg-cfono-orange/20 text-cfono-orange text-[8px] font-bold rounded border border-cfono-orange/30';
+                    badgeCompanyDir.classList.remove('hidden');
+                }
+                if (badgeAutoAnswer) {
+                    badgeAutoAnswer.innerText = 'Upgrade';
+                    badgeAutoAnswer.className = 'px-1.5 py-0.2 bg-cfono-orange/20 text-cfono-orange text-[8px] font-bold rounded border border-cfono-orange/30';
+                    badgeAutoAnswer.classList.remove('hidden');
+                }
+            } else if (tier === 'basic') {
+                // Gói BASIC: Xoá chữ Upgrade trên menu Danh bạ công ty (XML), Auto-Answer vẫn cần nâng PRO
+                if (badgeCompanyDir) {
+                    badgeCompanyDir.classList.add('hidden');
+                }
+                if (badgeAutoAnswer) {
+                    badgeAutoAnswer.innerText = 'Upgrade';
+                    badgeAutoAnswer.className = 'px-1.5 py-0.2 bg-cfono-orange/20 text-cfono-orange text-[8px] font-bold rounded border border-cfono-orange/30';
+                    badgeAutoAnswer.classList.remove('hidden');
+                }
+            } else if (tier === 'pro') {
+                // Gói PRO: Xoá cả 2 chữ Upgrade
+                if (badgeCompanyDir) {
+                    badgeCompanyDir.classList.add('hidden');
+                }
+                if (badgeAutoAnswer) {
+                    badgeAutoAnswer.classList.add('hidden');
+                }
+            }
+
+            // Quản lý hiển thị SIP Account 2 theo gói: Chỉ PRO mới có 2 tài khoản, FREE & BASIC chỉ có 1 tài khoản
+            const sip2Box = document.getElementById('sip-acc-2-modal-box');
+            const sip2LockedBox = document.getElementById('sip-acc-2-locked-box');
+            if (tier === 'pro') {
+                if (sip2Box) sip2Box.classList.remove('hidden');
+                if (sip2LockedBox) sip2LockedBox.classList.add('hidden');
+            } else {
+                if (sip2Box) sip2Box.classList.add('hidden');
+                if (sip2LockedBox) sip2LockedBox.classList.remove('hidden');
+            }
+
+            // Đồng bộ nhãn hiển thị số lượng tài khoản trong Settings
+            const settingsSipVal = document.getElementById('settings-sip-val');
+            const ext1 = document.getElementById('sip-1-display-ext')?.innerText || '1001';
+            if (settingsSipVal) {
+                if (tier === 'pro') {
+                    settingsSipVal.innerHTML = '2 (1001, 1002) <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>';
+                } else {
+                    settingsSipVal.innerHTML = '1 (' + ext1 + ') <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>';
+                }
+            }
+
+            // Đồng bộ kênh gọi ra nếu chuyển từ PRO về FREE/BASIC mà đang chọn Ext 1002
+            if (tier !== 'pro' && activeLineIndex === 1) {
+                activeLineIndex = 0;
+                const lineLabel = document.getElementById('current-line-label');
+                if (lineLabel) lineLabel.innerText = "SIP Ext " + ext1;
+            }
 
             updateLoginScreenLayout();
             switchScreen(currentScreen);
@@ -2977,9 +3178,31 @@
             if (modal) modal.classList.add('hidden');
         }
 
+        function toggleXmlPasswordVisibility() {
+            const pwdInput = document.getElementById('xml-password');
+            const icon = document.getElementById('icon-toggle-xml-pwd');
+            if (!pwdInput) return;
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                if (icon) icon.className = 'fa-solid fa-eye text-[11px]';
+            } else {
+                pwdInput.type = 'password';
+                if (icon) icon.className = 'fa-solid fa-eye-slash text-[11px]';
+            }
+        }
+
         function saveXmlConfig() {
+            const dirName = document.getElementById('xml-directory-name')?.value || 'CloudPBX Enterprise Phonebook';
+            const url = document.getElementById('xml-server-url')?.value || '';
+            const interval = document.getElementById('xml-sync-interval')?.value || '60';
+
+            if (!url) {
+                showToast(currentLang === 'vi' ? 'Vui lòng nhập URL máy chủ XML!' : 'Please enter XML server URL!', 'fa-triangle-exclamation text-amber-400');
+                return;
+            }
+
             closeCompanyDirectoryModal();
-            showToast("Đã đồng bộ thành công Remote Phonebook (XML)!");
+            showToast(currentLang === 'vi' ? 'Đã đồng bộ ' + dirName + ' (' + interval + ' phút) thành công!' : 'Successfully synced ' + dirName + '!', 'fa-circle-check text-emerald-400');
         }
 
         function toggleLanguage() {
